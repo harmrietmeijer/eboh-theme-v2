@@ -3142,3 +3142,59 @@ article blockquote {
     letter-spacing: 0.08em;
 }
 .mobile-menu ul, .mobile-menu li { list-style: none; padding-left: 0; }
+
+/* ================================================================
+   EBOH v2 — FIX PASS (visuele bugs)
+   ================================================================ */
+
+/* --- Logo: filter weghalen + witte stamp-achtergrond --- */
+.site-header__logo-img {
+    filter: none !important;
+    background-color: var(--white);
+    border-radius: 6px;
+    padding: 4px;
+}
+
+/* --- Maatschappelijk pillars: waren wit-op-wit --- */
+.community-pillar {
+    background-color: rgba(0, 0, 0, 0.25) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: var(--white) !important;
+    backdrop-filter: blur(2px);
+}
+.community-pillar__title { color: var(--white) !important; font-family: var(--font-display); }
+.community-pillar__text { color: rgba(255, 255, 255, 0.95) !important; }
+
+/* --- Volunteer-card (Wij zijn EBOH-team): waren wit-op-wit --- */
+.volunteer-card {
+    background-color: var(--eboh-charcoal) !important;
+    border: 1px solid var(--eboh-line);
+    color: var(--white) !important;
+}
+.volunteer-card *,
+.volunteer-card h3,
+.volunteer-card h4,
+.volunteer-card p,
+.volunteer-card span {
+    color: var(--white) !important;
+}
+.volunteer-card [class*="role"],
+.volunteer-card [class*="quote"] {
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+
+/* --- Footer contact-blok beter leesbaar --- */
+.footer__address {
+    color: rgba(255, 255, 255, 0.85) !important;
+    margin-top: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+.footer__link { color: rgba(255, 255, 255, 0.92) !important; font-weight: 500; }
+.footer__link:hover { color: var(--eboh-red) !important; }
+
+/* --- Header: WP admin bar in acht nemen --- */
+body.admin-bar .site-header { top: 32px; }
+@media (max-width: 782px) {
+    body.admin-bar .site-header { top: 46px; }
+}
