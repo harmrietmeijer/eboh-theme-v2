@@ -47,33 +47,33 @@
                 <h3 class="footer__title"><?php esc_html_e( 'Volg ons', 'eboh-v2' ); ?></h3>
                 <div class="footer__socials">
                     <?php
-                    // Toon altijd alle socials. URL leeg = link naar '#' zodat 't visueel klopt
-                    // ook als de Customizer-velden nog niet zijn ingevuld.
+                    // Defaults wijzen naar EBOH-accounts zoals die op de oude site stonden.
+                    // Customizer-waarden overschrijven de default zodra ingevuld in WP-admin.
                     $socials = array(
                         'facebook'  => array(
-                            'url'   => get_theme_mod( 'eboh_social_facebook', 'https://facebook.com/' ),
+                            'url'   => get_theme_mod( 'eboh_social_facebook', 'https://www.facebook.com/vveboh/' ),
                             'label' => __( 'Facebook', 'eboh-v2' ),
                             'icon'  => 'facebook',
                         ),
                         'instagram' => array(
-                            'url'   => get_theme_mod( 'eboh_social_instagram', 'https://instagram.com/' ),
+                            'url'   => get_theme_mod( 'eboh_social_instagram', 'https://www.instagram.com/vveboh/' ),
                             'label' => __( 'Instagram', 'eboh-v2' ),
                             'icon'  => 'instagram',
                         ),
                         'x'         => array(
-                            'url'   => get_theme_mod( 'eboh_social_x', 'https://x.com/' ),
+                            'url'   => get_theme_mod( 'eboh_social_x', 'https://twitter.com/EBOHDordrecht' ),
                             'label' => __( 'X', 'eboh-v2' ),
                             'icon'  => 'x',
                         ),
                         'youtube'   => array(
-                            'url'   => get_theme_mod( 'eboh_social_youtube', 'https://youtube.com/' ),
+                            'url'   => get_theme_mod( 'eboh_social_youtube', '' ),
                             'label' => __( 'YouTube', 'eboh-v2' ),
                             'icon'  => 'youtube',
                         ),
                     );
                     foreach ( $socials as $key => $s ) {
-                        $href = $s['url'] ? $s['url'] : '#';
-                        echo '<a href="' . esc_url( $href ) . '" class="footer__social-link footer__social-link--' . esc_attr( $s['icon'] ) . '" title="' . esc_attr( $s['label'] ) . '" aria-label="' . esc_attr( $s['label'] ) . '">';
+                        if ( empty( $s['url'] ) ) { continue; } // sla iconen zonder URL over
+                        echo '<a href="' . esc_url( $s['url'] ) . '" class="footer__social-link footer__social-link--' . esc_attr( $s['icon'] ) . '" target="_blank" rel="noopener noreferrer" title="' . esc_attr( $s['label'] ) . '" aria-label="' . esc_attr( $s['label'] ) . '">';
                         // Inline SVG-iconen — geen externe icon-font nodig.
                         if ( function_exists( 'eboh_social_svg' ) ) {
                             echo eboh_social_svg( $s['icon'] );
