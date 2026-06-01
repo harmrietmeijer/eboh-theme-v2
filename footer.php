@@ -65,11 +65,6 @@
                             'label' => __( 'X', 'eboh-v2' ),
                             'icon'  => 'x',
                         ),
-                        'youtube'   => array(
-                            'url'   => get_theme_mod( 'eboh_social_youtube', '' ),
-                            'label' => __( 'YouTube', 'eboh-v2' ),
-                            'icon'  => 'youtube',
-                        ),
                     );
                     foreach ( $socials as $key => $s ) {
                         if ( empty( $s['url'] ) ) { continue; } // sla iconen zonder URL over
