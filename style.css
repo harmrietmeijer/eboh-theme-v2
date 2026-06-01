@@ -3239,3 +3239,15 @@ body.admin-bar .site-header { top: 32px; }
 .sidebar-card * {
     color: var(--white) !important;
 }
+
+/* --- Mobile: alleen hamburger tonen, desktop-nav verbergen --- */
+@media (max-width: 900px) {
+    .site-nav,
+    .site-nav ul,
+    .site-nav li {
+        display: none !important;
+    }
+    .hamburger {
+        display: flex !important;
+    }
+}
