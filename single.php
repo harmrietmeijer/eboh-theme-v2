@@ -17,9 +17,10 @@ while ( have_posts() ) :
 		// Featured image van het team-post heeft voorrang; anders altijd de
 		// team-placeholder zodat de hero nooit zwart blijft.
 		$team_placeholder = get_template_directory_uri() . '/assets/images/team-placeholder.jpg';
-		$thumb_id         = get_post_thumbnail_id();
-		$thumb_url        = $thumb_id ? get_the_post_thumbnail_url( null, 'full' ) : $team_placeholder;
-		if ( empty( $thumb_url ) ) { $thumb_url = $team_placeholder; }
+		$thumb_url        = get_the_post_thumbnail_url( null, 'full' );
+		if ( empty( $thumb_url ) ) {
+			$thumb_url = $team_placeholder;
+		}
 		$klasse     = get_post_meta( get_the_ID(), 'klasse', true );
 		$regio      = get_post_meta( get_the_ID(), 'regio', true );
 		$trainer    = get_post_meta( get_the_ID(), 'trainer', true );
@@ -32,8 +33,8 @@ while ( have_posts() ) :
 		}
 		?>
 
-		<section class="page-hero<?php echo $thumb_url ? ' page-hero--image' : ''; ?>"
-			<?php if ( $thumb_url ) : ?>style="background-image: url('<?php echo esc_url( $thumb_url ); ?>');"<?php endif; ?>>
+		<!-- DEBUG-eboh-v2-single-team: thumb_url = <?php echo esc_html( $thumb_url ); ?> -->
+		<section class="page-hero page-hero--image" style="background-image: url('<?php echo esc_url( $thumb_url ); ?>');">
 			<div class="page-hero__container">
 				<p class="page-hero__breadcrumbs">
 					<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Home', 'eboh' ); ?></a> /
