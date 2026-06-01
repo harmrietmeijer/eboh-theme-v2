@@ -3085,3 +3085,60 @@ article blockquote {
     .sl-team__name { font-size: 13px; }
     .sl-team__crest { width: 24px; height: 24px; }
 }
+
+/* --- v2 fix: WordPress wp_nav_menu links krijgen niet automatisch onze
+   .site-nav__link class. Style direct alle anchors binnen .site-nav. --- */
+.site-nav,
+.site-nav ul,
+.site-nav li {
+    list-style: none !important;
+    padding-left: 0;
+    margin: 0;
+}
+.site-nav { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+.site-nav li {
+    display: inline-flex;
+    align-items: center;
+}
+.site-nav a {
+    color: var(--white) !important;
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 24px 14px;
+    transition: var(--transition);
+    display: inline-block;
+}
+.site-nav a:hover {
+    color: var(--white) !important;
+    background-color: var(--hover-red);
+}
+.site-nav .current-menu-item > a,
+.site-nav .current_page_item > a {
+    color: var(--white) !important;
+    box-shadow: inset 0 -3px 0 var(--white);
+}
+.site-nav .site-nav__cta {
+    margin-left: 16px;
+    padding: 10px 22px;
+    background-color: var(--white);
+    color: var(--eboh-red) !important;
+    font-family: var(--font-display);
+    font-size: 14px;
+    letter-spacing: 0.1em;
+}
+.site-nav .site-nav__cta:hover {
+    background-color: var(--eboh-black);
+    color: var(--white) !important;
+}
+
+/* Mobile menu links idem --- */
+.mobile-menu a {
+    color: var(--white) !important;
+    font-family: var(--font-display);
+    letter-spacing: 0.08em;
+}
+.mobile-menu ul, .mobile-menu li { list-style: none; padding-left: 0; }

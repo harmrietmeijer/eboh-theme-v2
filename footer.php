@@ -47,22 +47,41 @@
                 <h3 class="footer__title"><?php esc_html_e( 'Volg ons', 'eboh-v2' ); ?></h3>
                 <div class="footer__socials">
                     <?php
-                    $facebook  = get_theme_mod( 'eboh_social_facebook' );
-                    $instagram = get_theme_mod( 'eboh_social_instagram' );
-                    $twitter   = get_theme_mod( 'eboh_social_x' );
-                    $youtube   = get_theme_mod( 'eboh_social_youtube' );
-
-                    if ( $facebook ) {
-                        echo '<a href="' . esc_url( $facebook ) . '" class="footer__social-link" title="' . esc_attr__( 'Facebook', 'eboh-v2' ) . '">f</a>';
-                    }
-                    if ( $instagram ) {
-                        echo '<a href="' . esc_url( $instagram ) . '" class="footer__social-link" title="' . esc_attr__( 'Instagram', 'eboh-v2' ) . '">IG</a>';
-                    }
-                    if ( $twitter ) {
-                        echo '<a href="' . esc_url( $twitter ) . '" class="footer__social-link" title="' . esc_attr__( 'X', 'eboh-v2' ) . '">𝕏</a>';
-                    }
-                    if ( $youtube ) {
-                        echo '<a href="' . esc_url( $youtube ) . '" class="footer__social-link" title="' . esc_attr__( 'YouTube', 'eboh-v2' ) . '">▶</a>';
+                    // Toon altijd alle socials. URL leeg = link naar '#' zodat 't visueel klopt
+                    // ook als de Customizer-velden nog niet zijn ingevuld.
+                    $socials = array(
+                        'facebook'  => array(
+                            'url'   => get_theme_mod( 'eboh_social_facebook', 'https://facebook.com/' ),
+                            'label' => __( 'Facebook', 'eboh-v2' ),
+                            'icon'  => 'facebook',
+                        ),
+                        'instagram' => array(
+                            'url'   => get_theme_mod( 'eboh_social_instagram', 'https://instagram.com/' ),
+                            'label' => __( 'Instagram', 'eboh-v2' ),
+                            'icon'  => 'instagram',
+                        ),
+                        'x'         => array(
+                            'url'   => get_theme_mod( 'eboh_social_x', 'https://x.com/' ),
+                            'label' => __( 'X', 'eboh-v2' ),
+                            'icon'  => 'x',
+                        ),
+                        'youtube'   => array(
+                            'url'   => get_theme_mod( 'eboh_social_youtube', 'https://youtube.com/' ),
+                            'label' => __( 'YouTube', 'eboh-v2' ),
+                            'icon'  => 'youtube',
+                        ),
+                    );
+                    foreach ( $socials as $key => $s ) {
+                        $href = $s['url'] ? $s['url'] : '#';
+                        echo '<a href="' . esc_url( $href ) . '" class="footer__social-link footer__social-link--' . esc_attr( $s['icon'] ) . '" title="' . esc_attr( $s['label'] ) . '" aria-label="' . esc_attr( $s['label'] ) . '">';
+                        // Inline SVG-iconen — geen externe icon-font nodig.
+                        if ( function_exists( 'eboh_social_svg' ) ) {
+                            echo eboh_social_svg( $s['icon'] );
+                        } else {
+                            // Fallback letter wanneer de SVG-helper niet geladen is.
+                            echo esc_html( strtoupper( substr( $s['icon'], 0, 1 ) ) );
+                        }
+                        echo '</a>';
                     }
                     ?>
                 </div>
