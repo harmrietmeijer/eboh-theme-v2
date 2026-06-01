@@ -2684,3 +2684,404 @@ a:hover {
     margin-bottom: 32px;
     border-radius: 4px;
 }
+
+/* ================================================================
+   ============================================================ ===
+   EBOH v2 — DARK MODE OVERRIDES
+   ================================================================
+   Deze sectie zet de basis-light-theme om naar zwarte achtergrond met
+   witte tekst en rode accenten. We overschrijven alleen wat echt
+   nodig is — alle kleur die via CSS-variabelen liep, valt automatisch
+   in het nieuwe palet.
+   ================================================================ */
+
+/* --- Globale defaults --- */
+main, .page-shell, .site-main, .single-content,
+.entry-content, .page-template, .page,
+.archive, .single, .blog {
+    background-color: var(--eboh-black);
+    color: var(--white);
+}
+
+.page-shell--muted,
+.page-shell {
+    background-color: var(--eboh-black) !important;
+}
+
+.page-container,
+.page-content,
+.eboh-container {
+    color: var(--white);
+}
+
+/* Selectie-kleur in eboh-rood */
+::selection { background: var(--eboh-red); color: var(--white); }
+
+/* --- Header (sticky nav) — al rood, maar logo-tekst en cta nu in Anton --- */
+.site-header__logo-text {
+    font-family: var(--font-display);
+    letter-spacing: 0.06em;
+    font-size: 26px;
+}
+.site-nav__cta { color: var(--eboh-red); }
+.site-nav__cta:hover { background-color: var(--eboh-black); }
+
+/* --- Match-bar boven de hero --- */
+.match-bar {
+    background-color: var(--eboh-red);
+    color: var(--white);
+    font-family: var(--font-display);
+    letter-spacing: 0.04em;
+}
+.match-content { color: var(--white); }
+.match-detail { color: var(--white); font-family: var(--font-display); }
+
+/* --- Hero --- */
+.hero, .hero--flat {
+    background-color: var(--eboh-black);
+    color: var(--white);
+}
+.hero::before, .hero--flat::before {
+    background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.85) 100%);
+}
+.hero__title, .hero__subtitle, .hero__tagline {
+    color: var(--white);
+    font-family: var(--font-display);
+}
+.hero__tagline { font-family: var(--font-body); font-weight: 500; }
+.hero__watermark { color: rgba(255,255,255,0.06); font-family: var(--font-display); }
+
+.hero__cta .btn.filled {
+    background-color: var(--eboh-red);
+    color: var(--white);
+    border-color: var(--eboh-red);
+    font-family: var(--font-display);
+    letter-spacing: 0.08em;
+}
+.hero__cta .btn.filled:hover {
+    background-color: var(--white);
+    color: var(--eboh-black);
+    border-color: var(--white);
+}
+
+/* --- Next match widget (witte kaart op zwarte bg) --- */
+.next-match {
+    background-color: var(--eboh-black);
+    padding: 64px 24px;
+}
+.next-match__label {
+    color: var(--white);
+    font-family: var(--font-display);
+    letter-spacing: 0.1em;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+.next-match__dot { background: var(--eboh-red); }
+.next-match__card {
+    background-color: var(--eboh-charcoal);
+    border: 1px solid var(--eboh-line);
+    color: var(--white);
+}
+.next-match__team-name,
+.next-match__date,
+.next-match__time,
+.next-match__competition,
+.next-match__location,
+.next-match__team-role {
+    color: var(--white);
+    font-family: var(--font-display);
+}
+.next-match__team-role,
+.next-match__competition,
+.next-match__location {
+    font-family: var(--font-body);
+    color: var(--text-muted);
+}
+.next-match__crest {
+    background-color: var(--white);
+    color: var(--eboh-red);
+}
+.next-match__actions .btn {
+    border-color: var(--white);
+    color: var(--white);
+}
+.next-match__actions .btn:hover { color: var(--eboh-red); }
+.next-match__actions .btn.filled {
+    background-color: var(--eboh-red);
+    color: var(--white);
+    border-color: var(--eboh-red);
+}
+.next-match__actions .btn.filled:hover {
+    background-color: var(--white);
+    color: var(--eboh-red);
+}
+
+/* --- News-section + grid --- */
+.news-section, .news-grid, .news-card {
+    background-color: var(--eboh-black);
+    color: var(--white);
+}
+.news-section__title {
+    color: var(--white);
+    font-family: var(--font-display);
+}
+.news-card {
+    background-color: var(--eboh-charcoal);
+    border: 1px solid var(--eboh-line);
+    color: var(--white);
+}
+.news-card__title { color: var(--white); font-family: var(--font-display); }
+.news-card__category { background: var(--eboh-red); color: var(--white); }
+.news-card__date { color: var(--text-muted); }
+.news-card__excerpt { color: rgba(255,255,255,0.8); }
+
+/* --- Community/About/Teams section --- */
+.community-section,
+.about-section,
+.teams-section {
+    background-color: var(--eboh-black);
+    color: var(--white);
+}
+.community-section__title,
+.about-section__title,
+.teams-section__title {
+    color: var(--white);
+    font-family: var(--font-display);
+}
+.community-section__intro,
+.about-section__text {
+    color: rgba(255,255,255,0.85);
+}
+
+/* Rode accent-sectie (afwisselend met zwart) */
+.community-section { background-color: var(--eboh-red); }
+.community-section *,
+.community-section__title { color: var(--white); }
+.community-section__link {
+    color: var(--white);
+    font-family: var(--font-display);
+    letter-spacing: 0.04em;
+}
+
+/* --- Season highlights --- */
+.season-section {
+    background-color: var(--eboh-night);
+    color: var(--white);
+}
+.season-section__title { color: var(--white); font-family: var(--font-display); }
+.season-section__title-part1 { color: var(--white); }
+.season-section__title-part2 { color: var(--eboh-red); }
+.season-section__subtitle { color: var(--text-muted); }
+.stats-row .stat-block {
+    background-color: var(--eboh-charcoal);
+    border: 1px solid var(--eboh-line);
+}
+.stat-number {
+    color: var(--eboh-red);
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 1;
+}
+.stat-label {
+    color: var(--white);
+    font-family: var(--font-display);
+    letter-spacing: 0.08em;
+}
+.highlights-title {
+    color: var(--white);
+    font-family: var(--font-display);
+}
+.highlight-card { color: var(--white); }
+.highlight-card::before {
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 100%);
+}
+.highlight-card__title { color: var(--white); font-family: var(--font-display); }
+.highlight-card__date { color: var(--eboh-red); font-family: var(--font-display); letter-spacing: 0.06em; }
+
+/* --- CTA-sectie 'Ook lid worden' --- */
+.cta-section {
+    background-color: var(--eboh-red);
+    color: var(--white);
+}
+.cta-section__title { color: var(--white); font-family: var(--font-display); }
+.cta-section__subtitle { color: var(--white); }
+.cta-section__button .btn.filled {
+    background-color: var(--white);
+    color: var(--eboh-red);
+    border-color: var(--white);
+}
+.cta-section__button .btn.filled:hover {
+    background-color: var(--eboh-black);
+    color: var(--white);
+    border-color: var(--eboh-black);
+}
+
+/* --- Sponsors section --- */
+.sponsors-section { background-color: var(--eboh-night); }
+.sponsors-section__title { color: var(--white); font-family: var(--font-display); }
+.sponsors-section__title-part2 { color: var(--eboh-red); }
+
+/* --- Page hero (sub-pagina's) --- */
+.page-hero {
+    background-color: var(--eboh-charcoal);
+    color: var(--white);
+}
+.page-hero--image::before {
+    background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.85) 100%);
+}
+.page-hero__title { color: var(--white); font-family: var(--font-display); }
+.page-hero__breadcrumbs { color: var(--text-muted); }
+.page-hero__breadcrumbs a { color: var(--text-muted); }
+.page-hero__breadcrumbs a:hover { color: var(--white); }
+.page-hero__eyebrow { color: var(--eboh-red); font-family: var(--font-display); letter-spacing: 0.1em; }
+.page-hero__subtitle { color: rgba(255,255,255,0.85); }
+
+/* --- Page section bar --- */
+.page-section__title { color: var(--white); font-family: var(--font-display); }
+.page-section__title--bar { border-bottom-color: var(--eboh-red); }
+
+/* --- Tabs (filter) --- */
+.tabs__item {
+    color: var(--text-muted);
+    border: 1px solid var(--eboh-line);
+    font-family: var(--font-display);
+    letter-spacing: 0.06em;
+}
+.tabs__item.is-active,
+.tabs__item:hover {
+    background: var(--eboh-red);
+    color: var(--white);
+    border-color: var(--eboh-red);
+}
+
+/* --- Single post + page --- */
+.single-content, .page-template, article {
+    background-color: var(--eboh-black);
+    color: var(--white);
+}
+article h1, article h2, article h3 { color: var(--white); font-family: var(--font-display); }
+article p, article li { color: rgba(255,255,255,0.85); }
+article a { color: var(--eboh-red); }
+article a:hover { color: var(--white); text-decoration: underline; }
+article blockquote {
+    border-left: 4px solid var(--eboh-red);
+    background: var(--eboh-charcoal);
+    color: var(--white);
+}
+
+/* --- Footer --- */
+.footer {
+    background-color: var(--eboh-black);
+    color: var(--white);
+    border-top: 4px solid var(--eboh-red);
+}
+.footer__grid--compact {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 48px;
+    padding: 48px 0 24px;
+}
+@media (max-width: 700px) {
+    .footer__grid--compact { grid-template-columns: 1fr; gap: 32px; }
+}
+.footer__title { color: var(--white); font-family: var(--font-display); letter-spacing: 0.06em; }
+.footer__link { color: rgba(255,255,255,0.85); display: block; line-height: 1.9; }
+.footer__link:hover { color: var(--eboh-red); }
+.footer__address { color: rgba(255,255,255,0.7); margin-top: 12px; font-size: 14px; }
+.footer__socials { display: flex; gap: 12px; }
+.footer__social-link {
+    width: 40px; height: 40px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid var(--eboh-line);
+    color: var(--white);
+    font-family: var(--font-display);
+}
+.footer__social-link:hover { background: var(--eboh-red); border-color: var(--eboh-red); color: var(--white); }
+.footer__bottom {
+    border-top: 1px solid var(--eboh-line);
+    padding: 24px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 14px;
+}
+.footer__copyright { color: var(--text-muted); }
+.footer__bottom-links { display: flex; gap: 24px; flex-wrap: wrap; }
+.footer__bottom-link { color: var(--text-muted); font-size: 13px; }
+.footer__bottom-link:hover { color: var(--white); }
+
+/* --- Sportlink tables (dark) --- */
+.sportlink-table {
+    background-color: var(--eboh-charcoal);
+    color: var(--white);
+    border: 1px solid var(--eboh-line);
+}
+.sportlink-table th {
+    background-color: var(--eboh-black);
+    color: var(--white);
+    font-family: var(--font-display);
+    letter-spacing: 0.06em;
+    border-bottom: 2px solid var(--eboh-red);
+}
+.sportlink-table td { color: rgba(255,255,255,0.9); border-bottom: 1px solid var(--eboh-line); }
+.sportlink-table__row--highlight { background-color: rgba(234, 25, 40, 0.12); }
+.sportlink-table__row--highlight td { color: var(--white); font-weight: 600; }
+.sportlink-notice {
+    background-color: var(--eboh-charcoal);
+    color: var(--text-muted);
+    border-left: 3px solid var(--eboh-red);
+    padding: 12px 16px;
+}
+
+/* --- Body fonts in display-mode op alle UI-elementen die tekst tonen --- */
+.btn, .site-nav__link, .site-nav__cta {
+    font-family: var(--font-display);
+    letter-spacing: 0.08em;
+    font-weight: 400;
+}
+
+/* --- Sportlink team-cell met logo (EBOH v2) --- */
+.sl-team {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    line-height: 1.2;
+}
+.sl-team__crest {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--white);
+    border-radius: 4px;
+    overflow: hidden;
+}
+.sl-team__crest img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 2px;
+}
+.sl-team__crest-fallback {
+    font-family: var(--font-display);
+    color: var(--eboh-red);
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 1;
+}
+.sl-team__name {
+    font-family: var(--font-body);
+    font-weight: 600;
+    color: inherit;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+@media (max-width: 600px) {
+    .sl-team__name { font-size: 13px; }
+    .sl-team__crest { width: 24px; height: 24px; }
+}

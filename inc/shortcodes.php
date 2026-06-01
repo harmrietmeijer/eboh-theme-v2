@@ -130,7 +130,7 @@ function eboh_match_ticker_shortcode( $atts ) {
 	<div class="match-ticker">
 		<div class="match-ticker-info">
 			<div class="match-ticker-team">
-				<span><?php esc_html_e( 'vv EBOH', 'eboh' ); ?></span>
+				<span><?php esc_html_e( 'EBOH', 'eboh' ); ?></span>
 			</div>
 			<div class="match-ticker-vs">
 				<?php esc_html_e( 'vs', 'eboh' ); ?>

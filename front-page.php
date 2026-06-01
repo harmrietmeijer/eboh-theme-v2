@@ -10,7 +10,7 @@ get_header();
 // Get theme customizer values with sensible defaults matching demo.html
 $hero_image = get_theme_mod( 'eboh_hero_image', get_template_directory_uri() . '/assets/images/hero-stadium.jpg' );
 $hero_subtitle = get_theme_mod( 'eboh_hero_subtitle', 'Welkom bij' );
-$hero_title = get_theme_mod( 'eboh_hero_title', 'VV EBOH' );
+$hero_title = get_theme_mod( 'eboh_hero_title', 'EBOH' );
 $hero_tagline = get_theme_mod( 'eboh_hero_tagline', 'Een voetbalclub waar passie, gemeenschap en talent samenkomen op het veld.' );
 $hero_cta_text = get_theme_mod( 'eboh_hero_cta_text', 'Ontdek meer ↓' );
 $hero_cta_link = get_theme_mod( 'eboh_hero_cta_link', '#volgende-thuiswedstrijd' );
@@ -36,7 +36,8 @@ if ( function_exists( 'eboh_get_next_home_match' ) ) {
 	$next_home_match = eboh_get_next_home_match();
 	if ( is_array( $next_home_match ) && ! empty( $next_home_match['datum'] ) ) {
 		$has_next_home_match = true;
-		$match_team1       = ! empty( $next_home_match['thuisteam'] )  ? $next_home_match['thuisteam']  : $match_team1;
+		// 'EBOH 1' op de homepage tonen we als 'EBOH' — wens vanuit de club.
+		$match_team1       = ! empty( $next_home_match['thuisteam'] )  ? preg_replace( '/^EBOH\s+1$/', 'EBOH', $next_home_match['thuisteam'] )  : $match_team1;
 		$match_team2       = ! empty( $next_home_match['uitteam'] )    ? $next_home_match['uitteam']    : $match_team2;
 		$match_date        = mb_strtoupper( $next_home_match['datum'], 'UTF-8' );
 		$match_time        = ! empty( $next_home_match['tijd'] )       ? $next_home_match['tijd']       : $match_time;
@@ -104,7 +105,7 @@ if ( function_exists( 'eboh_get_team_stats' ) ) {
      ============================================ -->
 <section class="match-bar">
     <div class="match-content">
-        <div class="match-detail"><?php esc_html_e( 'VOLGENDE THUISWEDSTRIJD EBOH 1', 'eboh' ); ?></div>
+        <div class="match-detail"><?php esc_html_e( 'VOLGENDE THUISWEDSTRIJD', 'eboh' ); ?></div>
         <?php if ( $has_next_home_match ) : ?>
             <div class="match-detail"><?php echo esc_html( $match_team1 ); ?> - <?php echo esc_html( $match_team2 ); ?></div>
             <div class="match-detail"><?php echo esc_html( $match_date ); ?></div>
@@ -137,7 +138,7 @@ if ( function_exists( 'eboh_get_team_stats' ) ) {
     <div class="next-match__container">
         <div class="next-match__label">
             <span class="next-match__dot"></span>
-            <?php esc_html_e( 'Volgende thuiswedstrijd EBOH 1', 'eboh' ); ?>
+            <?php esc_html_e( 'Volgende thuiswedstrijd', 'eboh' ); ?>
         </div>
         <?php if ( $has_next_home_match ) : ?>
         <div class="next-match__card">

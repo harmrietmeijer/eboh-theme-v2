@@ -481,9 +481,9 @@ function eboh_programma_shortcode( $atts ) {
 								<?php echo esc_html( $tijd ); ?>
 							<?php endif; ?>
 						</td>
-						<td data-label="Thuis" class="sportlink-table__team"><?php echo esc_html( $thuis ); ?></td>
+						<td data-label="Thuis" class="sportlink-table__team"><?php echo eboh_v2_render_team_cell( $thuis ); ?></td>
 						<td class="sportlink-table__vs">–</td>
-						<td data-label="Uit" class="sportlink-table__team"><?php echo esc_html( $uit ); ?></td>
+						<td data-label="Uit" class="sportlink-table__team"><?php echo eboh_v2_render_team_cell( $uit ); ?></td>
 						<td data-label="Comp." class="sportlink-table__extra"><?php echo esc_html( $comp ); ?></td>
 					</tr>
 				<?php endforeach; ?>
@@ -557,9 +557,9 @@ function eboh_uitslagen_shortcode( $atts ) {
 					?>
 					<tr>
 						<td data-label="Datum"><?php echo esc_html( $datum ); ?></td>
-						<td data-label="Thuis" class="sportlink-table__team"><?php echo esc_html( $thuis ); ?></td>
+						<td data-label="Thuis" class="sportlink-table__team"><?php echo eboh_v2_render_team_cell( $thuis ); ?></td>
 						<td data-label="Uitslag" class="sportlink-table__score"><?php echo esc_html( $score_thuis ); ?></td>
-						<td data-label="Uit" class="sportlink-table__team"><?php echo esc_html( $uit ); ?></td>
+						<td data-label="Uit" class="sportlink-table__team"><?php echo eboh_v2_render_team_cell( $uit ); ?></td>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>
@@ -647,7 +647,7 @@ function eboh_stand_shortcode( $atts ) {
 					?>
 					<tr<?php echo $is_eboh ? ' class="sportlink-table__row--highlight"' : ''; ?>>
 						<td data-label="#" class="sportlink-table__pos"><?php echo esc_html( $positie ); ?></td>
-						<td data-label="Team" class="sportlink-table__team"><?php echo esc_html( $team_naam ); ?></td>
+						<td data-label="Team" class="sportlink-table__team"><?php echo eboh_v2_render_team_cell( $team_naam ); ?></td>
 						<td data-label="GS"><?php echo esc_html( $gespeeld ); ?></td>
 						<td data-label="W"><?php echo esc_html( $gewonnen ); ?></td>
 						<td data-label="G"><?php echo esc_html( $gelijk ); ?></td>
@@ -1003,6 +1003,80 @@ function eboh_get_team_uitslagen( $team_name, $limit = 5 ) {
         $results[] = $match;
     }
     return array_slice( $results, 0, $limit );
+}
+
+
+/**
+ * Resolve een (eventueel) logo voor een teamnaam. Geeft een URL terug of leeg.
+ *
+ * Voor EBOH-teams gebruiken we het eigen clublogo uit assets/. Andere clubs
+ * kun je toevoegen via filter 'eboh_v2_team_logo_map' of via een per-team
+ * filter 'eboh_v2_team_logo'. Wanneer er geen logo bekend is, geeft de
+ * functie '' terug zodat de UI op een tekst-crest fallt.
+ *
+ * @param string $team_name  Bv. 'EBOH 1', 'CKC 1', 'Rijsoord JO17-1'.
+ * @return string  Logo-URL of lege string.
+ */
+function eboh_v2_team_logo( $team_name ) {
+    $team_name = trim( $team_name );
+    if ( $team_name === '' ) { return ''; }
+
+    $own_logo = get_template_directory_uri() . '/assets/images/logo-eboh.png';
+
+    // Basis-map die je kunt uitbreiden zonder code te wijzigen.
+    $map = apply_filters( 'eboh_v2_team_logo_map', array(
+        'EBOH' => $own_logo,
+    ) );
+
+    // Eerst exacte teamnaam, daarna club-prefix (alles voor het laatste woord/getal).
+    if ( isset( $map[ $team_name ] ) ) {
+        return apply_filters( 'eboh_v2_team_logo', $map[ $team_name ], $team_name );
+    }
+
+    $clubnaam = eboh_v2_extract_clubnaam( $team_name );
+    if ( $clubnaam && isset( $map[ $clubnaam ] ) ) {
+        return apply_filters( 'eboh_v2_team_logo', $map[ $clubnaam ], $team_name );
+    }
+
+    return apply_filters( 'eboh_v2_team_logo', '', $team_name );
+}
+
+/**
+ * Haal de clubnaam uit een teamnaam. 'EBOH JO17-2' → 'EBOH', 'Rijsoord 1' → 'Rijsoord'.
+ */
+function eboh_v2_extract_clubnaam( $team_name ) {
+    $name = trim( $team_name );
+    // Strip het laatste segment dat begint met een cijfer of JO/MA/MO/VR-code.
+    $name = preg_replace( '/\s+(JO|MA|MO|VR|MU|JG)\d+(-\d+)?$/i', '', $name );
+    $name = preg_replace( '/\s+\d+(-\d+)?$/', '', $name );
+    return trim( $name );
+}
+
+/**
+ * Render een team-cel met logo + naam. Gebruikt door programma/uitslagen/stand.
+ *
+ * @param string $team_name
+ * @return string  HTML voor in een tabelcel.
+ */
+function eboh_v2_render_team_cell( $team_name ) {
+    $team_name = trim( $team_name );
+    if ( $team_name === '' ) { return ''; }
+    $logo  = eboh_v2_team_logo( $team_name );
+    $initial = mb_substr( $team_name, 0, 1 );
+    ob_start();
+    ?>
+    <span class="sl-team">
+        <span class="sl-team__crest" aria-hidden="true">
+            <?php if ( $logo ) : ?>
+                <img src="<?php echo esc_url( $logo ); ?>" alt="" loading="lazy">
+            <?php else : ?>
+                <span class="sl-team__crest-fallback"><?php echo esc_html( $initial ); ?></span>
+            <?php endif; ?>
+        </span>
+        <span class="sl-team__name"><?php echo esc_html( $team_name ); ?></span>
+    </span>
+    <?php
+    return ob_get_clean();
 }
 
 

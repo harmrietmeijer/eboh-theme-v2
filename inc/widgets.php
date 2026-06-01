@@ -40,12 +40,12 @@ class EBOH_Upcoming_Matches_Widget extends WP_Widget {
 		<div class="widget-upcoming-matches">
 			<div class="match-item">
 				<strong class="match-date"><?php esc_html_e( 'Zaterdag 19 maart', 'eboh' ); ?></strong><br>
-				<?php esc_html_e( 'vv EBOH U17 vs SC Cambuur', 'eboh' ); ?><br>
+				<?php esc_html_e( 'EBOH U17 vs SC Cambuur', 'eboh' ); ?><br>
 				<small class="match-time"><?php esc_html_e( '15:00 uur', 'eboh' ); ?></small>
 			</div>
 			<div class="match-item">
 				<strong class="match-date"><?php esc_html_e( 'Zaterdag 19 maart', 'eboh' ); ?></strong><br>
-				<?php esc_html_e( 'Dordrecht City vs vv EBOH', 'eboh' ); ?><br>
+				<?php esc_html_e( 'Dordrecht City vs EBOH', 'eboh' ); ?><br>
 				<small class="match-time"><?php esc_html_e( '16:30 uur', 'eboh' ); ?></small>
 			</div>
 		</div>

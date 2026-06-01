@@ -219,7 +219,7 @@ function eboh_customize_register( $wp_customize ) {
 	$wp_customize->add_setting(
 		'eboh_hero_title',
 		array(
-			'default'           => esc_html__( 'VV EBOH', 'eboh' ),
+			'default'           => esc_html__( 'EBOH', 'eboh' ),
 			'sanitize_callback' => 'sanitize_text_field',
 		)
 	);
@@ -380,7 +380,7 @@ function eboh_customize_register( $wp_customize ) {
 	$wp_customize->add_setting(
 		'eboh_about_title',
 		array(
-			'default'           => esc_html__( 'Wij zijn vv EBOH', 'eboh' ),
+			'default'           => esc_html__( 'Wij zijn EBOH', 'eboh' ),
 			'sanitize_callback' => 'sanitize_text_field',
 		)
 	);
@@ -986,7 +986,7 @@ function eboh_ensure_default_pages() {
 	// Oude placeholder-content uit v1. Pagina's die nog precies hierin staan,
 	// gaan we automatisch overschrijven met de echte content.
 	$v1_placeholders = array(
-		'over'                => '<p>Hier komt het verhaal van vv EBOH. Vul deze pagina in WP-admin verder aan.</p>',
+		'over'                => '<p>Hier komt het verhaal van EBOH. Vul deze pagina in WP-admin verder aan.</p>',
 		'privacybeleid'       => '<p>Vul deze pagina in WP-admin verder aan met je privacybeleid.</p>',
 		'gebruiksvoorwaarden' => '<p>Vul deze pagina in WP-admin verder aan met je gebruiksvoorwaarden.</p>',
 		'cookiebeleid'        => '<p>Vul deze pagina in WP-admin verder aan met je cookiebeleid.</p>',
@@ -1041,14 +1041,14 @@ function eboh_ensure_default_pages() {
 }
 
 /**
- * HTML-content voor de Over-pagina. Algemene tekst over vv EBOH; jij kunt 'm
+ * HTML-content voor de Over-pagina. Algemene tekst over EBOH; jij kunt 'm
  * in WP-admin verder aanvullen met specifieke club-details (oprichtingsjaar,
  * bestuur, prestaties).
  */
 function eboh_default_page_content_over() {
 	return <<<'HTML'
-<h2>Welkom bij vv EBOH</h2>
-<p>vv EBOH is een voetbalvereniging in Dordrecht waar passie, gemeenschap en talent samenkomen op het veld. Van onze jongste pupillen tot het eerste elftal: bij EBOH staat sportief plezier en sociale verbondenheid centraal.</p>
+<h2>Welkom bij EBOH</h2>
+<p>EBOH is een voetbalclub in Dordrecht waar passie, gemeenschap en talent samenkomen op het veld. Van onze jongste pupillen tot het eerste elftal: bij EBOH staat sportief plezier en sociale verbondenheid centraal.</p>
 
 <h3>Waar we voor staan</h3>
 <p>Voetbal is bij ons meer dan een wedstrijd. We willen een club zijn waar iedereen — speler, ouder, vrijwilliger of supporter — zich thuis voelt. Respect, sportiviteit en samen genieten van het spel zijn daarvoor de basis.</p>
@@ -1073,7 +1073,7 @@ function eboh_default_page_content_privacybeleid() {
 	return <<<'HTML'
 <p><em>Laatst bijgewerkt: vul aan in WP-admin.</em></p>
 
-<p>vv EBOH hecht waarde aan de bescherming van jouw persoonsgegevens. In dit privacybeleid leggen we uit welke gegevens we verwerken, met welk doel, hoe lang we ze bewaren en welke rechten je hebt op grond van de Algemene verordening gegevensbescherming (AVG).</p>
+<p>EBOH hecht waarde aan de bescherming van jouw persoonsgegevens. In dit privacybeleid leggen we uit welke gegevens we verwerken, met welk doel, hoe lang we ze bewaren en welke rechten je hebt op grond van de Algemene verordening gegevensbescherming (AVG).</p>
 
 <h2>Welke gegevens verwerken wij?</h2>
 <p>Afhankelijk van jouw relatie tot de club kunnen wij de volgende gegevens verwerken: voor- en achternaam, geboortedatum, adres, telefoonnummer, e-mailadres, KNVB-relatienummer, gegevens over teamlidmaatschap en betalingen, en — bij toestemming — beeldmateriaal van wedstrijden en evenementen.</p>
@@ -1107,19 +1107,19 @@ function eboh_default_page_content_gebruiksvoorwaarden() {
 	return <<<'HTML'
 <p><em>Laatst bijgewerkt: vul aan in WP-admin.</em></p>
 
-<p>Door deze website te gebruiken ga je akkoord met onderstaande gebruiksvoorwaarden. vv EBOH kan deze voorwaarden van tijd tot tijd aanpassen; raadpleeg deze pagina daarom regelmatig.</p>
+<p>Door deze website te gebruiken ga je akkoord met onderstaande gebruiksvoorwaarden. EBOH kan deze voorwaarden van tijd tot tijd aanpassen; raadpleeg deze pagina daarom regelmatig.</p>
 
 <h2>Doel van de website</h2>
-<p>Deze website biedt informatie over vv EBOH, onze teams, wedstrijdprogramma's, nieuws en lidmaatschap. De inhoud is bedoeld als algemene informatie en kan zonder voorafgaande kennisgeving worden gewijzigd.</p>
+<p>Deze website biedt informatie over EBOH, onze teams, wedstrijdprogramma's, nieuws en lidmaatschap. De inhoud is bedoeld als algemene informatie en kan zonder voorafgaande kennisgeving worden gewijzigd.</p>
 
 <h2>Aansprakelijkheid</h2>
-<p>We doen ons best de informatie op deze site juist en actueel te houden, maar kunnen geen garantie geven op volledigheid of juistheid. vv EBOH is niet aansprakelijk voor eventuele schade die voortvloeit uit het gebruik van deze website of de informatie daarop.</p>
+<p>We doen ons best de informatie op deze site juist en actueel te houden, maar kunnen geen garantie geven op volledigheid of juistheid. EBOH is niet aansprakelijk voor eventuele schade die voortvloeit uit het gebruik van deze website of de informatie daarop.</p>
 
 <h2>Intellectueel eigendom</h2>
-<p>De teksten, afbeeldingen, logo's en overige content op deze site zijn eigendom van vv EBOH of de oorspronkelijke rechthebbenden. Overname is alleen toegestaan na voorafgaande schriftelijke toestemming.</p>
+<p>De teksten, afbeeldingen, logo's en overige content op deze site zijn eigendom van EBOH of de oorspronkelijke rechthebbenden. Overname is alleen toegestaan na voorafgaande schriftelijke toestemming.</p>
 
 <h2>Externe links</h2>
-<p>Op de site staan links naar websites van derden (bijvoorbeeld KNVB, Sportlink, sponsoren). vv EBOH heeft geen invloed op de inhoud van deze externe sites en is niet verantwoordelijk voor de daar aangeboden informatie.</p>
+<p>Op de site staan links naar websites van derden (bijvoorbeeld KNVB, Sportlink, sponsoren). EBOH heeft geen invloed op de inhoud van deze externe sites en is niet verantwoordelijk voor de daar aangeboden informatie.</p>
 
 <h2>Toepasselijk recht</h2>
 <p>Op deze gebruiksvoorwaarden is Nederlands recht van toepassing.</p>
@@ -1140,7 +1140,7 @@ function eboh_default_page_content_cookiebeleid() {
 	return <<<'HTML'
 <p><em>Laatst bijgewerkt: vul aan in WP-admin.</em></p>
 
-<p>vv EBOH gebruikt op deze website cookies om de site goed te laten functioneren en het bezoek te analyseren. Op deze pagina leggen we uit welke cookies we gebruiken en hoe je deze kunt beheren.</p>
+<p>EBOH gebruikt op deze website cookies om de site goed te laten functioneren en het bezoek te analyseren. Op deze pagina leggen we uit welke cookies we gebruiken en hoe je deze kunt beheren.</p>
 
 <h2>Wat zijn cookies?</h2>
 <p>Cookies zijn kleine tekstbestanden die bij een bezoek aan een website op je apparaat worden geplaatst. Ze worden bijvoorbeeld gebruikt om voorkeuren te onthouden of om bezoekersgedrag te meten.</p>

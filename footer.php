@@ -1,8 +1,13 @@
 <?php
 /**
  * Footer Template
+ *
+ * EBOH v2 — compacte footer zonder 'Snelle links' (top-nav volstaat) en
+ * zonder oude logo-stub. Twee kolommen: clubgegevens en socials. Daaronder
+ * een smal bottom-bar met copyright en juridische links.
+ *
  * @package EBOH
- * @since 2.0.0
+ * @since 3.0.0
  */
 ?>
 
@@ -11,38 +16,10 @@
      ============================================ -->
 <footer class="footer">
     <div class="footer__container">
-        <div class="footer__grid">
-            <div class="footer__column">
-                <div class="footer__logo"></div>
-                <h3 class="footer__title"><?php bloginfo( 'name' ); ?></h3>
-                <p class="footer__content">
-                    <?php bloginfo( 'description' ); ?>
-                </p>
-            </div>
+        <div class="footer__grid footer__grid--compact">
 
             <div class="footer__column">
-                <h3 class="footer__title"><?php esc_html_e( 'Snelle links', 'eboh' ); ?></h3>
-                <div class="footer__links">
-                    <?php
-                    wp_nav_menu( array(
-                        'theme_location' => 'footer',
-                        'container'      => false,
-                        'fallback_cb'    => function() {
-                            echo '<a href="#" class="footer__link">Over EBOH</a>';
-                            echo '<a href="' . esc_url( home_url( '/lid-worden' ) ) . '" class="footer__link">Lid worden</a>';
-                            echo '<a href="#" class="footer__link">Onze teams</a>';
-                            echo '<a href="#" class="footer__link">Agenda</a>';
-                            echo '<a href="#" class="footer__link">Nieuws</a>';
-                        },
-                        'depth'          => 1,
-                        'items_wrap'     => '%3$s',
-                    ) );
-                    ?>
-                </div>
-            </div>
-
-            <div class="footer__column">
-                <h3 class="footer__title"><?php esc_html_e( 'Contact', 'eboh' ); ?></h3>
+                <h3 class="footer__title"><?php esc_html_e( 'Contact', 'eboh-v2' ); ?></h3>
                 <div class="footer__links">
                     <?php
                     $phone = get_theme_mod( 'eboh_club_phone', '+31 6 2256 3456' );
@@ -54,7 +31,7 @@
                     <a href="mailto:<?php echo esc_attr( $email ); ?>" class="footer__link">
                         <?php echo esc_html( $email ); ?>
                     </a>
-                    <p style="margin-top: 12px; font-size: 14px; color: rgba(255, 255, 255, 0.8);">
+                    <p class="footer__address">
                         <?php
                         $address  = get_theme_mod( 'eboh_club_address', 'Sportcomplex Schenkeldijk 6' );
                         $zipcode  = get_theme_mod( 'eboh_club_zipcode', '3328 LE' );
@@ -67,7 +44,7 @@
             </div>
 
             <div class="footer__column">
-                <h3 class="footer__title"><?php esc_html_e( 'Volg ons', 'eboh' ); ?></h3>
+                <h3 class="footer__title"><?php esc_html_e( 'Volg ons', 'eboh-v2' ); ?></h3>
                 <div class="footer__socials">
                     <?php
                     $facebook  = get_theme_mod( 'eboh_social_facebook' );
@@ -76,30 +53,31 @@
                     $youtube   = get_theme_mod( 'eboh_social_youtube' );
 
                     if ( $facebook ) {
-                        echo '<a href="' . esc_url( $facebook ) . '" class="footer__social-link" title="' . esc_attr__( 'Facebook', 'eboh' ) . '">f</a>';
+                        echo '<a href="' . esc_url( $facebook ) . '" class="footer__social-link" title="' . esc_attr__( 'Facebook', 'eboh-v2' ) . '">f</a>';
                     }
                     if ( $instagram ) {
-                        echo '<a href="' . esc_url( $instagram ) . '" class="footer__social-link" title="' . esc_attr__( 'Instagram', 'eboh' ) . '">📷</a>';
+                        echo '<a href="' . esc_url( $instagram ) . '" class="footer__social-link" title="' . esc_attr__( 'Instagram', 'eboh-v2' ) . '">IG</a>';
                     }
                     if ( $twitter ) {
-                        echo '<a href="' . esc_url( $twitter ) . '" class="footer__social-link" title="' . esc_attr__( 'Twitter', 'eboh' ) . '">𝕏</a>';
+                        echo '<a href="' . esc_url( $twitter ) . '" class="footer__social-link" title="' . esc_attr__( 'X', 'eboh-v2' ) . '">𝕏</a>';
                     }
                     if ( $youtube ) {
-                        echo '<a href="' . esc_url( $youtube ) . '" class="footer__social-link" title="' . esc_attr__( 'YouTube', 'eboh' ) . '">▶</a>';
+                        echo '<a href="' . esc_url( $youtube ) . '" class="footer__social-link" title="' . esc_attr__( 'YouTube', 'eboh-v2' ) . '">▶</a>';
                     }
                     ?>
                 </div>
             </div>
+
         </div>
 
         <div class="footer__bottom">
             <p class="footer__copyright">
-                &copy; <?php echo esc_html( date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. <?php esc_html_e( 'Alle rechten voorbehouden.', 'eboh' ); ?>
+                &copy; <?php echo esc_html( date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. <?php esc_html_e( 'Alle rechten voorbehouden.', 'eboh-v2' ); ?>
             </p>
             <div class="footer__bottom-links">
-                <a href="<?php echo esc_url( home_url( '/privacybeleid' ) ); ?>" class="footer__bottom-link"><?php esc_html_e( 'Privacybeleid', 'eboh' ); ?></a>
-                <a href="<?php echo esc_url( home_url( '/gebruiksvoorwaarden' ) ); ?>" class="footer__bottom-link"><?php esc_html_e( 'Gebruiksvoorwaarden', 'eboh' ); ?></a>
-                <a href="<?php echo esc_url( home_url( '/cookiebeleid' ) ); ?>" class="footer__bottom-link"><?php esc_html_e( 'Cookiebeleid', 'eboh' ); ?></a>
+                <a href="<?php echo esc_url( home_url( '/privacybeleid' ) ); ?>" class="footer__bottom-link"><?php esc_html_e( 'Privacybeleid', 'eboh-v2' ); ?></a>
+                <a href="<?php echo esc_url( home_url( '/gebruiksvoorwaarden' ) ); ?>" class="footer__bottom-link"><?php esc_html_e( 'Gebruiksvoorwaarden', 'eboh-v2' ); ?></a>
+                <a href="<?php echo esc_url( home_url( '/cookiebeleid' ) ); ?>" class="footer__bottom-link"><?php esc_html_e( 'Cookiebeleid', 'eboh-v2' ); ?></a>
             </div>
         </div>
     </div>
