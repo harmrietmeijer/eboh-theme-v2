@@ -3198,3 +3198,44 @@ body.admin-bar .site-header { top: 32px; }
 @media (max-width: 782px) {
     body.admin-bar .site-header { top: 46px; }
 }
+
+/* --- Contact-pagina: .info-card 'Clubgegevens'-blok was wit-op-wit --- */
+.info-card {
+    background-color: var(--eboh-charcoal) !important;
+    border: 1px solid var(--eboh-line);
+    color: var(--white) !important;
+}
+.info-card *,
+.info-card h2,
+.info-card h3,
+.info-card h4,
+.info-card strong,
+.info-card span,
+.info-card dt,
+.info-card dd {
+    color: var(--white) !important;
+}
+.info-card a { color: var(--eboh-red) !important; }
+.info-card a:hover { color: var(--white) !important; text-decoration: underline; }
+.info-card [class*="label"],
+.info-card dt {
+    color: rgba(255, 255, 255, 0.65) !important;
+    font-family: var(--font-display);
+    letter-spacing: 0.08em;
+}
+
+/* --- Vangnet voor andere nog onontdekte witte info-blokken --- */
+.contact-card,
+.club-info,
+.club-info-card,
+.sidebar-card {
+    background-color: var(--eboh-charcoal) !important;
+    border: 1px solid var(--eboh-line);
+    color: var(--white) !important;
+}
+.contact-card *,
+.club-info *,
+.club-info-card *,
+.sidebar-card * {
+    color: var(--white) !important;
+}
