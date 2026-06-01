@@ -798,7 +798,8 @@ function eboh_social_svg( $platform ) {
 
 	switch ( $platform ) {
 		case 'facebook':
-			$svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.7 10h-2.4v7.9h-3.3V12H9v-2.6h1.6V7.7c0-1.3.3-3.3 3.3-3.3h2.6v2.4h-1.9c-.3 0-.5.2-.5.5v1.5h2.4l-.4 2.6z" fill="white"/></svg>';
+			// Eenvoudig F-icoon, één path, gebruikt currentColor — werkt op elke achtergrond.
+			$svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M13.5 21.5v-8h2.7l.4-3.2h-3.1V8.3c0-.9.3-1.6 1.6-1.6h1.7V3.8c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.1v2.3H7.6v3.2h2.7v8h3.2z"/></svg>';
 			break;
 
 		case 'instagram':
