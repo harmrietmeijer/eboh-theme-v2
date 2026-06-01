@@ -11,7 +11,13 @@ get_header();
 while ( have_posts() ) :
 	the_post();
 
-	$thumb_url  = get_the_post_thumbnail_url( null, 'full' );
+	// Featured image van het team-post heeft voorrang; anders altijd de
+	// team-placeholder zodat de hero nooit zwart blijft.
+	$team_placeholder = get_template_directory_uri() . '/assets/images/team-placeholder.jpg';
+	$thumb_url        = get_the_post_thumbnail_url( null, 'full' );
+	if ( empty( $thumb_url ) ) {
+		$thumb_url = $team_placeholder;
+	}
 	$klasse     = get_post_meta( get_the_ID(), 'klasse', true );
 	$regio      = get_post_meta( get_the_ID(), 'regio', true );
 	$trainer    = get_post_meta( get_the_ID(), 'trainer', true );

@@ -33,7 +33,6 @@ while ( have_posts() ) :
 		}
 		?>
 
-		<!-- DEBUG-eboh-v2-single-team: thumb_url = <?php echo esc_html( $thumb_url ); ?> -->
 		<section class="page-hero page-hero--image" style="background-image: url('<?php echo esc_url( $thumb_url ); ?>');">
 			<div class="page-hero__container">
 				<p class="page-hero__breadcrumbs">
