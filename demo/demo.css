@@ -1,0 +1,212 @@
+/* Small overrides for the standalone demo pages (no WordPress). */
+
+body { padding-top: 0; }
+
+.demo-banner {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    background: #111;
+    color: #fff;
+    padding: 8px 14px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    z-index: 9999;
+    border-left: 3px solid #E80808;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+
+.demo-banner a {
+    color: #E80808;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+/* Ensure images resolve relative to demo/ */
+/* (The style.css uses assets/images/... which resolves from the theme root
+   when style.css is loaded from ../style.css; background-image URLs in
+   style.css are resolved relative to the stylesheet, so they'll look for
+   ../assets/images/... — which works from demo/.) */
+
+/* Simple static nav that mirrors site-header without JS behaviour */
+.demo-header {
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.97);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+}
+
+.demo-header__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+}
+
+.demo-header__logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.demo-header__logo-mark {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #E80808;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.demo-header__logo-text {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 16px;
+}
+
+.demo-nav {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.demo-nav a {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 13px;
+    padding: 8px 12px;
+    color: #343B41;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.demo-nav a:hover,
+.demo-nav a.is-active {
+    color: #E80808;
+    border-bottom-color: #E80808;
+}
+
+.demo-nav__cta {
+    background: #E80808;
+    color: #fff !important;
+    padding: 10px 18px !important;
+    border-radius: 2px;
+    border-bottom: none !important;
+    margin-left: 8px;
+}
+
+.demo-nav__cta:hover { background: #B70606; }
+
+/* Simple footer */
+.demo-footer {
+    background: #111;
+    color: rgba(255,255,255,0.75);
+    padding: 60px 24px 24px;
+    margin-top: 80px;
+    font-family: 'Work Sans', sans-serif;
+}
+
+.demo-footer__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+}
+
+@media (max-width: 760px) {
+    .demo-footer__container { grid-template-columns: 1fr 1fr; }
+}
+
+.demo-footer h4 {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #fff;
+    font-size: 14px;
+    margin: 0 0 14px;
+}
+
+.demo-footer a {
+    display: block;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 4px 0;
+}
+
+.demo-footer a:hover { color: #E80808; }
+
+.demo-footer__bottom {
+    max-width: 1200px;
+    margin: 40px auto 0;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.6;
+}
+
+/* Demo index listing */
+.demo-index {
+    max-width: 900px;
+    margin: 80px auto;
+    padding: 0 24px;
+    font-family: 'Work Sans', sans-serif;
+}
+
+.demo-index h1 {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    font-size: 2.2rem;
+}
+
+.demo-index__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    margin-top: 30px;
+}
+
+.demo-index__card {
+    display: block;
+    padding: 22px 24px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-left: 4px solid #E80808;
+    text-decoration: none;
+    color: #343B41;
+    transition: transform 0.2s ease;
+}
+
+.demo-index__card:hover { transform: translateX(4px); }
+
+.demo-index__card strong {
+    display: block;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+}
+
+.demo-index__card span { font-size: 13px; opacity: 0.75; }

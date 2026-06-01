@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>vv EBOH — Home (demo)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Work+Sans:wght@400;500;700&family=Crimson+Text:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="eboh-style.css">
+<link rel="stylesheet" href="demo.css">
+</head>
+<body>
+
+<header class="demo-header">
+    <div class="demo-header__container">
+        <a class="demo-header__logo" href="home.html">
+            <span class="demo-header__logo-mark">E</span>
+            <span class="demo-header__logo-text">vv EBOH</span>
+        </a>
+        <nav class="demo-nav">
+            <a href="home.html" class="is-active">Home</a>
+            <a href="nieuws.html">Nieuws</a>
+            <a href="teams.html">Teams</a>
+            <a href="organogram.html">Organogram</a>
+            <a href="sponsoring.html">Sponsors</a>
+            <a href="contact.html">Contact</a>
+            <a href="lid-worden.html" class="demo-nav__cta">Lid worden</a>
+        </nav>
+    </div>
+</header>
+
+<!-- HERO -->
+<section class="hero hero--flat" style="background-image: url('images/hero-stadium.jpg');">
+    <div class="hero__watermark">EBOH</div>
+    <div class="hero__content">
+        <p class="hero__subtitle">Welkom bij</p>
+        <h1 class="hero__title">VV EBOH</h1>
+        <p class="hero__tagline">Een voetbalclub waar passie, gemeenschap en talent samenkomen op het veld.</p>
+        <div class="hero__cta">
+            <a href="#nieuws" class="btn filled">Ontdek meer ↓</a>
+        </div>
+    </div>
+</section>
+
+<!-- NEXT MATCH -->
+<section class="next-match">
+    <div class="next-match__container">
+        <div class="next-match__label">
+            <span class="next-match__dot"></span>
+            Volgende thuiswedstrijd
+        </div>
+        <div class="next-match__card">
+            <div class="next-match__team next-match__team--home">
+                <div class="next-match__crest" aria-hidden="true"><span>E</span></div>
+                <p class="next-match__team-name">EBOH 1</p>
+                <p class="next-match__team-role">Thuis</p>
+            </div>
+            <div class="next-match__meta">
+                <p class="next-match__date">Zaterdag 18 april</p>
+                <p class="next-match__time">14:30</p>
+                <p class="next-match__competition">Zaterdag 2e klasse F</p>
+                <p class="next-match__location">Sportpark De Bovenhoeck</p>
+            </div>
+            <div class="next-match__team next-match__team--away">
+                <div class="next-match__crest" aria-hidden="true"><span>P</span></div>
+                <p class="next-match__team-name">Pelikaan 1</p>
+                <p class="next-match__team-role">Uit</p>
+            </div>
+        </div>
+        <div class="next-match__actions">
+            <a class="btn filled" href="team-detail.html">Programma</a>
+            <a class="btn" href="team-detail.html">Uitslagen &amp; stand</a>
+        </div>
+    </div>
+</section>
+
+<!-- NIEUWS -->
+<section class="news-section" id="nieuws">
+    <div class="news-section__container">
+        <h2 class="news-section__title">Laatste nieuws</h2>
+        <div class="news-grid">
+            <a href="nieuws-detail.html" class="news-card" style="background-image: url('images/news-wedstrijd.jpg');">
+                <div class="news-card__content">
+                    <span class="news-card__tag">Wedstrijd</span>
+                    <p class="news-card__date">12 apr 2026</p>
+                    <h3 class="news-card__title">EBOH 1 wint belangrijke uitwedstrijd</h3>
+                    <p class="news-card__excerpt">In een spannende wedstrijd trekt het eerste aan het langste eind dankzij een late goal van de spits.</p>
+                </div>
+            </a>
+            <a href="nieuws-detail.html" class="news-card" style="background-image: url('images/news-training.jpg');">
+                <div class="news-card__content">
+                    <span class="news-card__tag">Jeugd</span>
+                    <p class="news-card__date">8 apr 2026</p>
+                    <h3 class="news-card__title">Open trainingsdag voor nieuwe JO9-jeugd</h3>
+                    <p class="news-card__excerpt">Kinderen geboren in 2017 zijn welkom om mee te trainen op zaterdag 20 april.</p>
+                </div>
+            </a>
+            <a href="nieuws-detail.html" class="news-card" style="background-image: url('images/news-veld.jpg');">
+                <div class="news-card__content">
+                    <span class="news-card__tag">Club</span>
+                    <p class="news-card__date">3 apr 2026</p>
+                    <h3 class="news-card__title">Renovatie kleedkamers afgerond</h3>
+                    <p class="news-card__excerpt">Dankzij de inzet van vele vrijwilligers zijn de kleedkamers weer helemaal up-to-date.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- MAATSCHAPPELIJK -->
+<section class="community-section">
+    <div class="community-section__container">
+        <div class="community-section__intro">
+            <span class="community-section__eyebrow">Maatschappelijk</span>
+            <h2 class="community-section__title">EBOH Maatschappelijk</h2>
+            <p class="community-section__text">Voetbal is meer dan een wedstrijd. Samen met partners, scholen en buurtbewoners zet EBOH zich in voor een sterke en gezonde gemeenschap.</p>
+            <a class="community-section__link" href="#">Lees meer over onze initiatieven →</a>
+        </div>
+        <div class="community-section__pillars">
+            <div class="community-pillar">
+                <h3 class="community-pillar__title">Jeugd &amp; School</h3>
+                <p class="community-pillar__text">Schoolvoetbal, naschoolse trainingen en clinics voor kinderen uit de buurt.</p>
+            </div>
+            <div class="community-pillar">
+                <h3 class="community-pillar__title">Samen Sterk</h3>
+                <p class="community-pillar__text">Activiteiten met lokale partners die iedereen in beweging brengen.</p>
+            </div>
+            <div class="community-pillar">
+                <h3 class="community-pillar__title">Gezond &amp; Welzijn</h3>
+                <p class="community-pillar__text">Initiatieven rond gezonde kantine, fair play en mentale weerbaarheid.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" style="background-image: url('images/section-training.jpg');">
+    <div class="about-section__diagonal-top"></div>
+    <div class="about-section__left">
+        <h2 class="about-section__title">
+            <span class="about-section__title--red">WIJ ZIJN</span>
+            <span class="about-section__title--white">EBOH</span>
+        </h2>
+        <p class="about-section__description">
+            Sinds onze oprichting staat EBOH bekend als een voetbalclub met ambitie, hartstocht en integriteit. We geloven in de kracht van voetbal om mensen samen te brengen.
+        </p>
+        <a href="#" class="about-section__link">Lees verder →</a>
+    </div>
+    <div class="about-section__right"></div>
+    <div class="about-section__accent">E</div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" style="background-image: url('images/section-action.jpg');">
+    <div class="cta-section__diagonal-top"></div>
+    <div class="cta-section__content">
+        <h2 class="cta-section__title">Ook lid worden?</h2>
+        <p class="cta-section__subtitle">Sluit je aan bij onze groeiende voetbalclub en maak deel uit van onze familie. Iedereen is welkom!</p>
+        <div class="cta-section__button">
+            <a href="lid-worden.html" class="btn filled">Lid worden</a>
+        </div>
+        <p class="cta-section__subtext">Contributie vanaf € 69 per jaar</p>
+    </div>
+</section>
+
+<!-- SPONSORS (rustig) -->
+<section class="page-shell page-shell--muted">
+    <div class="page-container">
+        <h2 class="page-section__title page-section__title--bar">Onze partners</h2>
+        <div class="sponsor-grid sponsor-grid--featured" style="margin-bottom: 24px;">
+            <a href="#" class="sponsor-grid__item">Hoofdsponsor</a>
+        </div>
+        <div class="sponsor-grid">
+            <a href="#" class="sponsor-grid__item">Partner A</a>
+            <a href="#" class="sponsor-grid__item">Partner B</a>
+            <a href="#" class="sponsor-grid__item">Partner C</a>
+            <a href="#" class="sponsor-grid__item">Partner D</a>
+            <a href="#" class="sponsor-grid__item">Partner E</a>
+            <a href="#" class="sponsor-grid__item">Partner F</a>
+        </div>
+    </div>
+</section>
+
+<footer class="demo-footer">
+    <div class="demo-footer__container">
+        <div>
+            <h4>vv EBOH</h4>
+            <p style="font-size:14px;line-height:1.7;">Een voetbalclub waar passie, gemeenschap en talent samenkomen op het veld.</p>
+        </div>
+        <div>
+            <h4>Snelle links</h4>
+            <a href="teams.html">Teams</a>
+            <a href="nieuws.html">Nieuws</a>
+            <a href="sponsoring.html">Sponsors</a>
+            <a href="organogram.html">Organogram</a>
+        </div>
+        <div>
+            <h4>Contact</h4>
+            <a href="tel:+31622563456">+31 6 2256 3456</a>
+            <a href="mailto:info@eboh.nl">info@eboh.nl</a>
+            <p style="font-size:14px;">Sportcomplex Schenkeldijk 6<br>3328 LE Dordrecht</p>
+        </div>
+        <div>
+            <h4>Volg ons</h4>
+            <a href="#">Facebook</a>
+            <a href="#">Instagram</a>
+            <a href="#">YouTube</a>
+        </div>
+    </div>
+    <div class="demo-footer__bottom">&copy; 2026 vv EBOH — demo</div>
+</footer>
+
+<div class="demo-banner">Demo · <a href="index.html">Overzicht</a></div>
+</body>
+</html>

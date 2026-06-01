@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lid worden — vv EBOH (demo)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Work+Sans:wght@400;500;700&family=Crimson+Text:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="eboh-style.css">
+<link rel="stylesheet" href="demo.css">
+</head>
+<body>
+
+<header class="demo-header">
+    <div class="demo-header__container">
+        <a class="demo-header__logo" href="home.html"><span class="demo-header__logo-mark">E</span><span class="demo-header__logo-text">vv EBOH</span></a>
+        <nav class="demo-nav">
+            <a href="home.html">Home</a>
+            <a href="nieuws.html">Nieuws</a>
+            <a href="teams.html">Teams</a>
+            <a href="organogram.html">Organogram</a>
+            <a href="sponsoring.html">Sponsors</a>
+            <a href="contact.html">Contact</a>
+            <a href="lid-worden.html" class="demo-nav__cta is-active">Lid worden</a>
+        </nav>
+    </div>
+</header>
+
+<section class="page-hero page-hero--image" style="background-image: url('images/section-training.jpg');">
+    <div class="page-hero__container">
+        <p class="page-hero__breadcrumbs"><a href="home.html">Home</a> / Lid worden</p>
+        <span class="page-hero__eyebrow">Word deel van de club</span>
+        <h1 class="page-hero__title">Lid worden bij vv EBOH</h1>
+        <p class="page-hero__subtitle">Van mini-pupil tot veteraan: bij EBOH is iedereen welkom. Meld je online aan — makkelijker kunnen we het niet maken.</p>
+    </div>
+</section>
+
+<section class="page-shell">
+    <div class="page-container">
+        <div class="two-col">
+            <div>
+                <h2 class="page-section__title page-section__title--bar">Digitaal aanmeldformulier</h2>
+                <form class="form" onsubmit="event.preventDefault(); alert('Demo formulier — in productie wordt je aanmelding verstuurd naar de ledenadministratie.');">
+                    <h3 style="font-family:'Oswald',sans-serif;text-transform:uppercase;font-size:1rem;letter-spacing:0.08em;margin:0;color:#343B41;">Persoonlijke gegevens</h3>
+                    <div class="form__row">
+                        <div class="form__field"><label for="l-first">Voornaam</label><input type="text" id="l-first" required></div>
+                        <div class="form__field"><label for="l-last">Achternaam</label><input type="text" id="l-last" required></div>
+                    </div>
+                    <div class="form__row">
+                        <div class="form__field"><label for="l-dob">Geboortedatum</label><input type="date" id="l-dob" required></div>
+                        <div class="form__field"><label for="l-gender">Geslacht</label><select id="l-gender"><option>Man</option><option>Vrouw</option><option>Anders / wil ik niet zeggen</option></select></div>
+                    </div>
+                    <div class="form__field"><label for="l-street">Adres</label><input type="text" id="l-street" placeholder="Straat + nummer"></div>
+                    <div class="form__row">
+                        <div class="form__field"><label for="l-zip">Postcode</label><input type="text" id="l-zip"></div>
+                        <div class="form__field"><label for="l-city">Woonplaats</label><input type="text" id="l-city"></div>
+                    </div>
+                    <div class="form__row">
+                        <div class="form__field"><label for="l-email">E-mailadres</label><input type="email" id="l-email" required></div>
+                        <div class="form__field"><label for="l-phone">Telefoonnummer</label><input type="tel" id="l-phone"></div>
+                    </div>
+
+                    <h3 style="font-family:'Oswald',sans-serif;text-transform:uppercase;font-size:1rem;letter-spacing:0.08em;margin:20px 0 0;color:#343B41;">Voetbalvoorkeur</h3>
+                    <div class="form__row">
+                        <div class="form__field"><label for="l-cat">Categorie</label><select id="l-cat"><option>Mini (4-5 jaar)</option><option>JO8-JO13 jeugd</option><option>JO15-JO19 jeugd</option><option>Senioren zaterdag</option><option>Dames</option><option>Veteranen</option><option>Niet-spelend lid</option></select></div>
+                        <div class="form__field"><label for="l-exp">Ervaring</label><select id="l-exp"><option>Nieuw — nog nooit gevoetbald</option><option>Overschrijving van andere club</option><option>Heeft eerder gevoetbald</option></select></div>
+                    </div>
+                    <div class="form__field"><label for="l-prev">Vorige club (indien van toepassing)</label><input type="text" id="l-prev"></div>
+
+                    <h3 style="font-family:'Oswald',sans-serif;text-transform:uppercase;font-size:1rem;letter-spacing:0.08em;margin:20px 0 0;color:#343B41;">Ouder / verzorger <span style="font-size:12px;opacity:0.6;">(bij minderjarigheid)</span></h3>
+                    <div class="form__row">
+                        <div class="form__field"><label for="l-parent">Naam ouder/verzorger</label><input type="text" id="l-parent"></div>
+                        <div class="form__field"><label for="l-pphone">Telefoon ouder/verzorger</label><input type="tel" id="l-pphone"></div>
+                    </div>
+
+                    <h3 style="font-family:'Oswald',sans-serif;text-transform:uppercase;font-size:1rem;letter-spacing:0.08em;margin:20px 0 0;color:#343B41;">Betaling &amp; akkoord</h3>
+                    <div class="form__field"><label for="l-iban">IBAN (voor incasso contributie)</label><input type="text" id="l-iban" placeholder="NL.. ABNA .. .. .."></div>
+                    <div class="form__field">
+                        <label style="display:flex;gap:10px;align-items:flex-start;text-transform:none;letter-spacing:0;font-family:'Work Sans',sans-serif;font-weight:400;font-size:14px;line-height:1.5;">
+                            <input type="checkbox" required style="width:auto;margin-top:3px;">
+                            Ik ga akkoord met de statuten, huishoudelijk reglement en gedragscode.
+                        </label>
+                    </div>
+                    <div class="form__field">
+                        <label style="display:flex;gap:10px;align-items:flex-start;text-transform:none;letter-spacing:0;font-family:'Work Sans',sans-serif;font-weight:400;font-size:14px;line-height:1.5;">
+                            <input type="checkbox" style="width:auto;margin-top:3px;">
+                            Ik geef toestemming voor gebruik van foto's van wedstrijden/trainingen op de website en socials.
+                        </label>
+                    </div>
+
+                    <div class="form__actions">
+                        <button type="submit" class="btn filled">Aanmelding versturen</button>
+                    </div>
+                    <p class="form__note">Na je aanmelding neemt de ledenadministratie binnen een week contact met je op.</p>
+                </form>
+            </div>
+
+            <aside>
+                <div class="info-card" style="margin-bottom:20px;">
+                    <h3 class="info-card__title">Contributie 2025/2026</h3>
+                    <ul class="info-card__list">
+                        <li><strong>Mini's</strong><span>€ 69 per jaar</span></li>
+                        <li><strong>JO8 – JO13</strong><span>€ 139 per jaar</span></li>
+                        <li><strong>JO15 – JO19</strong><span>€ 169 per jaar</span></li>
+                        <li><strong>Senioren</strong><span>€ 219 per jaar</span></li>
+                        <li><strong>Veteranen</strong><span>€ 179 per jaar</span></li>
+                        <li><strong>Niet-spelend</strong><span>€ 49 per jaar</span></li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3 class="info-card__title">Vragen?</h3>
+                    <p style="font-size:14px;line-height:1.7;margin:0 0 10px;">De ledenadministratie helpt je graag verder.</p>
+                    <p class="person-card__contact" style="margin:0;">leden@eboh.nl</p>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+
+<footer class="demo-footer">
+    <div class="demo-footer__container">
+        <div><h4>vv EBOH</h4><p style="font-size:14px;line-height:1.7;">Een voetbalclub waar passie en talent samenkomen.</p></div>
+        <div><h4>Snelle links</h4><a href="teams.html">Teams</a><a href="nieuws.html">Nieuws</a></div>
+        <div><h4>Contact</h4><a href="mailto:info@eboh.nl">info@eboh.nl</a></div>
+        <div><h4>Volg ons</h4><a href="#">Facebook</a><a href="#">Instagram</a></div>
+    </div>
+    <div class="demo-footer__bottom">&copy; 2026 vv EBOH — demo</div>
+</footer>
+<div class="demo-banner">Demo · <a href="index.html">Overzicht</a></div>
+</body>
+</html>

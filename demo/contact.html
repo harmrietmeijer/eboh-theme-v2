@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — vv EBOH (demo)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Work+Sans:wght@400;500;700&family=Crimson+Text:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="eboh-style.css">
+<link rel="stylesheet" href="demo.css">
+</head>
+<body>
+
+<header class="demo-header">
+    <div class="demo-header__container">
+        <a class="demo-header__logo" href="home.html"><span class="demo-header__logo-mark">E</span><span class="demo-header__logo-text">vv EBOH</span></a>
+        <nav class="demo-nav">
+            <a href="home.html">Home</a>
+            <a href="nieuws.html">Nieuws</a>
+            <a href="teams.html">Teams</a>
+            <a href="organogram.html">Organogram</a>
+            <a href="sponsoring.html">Sponsors</a>
+            <a href="contact.html" class="is-active">Contact</a>
+            <a href="lid-worden.html" class="demo-nav__cta">Lid worden</a>
+        </nav>
+    </div>
+</header>
+
+<section class="page-hero">
+    <div class="page-hero__container">
+        <p class="page-hero__breadcrumbs"><a href="home.html">Home</a> / Contact</p>
+        <span class="page-hero__eyebrow">Neem contact op</span>
+        <h1 class="page-hero__title">Contact</h1>
+        <p class="page-hero__subtitle">Heb je een vraag over lid worden, een team, sponsoring of iets anders? We horen graag van je.</p>
+    </div>
+</section>
+
+<section class="page-shell">
+    <div class="page-container">
+        <div class="two-col">
+            <div>
+                <h2 class="page-section__title page-section__title--bar">Stuur een bericht</h2>
+                <form class="form" onsubmit="event.preventDefault(); alert('Demo formulier — in productie wordt dit verstuurd.');">
+                    <div class="form__row">
+                        <div class="form__field">
+                            <label for="c-name">Naam</label>
+                            <input type="text" id="c-name" name="name" required>
+                        </div>
+                        <div class="form__field">
+                            <label for="c-email">E-mailadres</label>
+                            <input type="email" id="c-email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="form__field">
+                        <label for="c-subject">Onderwerp</label>
+                        <select id="c-subject" name="subject">
+                            <option>Algemene vraag</option>
+                            <option>Lid worden</option>
+                            <option>Jeugdzaken</option>
+                            <option>Sponsoring</option>
+                            <option>Accommodatie / kantine</option>
+                            <option>Overig</option>
+                        </select>
+                    </div>
+                    <div class="form__field">
+                        <label for="c-message">Bericht</label>
+                        <textarea id="c-message" name="message" required></textarea>
+                    </div>
+                    <div class="form__actions">
+                        <button type="submit" class="btn filled">Verstuur bericht</button>
+                    </div>
+                    <p class="form__note">We reageren meestal binnen 2 werkdagen.</p>
+                </form>
+            </div>
+
+            <aside>
+                <div class="info-card" style="margin-bottom:20px;">
+                    <h3 class="info-card__title">Clubgegevens</h3>
+                    <ul class="info-card__list">
+                        <li><strong>Adres</strong><span>Sportcomplex Schenkeldijk 6<br>3328 LE Dordrecht</span></li>
+                        <li><strong>Telefoon</strong><span>+31 (0)78 123 4567</span></li>
+                        <li><strong>E-mail</strong><span>info@eboh.nl</span></li>
+                        <li><strong>KvK</strong><span>40123456</span></li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3 class="info-card__title">Openingstijden kantine</h3>
+                    <ul class="info-card__list">
+                        <li><strong>Di</strong><span>19:00 – 23:00</span></li>
+                        <li><strong>Do</strong><span>19:00 – 23:00</span></li>
+                        <li><strong>Za</strong><span>08:30 – 18:00</span></li>
+                        <li><strong>Zo</strong><span>Gesloten</span></li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+
+<section class="page-shell page-shell--muted">
+    <div class="page-container">
+        <h2 class="page-section__title page-section__title--bar">Het bestuur</h2>
+        <div class="person-grid">
+            <div class="person-card"><div class="person-card__photo" style="background-image:url('images/person-1.jpg');"></div><div class="person-card__body"><h3 class="person-card__name">Peter Breugel</h3><p class="person-card__role">Voorzitter</p><p class="person-card__contact">voorzitter@eboh.nl</p></div></div>
+            <div class="person-card"><div class="person-card__photo" style="background-image:url('images/person-2.jpg');"></div><div class="person-card__body"><h3 class="person-card__name">Maria van Dijk</h3><p class="person-card__role">Secretaris</p><p class="person-card__contact">secretaris@eboh.nl</p></div></div>
+            <div class="person-card"><div class="person-card__photo" style="background-image:url('images/person-3.jpg');"></div><div class="person-card__body"><h3 class="person-card__name">Jan Pietersen</h3><p class="person-card__role">Penningmeester</p><p class="person-card__contact">penningmeester@eboh.nl</p></div></div>
+            <div class="person-card"><div class="person-card__photo" style="background-image:url('images/person-1.jpg');"></div><div class="person-card__body"><h3 class="person-card__name">Sophie Hendrix</h3><p class="person-card__role">Voetbalzaken</p><p class="person-card__contact">vz@eboh.nl</p></div></div>
+            <div class="person-card"><div class="person-card__photo" style="background-image:url('images/person-2.jpg');"></div><div class="person-card__body"><h3 class="person-card__name">Koen Makkinga</h3><p class="person-card__role">Jeugdzaken</p><p class="person-card__contact">jeugd@eboh.nl</p></div></div>
+            <div class="person-card"><div class="person-card__photo" style="background-image:url('images/person-3.jpg');"></div><div class="person-card__body"><h3 class="person-card__name">Amsterdam Ruiz</h3><p class="person-card__role">Communicatie</p><p class="person-card__contact">communicatie@eboh.nl</p></div></div>
+        </div>
+    </div>
+</section>
+
+<footer class="demo-footer">
+    <div class="demo-footer__container">
+        <div><h4>vv EBOH</h4><p style="font-size:14px;line-height:1.7;">Een voetbalclub waar passie en talent samenkomen.</p></div>
+        <div><h4>Snelle links</h4><a href="teams.html">Teams</a><a href="nieuws.html">Nieuws</a></div>
+        <div><h4>Contact</h4><a href="mailto:info@eboh.nl">info@eboh.nl</a></div>
+        <div><h4>Volg ons</h4><a href="#">Facebook</a><a href="#">Instagram</a></div>
+    </div>
+    <div class="demo-footer__bottom">&copy; 2026 vv EBOH — demo</div>
+</footer>
+<div class="demo-banner">Demo · <a href="index.html">Overzicht</a></div>
+</body>
+</html>

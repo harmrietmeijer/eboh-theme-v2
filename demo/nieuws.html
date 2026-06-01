@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nieuws — vv EBOH (demo)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Work+Sans:wght@400;500;700&family=Crimson+Text:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="eboh-style.css">
+<link rel="stylesheet" href="demo.css">
+</head>
+<body>
+
+<header class="demo-header">
+    <div class="demo-header__container">
+        <a class="demo-header__logo" href="home.html"><span class="demo-header__logo-mark">E</span><span class="demo-header__logo-text">vv EBOH</span></a>
+        <nav class="demo-nav">
+            <a href="home.html">Home</a>
+            <a href="nieuws.html" class="is-active">Nieuws</a>
+            <a href="teams.html">Teams</a>
+            <a href="organogram.html">Organogram</a>
+            <a href="sponsoring.html">Sponsors</a>
+            <a href="contact.html">Contact</a>
+            <a href="lid-worden.html" class="demo-nav__cta">Lid worden</a>
+        </nav>
+    </div>
+</header>
+
+<section class="page-hero">
+    <div class="page-hero__container">
+        <p class="page-hero__breadcrumbs"><a href="home.html">Home</a> / Nieuws</p>
+        <span class="page-hero__eyebrow">Van de club</span>
+        <h1 class="page-hero__title">Nieuws</h1>
+        <p class="page-hero__subtitle">Wedstrijdverslagen, aankondigingen en verhalen uit de EBOH-familie.</p>
+    </div>
+</section>
+
+<section class="page-shell page-shell--muted">
+    <div class="page-container">
+        <div class="tabs" style="margin-bottom:40px;">
+            <a class="tabs__item is-active" href="#alle">Alle</a>
+            <a class="tabs__item" href="#wedstrijd">Wedstrijden</a>
+            <a class="tabs__item" href="#jeugd">Jeugd</a>
+            <a class="tabs__item" href="#club">Club</a>
+            <a class="tabs__item" href="#maatschappelijk">Maatschappelijk</a>
+        </div>
+
+        <div class="news-grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr));">
+            <a href="nieuws-detail.html" class="news-card" style="background-image: url('images/news-wedstrijd.jpg');">
+                <div class="news-card__content">
+                    <span class="news-card__tag">Wedstrijd</span>
+                    <p class="news-card__date">12 apr 2026</p>
+                    <h3 class="news-card__title">EBOH 1 wint belangrijke uitwedstrijd</h3>
+                    <p class="news-card__excerpt">In een spannende wedstrijd trekt het eerste aan het langste eind.</p>
+                </div>
+            </a>
+            <a href="nieuws-detail.html" class="news-card" style="background-image: url('images/news-training.jpg');">
+                <div class="news-card__content">
+                    <span class="news-card__tag">Jeugd</span>
+                    <p class="news-card__date">8 apr 2026</p>
+                    <h3 class="news-card__title">Open trainingsdag voor nieuwe JO9-jeugd</h3>
+                    <p class="news-card__excerpt">Kinderen geboren in 2017 zijn welkom om mee te trainen op zaterdag 20 april.</p>
+                </div>
+            </a>
+            <a href="nieuws-detail.html" class="news-card" style="background-image: url('images/news-veld.jpg');">
+                <div class="news-card__content">
+                    <span class="news-card__tag">Club</span>
+                    <p class="news-card__date">3 apr 2026</p>
+                    <h3 class="news-card__title">Renovatie kleedkamers afgerond</h3>
+                    <p class="news-card__excerpt">Dankzij de inzet van vele vrijwilligers zijn de kleedkamers weer helemaal up-to-date.</p>
+                </div>
+            </a>
+            <a href="nieuws-detail.html" class="news-card" style="background-image: url('images/section-action.jpg');">
+                <div class="news-card__content">
+                    <span class="news-card__tag">Wedstrijd</span>
+                    <p class="news-card__date">29 mrt 2026</p>
+                    <h3 class="news-card__title">Dames 1 pakt periodetitel</h3>
+                    <p class="news-card__excerpt">Na een indrukwekkende reeks wint het damesteam de eerste periode.</p>
+                </div>
+            </a>
+            <a href="nieuws-detail.html" class="news-card" style="background-image: url('images/section-training.jpg');">
+                <div class="news-card__content">
+                    <span class="news-card__tag">Maatschappelijk</span>
+                    <p class="news-card__date">24 mrt 2026</p>
+                    <h3 class="news-card__title">Schoolvoetbaltoernooi opnieuw groot succes</h3>
+                    <p class="news-card__excerpt">Meer dan 200 basisschoolleerlingen op het veld bij EBOH.</p>
+                </div>
+            </a>
+            <a href="nieuws-detail.html" class="news-card" style="background-image: url('images/highlight-programma.jpg');">
+                <div class="news-card__content">
+                    <span class="news-card__tag">Club</span>
+                    <p class="news-card__date">18 mrt 2026</p>
+                    <h3 class="news-card__title">Algemene ledenvergadering 25 april</h3>
+                    <p class="news-card__excerpt">Alle leden zijn van harte welkom in de kantine vanaf 20:00.</p>
+                </div>
+            </a>
+            <a href="nieuws-detail.html" class="news-card" style="background-image: url('images/team-2.jpg');">
+                <div class="news-card__content">
+                    <span class="news-card__tag">Jeugd</span>
+                    <p class="news-card__date">12 mrt 2026</p>
+                    <h3 class="news-card__title">JO13 plaatst zich voor regiofinale</h3>
+                    <p class="news-card__excerpt">Onze jonge talenten winnen dankzij een team-effort.</p>
+                </div>
+            </a>
+            <a href="nieuws-detail.html" class="news-card" style="background-image: url('images/team-3.jpg');">
+                <div class="news-card__content">
+                    <span class="news-card__tag">Club</span>
+                    <p class="news-card__date">5 mrt 2026</p>
+                    <h3 class="news-card__title">Nieuwe hoofdsponsor bekend</h3>
+                    <p class="news-card__excerpt">We zijn trots om een driejarige samenwerking aan te kondigen.</p>
+                </div>
+            </a>
+            <a href="nieuws-detail.html" class="news-card" style="background-image: url('images/team-4.jpg');">
+                <div class="news-card__content">
+                    <span class="news-card__tag">Wedstrijd</span>
+                    <p class="news-card__date">28 feb 2026</p>
+                    <h3 class="news-card__title">Veteranen blijven koploper</h3>
+                    <p class="news-card__excerpt">Ook deze week weer drie punten op eigen veld.</p>
+                </div>
+            </a>
+        </div>
+
+        <div style="text-align:center;margin-top:48px;">
+            <a href="#" class="btn">Meer artikelen laden</a>
+        </div>
+    </div>
+</section>
+
+<footer class="demo-footer">
+    <div class="demo-footer__container">
+        <div><h4>vv EBOH</h4><p style="font-size:14px;line-height:1.7;">Een voetbalclub waar passie en talent samenkomen.</p></div>
+        <div><h4>Snelle links</h4><a href="teams.html">Teams</a><a href="nieuws.html">Nieuws</a></div>
+        <div><h4>Contact</h4><a href="mailto:info@eboh.nl">info@eboh.nl</a></div>
+        <div><h4>Volg ons</h4><a href="#">Facebook</a><a href="#">Instagram</a></div>
+    </div>
+    <div class="demo-footer__bottom">&copy; 2026 vv EBOH — demo</div>
+</footer>
+<div class="demo-banner">Demo · <a href="index.html">Overzicht</a></div>
+</body>
+</html>
