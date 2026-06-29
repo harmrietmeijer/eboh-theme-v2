@@ -3917,3 +3917,18 @@ body.admin-bar .site-header { top: 32px; }
 .page-shell { background-color: var(--eboh-black); }
 .page-shell--muted { background-color: var(--eboh-black); }
 
+
+/* --- Fix: eerste nieuwskaart was via .news-card:nth-child(1) hoger gemaakt
+       (oude bento-layout). In de nieuwe stacked-grid moet elke kaart even
+       hoog zijn; we resetten daarom span 2 → span 1 voor alle nth-childs. --- */
+.news-card,
+.news-card:nth-child(1),
+.news-card:nth-child(2),
+.news-card:nth-child(3),
+.news-card:nth-child(4),
+.news-card:nth-child(5),
+.news-card:nth-child(6) {
+    grid-column: span 1 !important;
+    grid-row: span 1 !important;
+    min-height: 0 !important;
+}
