@@ -1005,6 +1005,168 @@ function eboh_get_team_uitslagen( $team_name, $limit = 5 ) {
     return array_slice( $results, 0, $limit );
 }
 
+/**
+ * Eerstvolgende wedstrijd voor een specifiek team — thuis of uit.
+ * Voor Premier-League-style homepage-widget.
+ *
+ * @param string $team_name  Bijv. 'EBOH 1'.
+ * @return array|null  Genormaliseerd match-array of null.
+ */
+function eboh_get_next_match( $team_name ) {
+    $api = new EBOH_Sportlink_API();
+    if ( ! $api->is_configured() ) { return null; }
+
+    $programma = $api->get_programma( '', 60, 'V', '' );
+    if ( is_wp_error( $programma ) || empty( $programma ) ) { return null; }
+
+    $matches = array();
+    $today_ts = strtotime( 'today' );
+    foreach ( $programma as $match ) {
+        $thuis = isset( $match['thuisteam'] ) ? trim( $match['thuisteam'] ) : '';
+        $uit   = isset( $match['uitteam'] )  ? trim( $match['uitteam'] )  : '';
+        if ( strcasecmp( $thuis, $team_name ) !== 0 && strcasecmp( $uit, $team_name ) !== 0 ) { continue; }
+
+        $datum_str = '';
+        foreach ( array( 'wedstrijddatum', 'datum', 'wedstrijddatumtijd' ) as $f ) {
+            if ( ! empty( $match[ $f ] ) ) { $datum_str = $match[ $f ]; break; }
+        }
+        $ts = $datum_str ? strtotime( $datum_str ) : 0;
+        if ( $ts && $ts >= $today_ts ) {
+            $match['_ts'] = $ts;
+            $matches[] = $match;
+        }
+    }
+    if ( empty( $matches ) ) { return null; }
+
+    usort( $matches, function ( $a, $b ) { return $a['_ts'] - $b['_ts']; } );
+    return eboh_sportlink_normalize_match( $matches[0], $team_name );
+}
+
+/**
+ * Meest recente uitslag voor een specifiek team.
+ */
+function eboh_get_last_result( $team_name ) {
+    $api = new EBOH_Sportlink_API();
+    if ( ! $api->is_configured() ) { return null; }
+
+    $uitslagen = $api->get_uitslagen( '', 90 );
+    if ( is_wp_error( $uitslagen ) || empty( $uitslagen ) ) { return null; }
+
+    $matches = array();
+    foreach ( $uitslagen as $match ) {
+        $thuis = isset( $match['thuisteam'] ) ? trim( $match['thuisteam'] ) : '';
+        $uit   = isset( $match['uitteam'] )  ? trim( $match['uitteam'] )  : '';
+        if ( strcasecmp( $thuis, $team_name ) !== 0 && strcasecmp( $uit, $team_name ) !== 0 ) { continue; }
+
+        $datum_str = '';
+        foreach ( array( 'wedstrijddatum', 'datum', 'wedstrijddatumtijd' ) as $f ) {
+            if ( ! empty( $match[ $f ] ) ) { $datum_str = $match[ $f ]; break; }
+        }
+        $ts = $datum_str ? strtotime( $datum_str ) : 0;
+        if ( ! $ts ) { continue; }
+        $match['_ts'] = $ts;
+        $matches[] = $match;
+    }
+    if ( empty( $matches ) ) { return null; }
+
+    usort( $matches, function ( $a, $b ) { return $b['_ts'] - $a['_ts']; } );
+    return eboh_sportlink_normalize_match( $matches[0], $team_name, true );
+}
+
+/**
+ * Stand-window gecentreerd op een team: window-1 teams ervoor + team + window-1 erna.
+ * Default window=5 → 2 teams boven EBOH + EBOH + 2 onder.
+ *
+ * @param string $team_name
+ * @param int    $window  Aantal rijen in totaal (3, 5, 7…). EBOH altijd gecentreerd
+ *                        tenzij die te dicht bij top/bottom staat.
+ * @return array  Lijst rijen of lege array.
+ */
+function eboh_get_stand_around_team( $team_name, $window = 5 ) {
+    $api = new EBOH_Sportlink_API();
+    if ( ! $api->is_configured() ) { return array(); }
+
+    $teamcode = $api->resolve_team( $team_name );
+    if ( is_wp_error( $teamcode ) || empty( $teamcode ) ) { return array(); }
+
+    $stand = $api->get_stand_for_team( $teamcode );
+    if ( is_wp_error( $stand ) || empty( $stand ) ) { return array(); }
+
+    // Vind index van EBOH in de stand.
+    $target_idx = -1;
+    foreach ( $stand as $i => $row ) {
+        $naam = isset( $row['teamnaam'] ) ? $row['teamnaam'] : ( isset( $row['naam'] ) ? $row['naam'] : '' );
+        if ( strcasecmp( trim( $naam ), $team_name ) === 0 ) {
+            $target_idx = $i;
+            break;
+        }
+    }
+    if ( $target_idx === -1 ) {
+        // Team niet gevonden in stand; geef gewoon de top window terug.
+        return array_slice( $stand, 0, $window );
+    }
+
+    $half = (int) floor( $window / 2 );
+    $start = max( 0, $target_idx - $half );
+    // Als we te dicht bij het einde komen, schuif terug.
+    $end = $start + $window;
+    if ( $end > count( $stand ) ) {
+        $end = count( $stand );
+        $start = max( 0, $end - $window );
+    }
+
+    $rows = array_slice( $stand, $start, $window );
+
+    // Geef per rij ook een 'positie' terug (1-based vanaf het origineel) +
+    // 'is_target' boolean voor de view.
+    foreach ( $rows as $i => &$row ) {
+        $original_idx = $start + $i;
+        $naam_row = isset( $row['teamnaam'] ) ? $row['teamnaam'] : ( isset( $row['naam'] ) ? $row['naam'] : '' );
+        if ( empty( $row['positie'] ) ) {
+            $row['positie'] = $original_idx + 1;
+        }
+        $row['_is_target'] = ( strcasecmp( trim( $naam_row ), $team_name ) === 0 );
+    }
+    unset( $row );
+
+    return $rows;
+}
+
+/**
+ * Helper: maak van een raw Sportlink-match een uniform array met velden voor
+ * de homepage-widget.
+ */
+function eboh_sportlink_normalize_match( $match, $team_name = '', $is_result = false ) {
+    $thuis = isset( $match['thuisteam'] ) ? trim( $match['thuisteam'] ) : '';
+    $uit   = isset( $match['uitteam'] )  ? trim( $match['uitteam'] )  : '';
+    $ts    = isset( $match['_ts'] ) ? $match['_ts'] : 0;
+
+    $days_nl   = array( 'Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag' );
+    $months_nl = array( '', 'januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december' );
+
+    $dag_naam   = $ts ? $days_nl[ (int) date( 'w', $ts ) ] : '';
+    $dag_num    = $ts ? date( 'j', $ts ) : '';
+    $maand_naam = $ts ? $months_nl[ (int) date( 'n', $ts ) ] : '';
+
+    $score_thuis = isset( $match['doelpuntenthuis'] ) ? $match['doelpuntenthuis'] : null;
+    $score_uit   = isset( $match['doelpuntenuit'] )  ? $match['doelpuntenuit']  : null;
+    if ( $score_thuis === null ) { $score_thuis = isset( $match['scorethuis'] ) ? $match['scorethuis'] : null; }
+    if ( $score_uit   === null ) { $score_uit   = isset( $match['scoreuit'] )  ? $match['scoreuit']  : null; }
+
+    return array(
+        'thuisteam'    => $thuis,
+        'uitteam'      => $uit,
+        'datum'        => $dag_naam . ' ' . $dag_num . ' ' . $maand_naam,
+        'datum_kort'   => $ts ? strtoupper( $dag_naam ) . ' ' . $dag_num . ' ' . strtoupper( substr( $maand_naam, 0, 3 ) ) : '',
+        'tijd'         => isset( $match['aanvangstijd'] ) ? $match['aanvangstijd'] : '',
+        'competitie'   => isset( $match['competitienaam'] ) ? $match['competitienaam'] : '',
+        'locatie'      => isset( $match['accommodatie'] ) ? $match['accommodatie'] : '',
+        'score_thuis'  => $score_thuis,
+        'score_uit'    => $score_uit,
+        'is_result'    => $is_result,
+        'is_eboh_home' => ( $team_name !== '' && strcasecmp( $thuis, $team_name ) === 0 ),
+    );
+}
 
 /**
  * Resolve een (eventueel) logo voor een teamnaam. Geeft een URL terug of leeg.

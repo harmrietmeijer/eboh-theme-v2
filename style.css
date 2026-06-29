@@ -3391,3 +3391,529 @@ body.admin-bar .site-header { top: 32px; }
         grid-template-columns: 1fr !important;
     }
 }
+
+/* ================================================================
+   EBOH v2 — FEEDBACK PASS 29-06-2026 (deel 2: nieuwe componenten)
+   ================================================================ */
+
+/* --- 1. NEWS-SECTION: 'Alle artikelen'-knop --- */
+.news-section__more {
+    margin-top: 32px;
+    text-align: center;
+}
+.news-section__more .btn {
+    border-radius: 0 !important;
+    border: 1px solid var(--white);
+    color: var(--white);
+    padding: 12px 28px;
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+}
+.news-section__more .btn:hover {
+    background-color: var(--eboh-red);
+    border-color: var(--eboh-red);
+}
+
+/* --- 2. MATCH WIDGET (Premier-League stijl) --- */
+.match-widget {
+    background-color: var(--eboh-night);
+    padding: 56px 24px;
+}
+.match-widget__container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.match-widget__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    gap: 16px;
+}
+.match-widget__title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 40px);
+    text-transform: uppercase;
+    color: var(--white);
+    margin: 0;
+    letter-spacing: 0.02em;
+}
+.match-widget__more {
+    color: var(--white);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--eboh-red);
+    padding-bottom: 2px;
+}
+.match-widget__more:hover { color: var(--eboh-red); }
+
+.match-widget__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.4fr;
+    gap: 0;
+    background-color: var(--white);
+}
+@media (max-width: 900px) {
+    .match-widget__grid { grid-template-columns: 1fr; }
+}
+
+.mw-card {
+    background-color: var(--white);
+    color: #1A1A1A;
+    border-right: 1px solid #E5E5E5;
+    padding: 20px 18px 16px;
+    display: flex;
+    flex-direction: column;
+    min-height: 280px;
+}
+.mw-card:last-child { border-right: none; }
+@media (max-width: 900px) {
+    .mw-card { border-right: none; border-bottom: 1px solid #E5E5E5; }
+    .mw-card:last-child { border-bottom: none; }
+}
+
+.mw-card__competition {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #E5E5E5;
+    margin-bottom: 16px;
+}
+.mw-card__competition-logo {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+}
+.mw-card__competition-name {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #555;
+}
+
+.mw-card__match {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 12px;
+    align-items: center;
+    flex: 1;
+}
+.mw-card__team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+}
+.mw-card__crest {
+    width: 44px;
+    height: 44px;
+    background-color: var(--eboh-red);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 600;
+}
+.mw-card__team-name {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #1A1A1A;
+    line-height: 1.1;
+}
+.mw-card__center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+.mw-card__date {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 500;
+    color: #1A1A1A;
+    letter-spacing: 0.04em;
+}
+.mw-card__time {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    color: #1A1A1A;
+}
+.mw-card__venue {
+    font-size: 11px;
+    color: #777;
+    text-align: center;
+}
+.mw-card__center--score .mw-card__score {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 600;
+    color: #1A1A1A;
+    display: flex;
+    gap: 10px;
+    line-height: 1;
+}
+.mw-card__score-dash { color: #999; }
+.mw-card__final-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: #999;
+    text-transform: uppercase;
+}
+.mw-card__date--past { color: #777; font-size: 11px; }
+
+.mw-card__footer {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #E5E5E5;
+    text-align: center;
+}
+.mw-card__cta {
+    color: var(--eboh-red);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+.mw-card__cta:hover { color: var(--eboh-red-dark); }
+.mw-card__empty {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    padding: 32px 8px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Stand-tabel binnen de stand-card */
+.mw-stand {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    color: #1A1A1A;
+}
+.mw-stand th,
+.mw-stand td {
+    padding: 6px 4px;
+    text-align: center;
+    border-bottom: 1px solid #EEE;
+}
+.mw-stand th {
+    font-family: var(--font-display);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #777;
+    font-weight: 500;
+}
+.mw-stand__team {
+    text-align: left !important;
+    font-family: var(--font-display);
+    font-weight: 500;
+}
+.mw-stand__pos { width: 24px; color: #777; }
+.mw-stand__pts { font-weight: 700; }
+.mw-stand tr.is-target {
+    background-color: rgba(234, 25, 40, 0.08);
+}
+.mw-stand tr.is-target .mw-stand__team,
+.mw-stand tr.is-target .mw-stand__pos,
+.mw-stand tr.is-target .mw-stand__pts {
+    color: var(--eboh-red);
+    font-weight: 700;
+}
+
+.mw-card--stand-full { grid-column: 1 / -1; min-height: 0; }
+.mw-stand--full { font-size: 13px; }
+
+/* --- 3. NEWS-FILTERS (categorie-tabs op /nieuws) --- */
+.news-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 32px;
+}
+.news-filters__item {
+    padding: 10px 18px;
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: var(--white);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    transition: var(--transition);
+}
+.news-filters__item:hover {
+    border-color: var(--eboh-red);
+    color: var(--eboh-red);
+}
+.news-filters__item.is-active {
+    background-color: var(--eboh-red);
+    border-color: var(--eboh-red);
+    color: var(--white);
+}
+
+/* --- 4. TEAMS-OVERVIEW (feature + tiles) --- */
+.team-feature {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background-color: var(--eboh-charcoal);
+    color: var(--white);
+    text-decoration: none;
+    margin-bottom: 28px;
+    border: 1px solid var(--eboh-line);
+}
+.team-feature:hover { border-color: var(--eboh-red); }
+.team-feature__media {
+    min-height: 320px;
+    background-size: cover;
+    background-position: center;
+}
+.team-feature__body {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.team-feature__name {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 6vw, 88px);
+    text-transform: uppercase;
+    color: var(--white);
+    margin: 0;
+    line-height: 0.95;
+}
+.team-feature__meta {
+    margin-top: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: var(--font-body);
+    font-size: 16px;
+}
+@media (max-width: 768px) {
+    .team-feature { grid-template-columns: 1fr; }
+    .team-feature__media { min-height: 220px; }
+    .team-feature__body { padding: 28px 24px; }
+}
+
+.teams-overview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+@media (max-width: 900px) { .teams-overview-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .teams-overview-grid { grid-template-columns: 1fr; } }
+
+.team-tile {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--eboh-charcoal);
+    color: var(--white);
+    text-decoration: none;
+    border: 1px solid var(--eboh-line);
+    transition: var(--transition);
+}
+.team-tile:hover {
+    border-color: var(--eboh-red);
+    transform: translateY(-3px);
+}
+.team-tile__media {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background-size: cover;
+    background-position: center;
+}
+.team-tile__body {
+    padding: 20px 22px;
+}
+.team-tile__name {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 22px;
+    text-transform: uppercase;
+    color: var(--white);
+    line-height: 1;
+}
+
+/* --- 5. ROSTER (spelers/staf grid op team-detail + organisatie) --- */
+.roster { margin: 48px 0; }
+.roster__title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 40px);
+    text-transform: uppercase;
+    color: var(--white);
+    margin: 0 0 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--eboh-red);
+}
+.roster-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 24px;
+}
+.roster-card {
+    background-color: var(--eboh-charcoal);
+    border: 1px solid var(--eboh-line);
+    display: flex;
+    flex-direction: column;
+}
+.roster-card__photo {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    background-size: cover;
+    background-position: center top;
+    background-color: var(--eboh-soft);
+}
+.roster-card__body {
+    padding: 14px 16px 18px;
+}
+.roster-card__name {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 18px;
+    color: var(--white);
+    text-transform: none;
+    letter-spacing: 0.01em;
+}
+.roster-card__role {
+    margin: 4px 0 0;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: var(--font-body);
+    font-size: 13px;
+}
+
+/* --- 6. ORGANISATIE TABS --- */
+.org-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--eboh-line);
+    padding-bottom: 0;
+}
+.org-tabs__item {
+    padding: 12px 18px;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1px;
+    transition: var(--transition);
+}
+.org-tabs__item:hover { color: var(--white); }
+.org-tabs__item.is-active {
+    color: var(--white);
+    border-bottom-color: var(--eboh-red);
+}
+
+.org-content__title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 56px);
+    text-transform: uppercase;
+    color: var(--white);
+    margin: 0 0 16px;
+    line-height: 1;
+}
+.org-content__intro {
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 28px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+.org-content__empty {
+    color: rgba(255, 255, 255, 0.55);
+    font-style: italic;
+}
+
+/* --- 7. NEWSLETTER STRIP (in footer.php boven de footer) --- */
+.newsletter-strip {
+    background-color: var(--eboh-red);
+    color: var(--white);
+    padding: 36px 24px;
+}
+.newsletter-strip__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 32px;
+    align-items: center;
+}
+@media (max-width: 768px) {
+    .newsletter-strip__container { grid-template-columns: 1fr; }
+}
+.newsletter-strip__title {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 3vw, 34px);
+    text-transform: uppercase;
+    margin: 0 0 6px;
+    color: var(--white);
+}
+.newsletter-strip__text {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 15px;
+    line-height: 1.5;
+}
+/* Plugin-styling-overrides: in de strip willen we het formulier passend
+   maken aan de rode achtergrond. */
+.newsletter-strip .eboh-ml-form {
+    --eboh-ml-accent: var(--eboh-black);
+    --eboh-ml-accent-dark: #222;
+    --eboh-ml-border: rgba(255, 255, 255, 0.6);
+}
+.newsletter-strip .eboh-ml-form__email {
+    background-color: rgba(255, 255, 255, 0.95);
+    color: var(--eboh-black);
+}
+.newsletter-strip .eboh-ml-form__email::placeholder { color: #666; }
+.newsletter-strip .eboh-ml-form__submit {
+    background-color: var(--eboh-black);
+    color: var(--white);
+}
+.newsletter-strip .eboh-ml-form__submit:hover { background-color: #222; }
+.newsletter-strip .eboh-ml-form__consent { color: rgba(255, 255, 255, 0.85); }
+
+/* --- 8. FOOTER compacter --- */
+.footer { padding-top: 36px; padding-bottom: 16px; }
+.footer__grid--compact { padding-bottom: 24px; }
+.footer__title { margin-bottom: 12px; font-size: 18px; }
+.footer__links { gap: 6px; }
+.footer__bottom { padding-top: 16px; }
+
+/* --- 9. Team-trainer text op team-detail --- */
+.team-trainer {
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 24px;
+}
+.team-trainer strong { color: var(--white); }
+
+/* --- 10. Page-shell op zwart (was muted /grey) --- */
+.page-shell { background-color: var(--eboh-black); }
+.page-shell--muted { background-color: var(--eboh-black); }
+

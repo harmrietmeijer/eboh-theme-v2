@@ -1,176 +1,59 @@
 <?php
 /**
- * Front Page Template
+ * Front Page Template — EBOH v2
+ *
+ * Volgorde (klant-wens 29-06-2026):
+ *  1. Uitgelicht nieuws (6 posts, 3-koloms, tekst onder foto)
+ *  2. Sportlink-widget: volgende wedstrijd | laatste uitslag | stand (5 rijen)
+ *  3. Maatschappelijk-sectie (blijft tot klant alternatief heeft)
+ *  4. Lid-worden CTA (zonder diagonale rand)
+ *  5. Sponsors
+ *  6. MailerLite-nieuwsbrief (via footer)
+ *
  * @package EBOH
- * @since 2.0.0
+ * @since 3.0.0
  */
 
 get_header();
 
-// Get theme customizer values with sensible defaults matching demo.html
-$hero_image = get_theme_mod( 'eboh_hero_image', get_template_directory_uri() . '/assets/images/hero-stadium.jpg' );
-$hero_subtitle = get_theme_mod( 'eboh_hero_subtitle', 'Welkom bij' );
-$hero_title = get_theme_mod( 'eboh_hero_title', 'EBOH' );
-$hero_tagline = get_theme_mod( 'eboh_hero_tagline', 'Een voetbalclub waar passie, gemeenschap en talent samenkomen op het veld.' );
-$hero_cta_text = get_theme_mod( 'eboh_hero_cta_text', 'Ontdek meer ↓' );
-$hero_cta_link = get_theme_mod( 'eboh_hero_cta_link', '#volgende-thuiswedstrijd' );
-
-// Match ticker info
-$match_team1 = get_theme_mod( 'eboh_match_team1', 'EBOH 1' );
-$match_team2 = get_theme_mod( 'eboh_match_team2', 'PELIKAAN 1' );
-$match_date = get_theme_mod( 'eboh_match_date', 'ZATERDAG 17 MAART' );
-$match_time = get_theme_mod( 'eboh_match_time', '20:30 UUR' );
-$match_location = get_theme_mod( 'eboh_match_location', 'Sportpark De Bovenhoeck' );
-$match_competition = get_theme_mod( 'eboh_match_competition', 'Zaterdag 2e klasse F' );
-$match_team1_crest_id = get_theme_mod( 'eboh_match_team1_crest' );
-$match_team2_crest_id = get_theme_mod( 'eboh_match_team2_crest' );
-$match_team1_crest = $match_team1_crest_id ? wp_get_attachment_image_url( $match_team1_crest_id, 'medium' ) : '';
-$match_team2_crest = $match_team2_crest_id ? wp_get_attachment_image_url( $match_team2_crest_id, 'medium' ) : '';
-
-// Haal de eerstvolgende EBOH 1 thuiswedstrijd op via Sportlink.
-// Wanneer er geen aankomende thuiswedstrijd is, tonen we expliciet een
-// 'geen wedstrijd gepland'-state — Customizer-defaults gebruiken we hier
-// bewust niet meer, omdat die anders verouderde data laten staan.
-$has_next_home_match = false;
-if ( function_exists( 'eboh_get_next_home_match' ) ) {
-	$next_home_match = eboh_get_next_home_match();
-	if ( is_array( $next_home_match ) && ! empty( $next_home_match['datum'] ) ) {
-		$has_next_home_match = true;
-		// 'EBOH 1' op de homepage tonen we als 'EBOH' — wens vanuit de club.
-		$match_team1       = ! empty( $next_home_match['thuisteam'] )  ? preg_replace( '/^EBOH\s+1$/', 'EBOH', $next_home_match['thuisteam'] )  : $match_team1;
-		$match_team2       = ! empty( $next_home_match['uitteam'] )    ? $next_home_match['uitteam']    : $match_team2;
-		$match_date        = mb_strtoupper( $next_home_match['datum'], 'UTF-8' );
-		$match_time        = ! empty( $next_home_match['tijd'] )       ? $next_home_match['tijd']       : $match_time;
-		$match_competition = ! empty( $next_home_match['competitie'] ) ? $next_home_match['competitie'] : $match_competition;
-		$match_location    = ! empty( $next_home_match['locatie'] )    ? $next_home_match['locatie']    : $match_location;
-	}
-}
-
-// Community / maatschappelijk
-$community_title = get_theme_mod( 'eboh_community_title', 'EBOH Maatschappelijk' );
-$community_intro = get_theme_mod( 'eboh_community_intro', 'Voetbal is meer dan een wedstrijd. Samen met partners, scholen en buurtbewoners zet EBOH zich in voor een sterke en gezonde gemeenschap.' );
+// Customizer-mods voor secties die op de pagina blijven.
+$community_title     = get_theme_mod( 'eboh_community_title', 'EBOH Maatschappelijk' );
+$community_intro     = get_theme_mod( 'eboh_community_intro', 'Voetbal is meer dan een wedstrijd. Samen met partners, scholen en buurtbewoners zet EBOH zich in voor een sterke en gezonde gemeenschap.' );
 $community_link_text = get_theme_mod( 'eboh_community_link_text', 'Lees meer over onze initiatieven →' );
-$community_link = get_theme_mod( 'eboh_community_link', home_url( '/maatschappelijk' ) );
+$community_link      = get_theme_mod( 'eboh_community_link', home_url( '/maatschappelijk' ) );
 
-// About section
-$about_title = get_theme_mod( 'eboh_about_title', 'WIJ ZIJN' );
-$about_title_main = get_theme_mod( 'eboh_about_title_main', 'EBOH' );
-$about_text = get_theme_mod( 'eboh_about_text', 'Sinds onze oprichting staat EBOH bekend als een voetbalclub met ambitie, hartstocht en integriteit. We geloven in de kracht van voetbal om mensen samen te brengen en hen te helpen groeien—op en buiten het veld.' );
-$about_link_text = get_theme_mod( 'eboh_about_link_text', 'Lees verder →' );
-$about_link = get_theme_mod( 'eboh_about_link', home_url( '/over' ) );
-$about_image = get_theme_mod( 'eboh_about_image', get_template_directory_uri() . '/assets/images/section-training.jpg' );
-
-// CTA section
-$cta_title = get_theme_mod( 'eboh_cta_title', 'Ook lid worden?' );
-$cta_text = get_theme_mod( 'eboh_cta_text', 'Sluit je aan bij onze groeiende voetbalclub en maak deel uit van onze familie. Iedereen is welkom!' );
+$cta_title       = get_theme_mod( 'eboh_cta_title', 'Ook lid worden?' );
+$cta_text        = get_theme_mod( 'eboh_cta_text', 'Sluit je aan bij onze groeiende voetbalclub en maak deel uit van onze familie. Iedereen is welkom!' );
 $cta_button_text = get_theme_mod( 'eboh_cta_button_text', 'Lid worden' );
 $cta_button_link = get_theme_mod( 'eboh_cta_button_link', home_url( '/lid-worden' ) );
-$cta_subtext = get_theme_mod( 'eboh_cta_subtext', 'Contributie vanaf € 69 per jaar' );
+$cta_subtext     = get_theme_mod( 'eboh_cta_subtext', 'Contributie vanaf € 69 per jaar' );
 
-// Sponsors section
 $sponsors_title_part1 = get_theme_mod( 'eboh_sponsors_title_part1', 'Onze' );
 $sponsors_title_part2 = get_theme_mod( 'eboh_sponsors_title_part2', 'Partners' );
 
-// Parallax section
-$parallax_image = get_theme_mod( 'eboh_parallax_image', get_template_directory_uri() . '/assets/images/hero-supporters.jpg' );
-
-// Seizoenstatistieken voor EBOH 1, dynamisch uit Sportlink.
-// Dutch football season: aug-dec valt seizoen jaar/(jaar+1); jan-jul valt (jaar-1)/jaar.
-$current_year   = intval( date( 'Y' ) );
-$current_month  = intval( date( 'n' ) );
-$season_label   = ( $current_month >= 8 )
-    ? $current_year . '/' . ( $current_year + 1 )
-    : ( $current_year - 1 ) . '/' . $current_year;
-
-// Bij API-fouten of geen data tonen we '—' i.p.v. (verouderde) hardcoded cijfers,
-// zodat bezoekers nooit fake stats te zien krijgen.
-$stats_placeholder   = '—';
-$stats_wedstrijden   = $stats_placeholder;
-$stats_goals         = $stats_placeholder;
-$stats_overwinningen = $stats_placeholder;
-$stats_positie       = $stats_placeholder;
-if ( function_exists( 'eboh_get_team_stats' ) ) {
-    $team_stats = eboh_get_team_stats( 'EBOH 1' );
-    if ( is_array( $team_stats ) ) {
-        $stats_wedstrijden   = $team_stats['wedstrijden'];
-        $stats_goals         = $team_stats['goals_voor'];
-        $stats_overwinningen = $team_stats['gewonnen'];
-        $stats_positie       = $team_stats['positie'] . 'e';
-    }
-}
+// Sportlink-data voor de driedeling onder nieuws.
+$next_match  = function_exists( 'eboh_get_next_match' )         ? eboh_get_next_match( 'EBOH 1' )         : null;
+$last_result = function_exists( 'eboh_get_last_result' )        ? eboh_get_last_result( 'EBOH 1' )        : null;
+$stand_rows  = function_exists( 'eboh_get_stand_around_team' )  ? eboh_get_stand_around_team( 'EBOH 1', 5 ) : array();
+$competition_logo = get_theme_mod( 'eboh_competition_logo' );
+$competition_logo_url = $competition_logo ? wp_get_attachment_image_url( $competition_logo, 'medium' ) : '';
 ?>
 
-<!-- Match-bar + hero verwijderd op verzoek; pagina start direct met de nieuwsgrid. -->
-
 <!-- ============================================
-     NEXT MATCH WIDGET (prominent, Brighton-style)
-     ============================================ -->
-<section class="next-match" id="volgende-thuiswedstrijd">
-    <div class="next-match__container">
-        <div class="next-match__label">
-            <span class="next-match__dot"></span>
-            <?php esc_html_e( 'Volgende thuiswedstrijd', 'eboh' ); ?>
-        </div>
-        <?php if ( $has_next_home_match ) : ?>
-        <div class="next-match__card">
-            <div class="next-match__team next-match__team--home">
-                <div class="next-match__crest" aria-hidden="true">
-                    <?php if ( $match_team1_crest ) : ?>
-                        <img src="<?php echo esc_url( $match_team1_crest ); ?>" alt="<?php echo esc_attr( $match_team1 ); ?>">
-                    <?php else : ?>
-                        <span><?php echo esc_html( mb_substr( $match_team1, 0, 1 ) ); ?></span>
-                    <?php endif; ?>
-                </div>
-                <p class="next-match__team-name"><?php echo esc_html( $match_team1 ); ?></p>
-                <p class="next-match__team-role"><?php esc_html_e( 'Thuis', 'eboh' ); ?></p>
-            </div>
-            <div class="next-match__meta">
-                <p class="next-match__date"><?php echo esc_html( $match_date ); ?></p>
-                <p class="next-match__time"><?php echo esc_html( $match_time ); ?></p>
-                <p class="next-match__competition"><?php echo esc_html( $match_competition ); ?></p>
-                <p class="next-match__location"><?php echo esc_html( $match_location ); ?></p>
-            </div>
-            <div class="next-match__team next-match__team--away">
-                <div class="next-match__crest" aria-hidden="true">
-                    <?php if ( $match_team2_crest ) : ?>
-                        <img src="<?php echo esc_url( $match_team2_crest ); ?>" alt="<?php echo esc_attr( $match_team2 ); ?>">
-                    <?php else : ?>
-                        <span><?php echo esc_html( mb_substr( $match_team2, 0, 1 ) ); ?></span>
-                    <?php endif; ?>
-                </div>
-                <p class="next-match__team-name"><?php echo esc_html( $match_team2 ); ?></p>
-                <p class="next-match__team-role"><?php esc_html_e( 'Uit', 'eboh' ); ?></p>
-            </div>
-        </div>
-        <?php else : ?>
-        <div class="next-match__card next-match__card--empty" style="justify-content:center;text-align:center;padding:48px 24px;">
-            <p class="next-match__empty" style="margin:0;font-family:'Oswald',sans-serif;font-size:20px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-grey,#465058);">
-                <?php esc_html_e( 'Geen aankomende thuiswedstrijd gepland', 'eboh' ); ?>
-            </p>
-        </div>
-        <?php endif; ?>
-        <div class="next-match__actions">
-            <a class="btn filled" href="<?php echo esc_url( home_url( '/programma' ) ); ?>"><?php esc_html_e( 'Programma', 'eboh' ); ?></a>
-            <a class="btn" href="<?php echo esc_url( home_url( '/programma' ) ); ?>"><?php esc_html_e( 'Uitslagen & stand', 'eboh' ); ?></a>
-        </div>
-    </div>
-</section>
-
-<!-- ============================================
-     NEWS SECTION (overlapping hero)
+     1. UITGELICHT NIEUWS — 6 posts, 3-koloms
      ============================================ -->
 <section class="news-section">
     <div class="news-section__container">
-        <h2 class="news-section__title"><?php esc_html_e( 'Laatste nieuws', 'eboh' ); ?></h2>
+        <h2 class="news-section__title"><?php esc_html_e( 'Laatste nieuws', 'eboh-v2' ); ?></h2>
         <div class="news-grid">
             <?php
             $news_query = new WP_Query( array(
-                'posts_per_page' => 6,
-                'post_type'      => 'post',
-                'orderby'        => 'date',
-                'order'          => 'DESC',
+                'posts_per_page'      => 6,
+                'post_type'           => 'post',
+                'orderby'             => 'date',
+                'order'               => 'DESC',
+                'ignore_sticky_posts' => true,
             ) );
-
             if ( $news_query->have_posts() ) {
                 while ( $news_query->have_posts() ) {
                     $news_query->the_post();
@@ -180,16 +63,162 @@ if ( function_exists( 'eboh_get_team_stats' ) ) {
             }
             ?>
         </div>
+        <div class="news-section__more">
+            <a class="btn" href="<?php echo esc_url( home_url( '/nieuws' ) ); ?>"><?php esc_html_e( 'Alle artikelen', 'eboh-v2' ); ?></a>
+        </div>
     </div>
 </section>
 
 <!-- ============================================
-     MAATSCHAPPELIJK / COMMUNITY SECTION
+     2. SPORTLINK WIDGET — volgende wedstrijd | uitslag | stand
+     ============================================ -->
+<section class="match-widget" id="eboh-1">
+    <div class="match-widget__container">
+        <div class="match-widget__header">
+            <h2 class="match-widget__title"><?php esc_html_e( 'EBOH 1', 'eboh-v2' ); ?></h2>
+            <a class="match-widget__more" href="<?php echo esc_url( home_url( '/programma' ) ); ?>"><?php esc_html_e( 'Bekijk meer', 'eboh-v2' ); ?> →</a>
+        </div>
+
+        <div class="match-widget__grid">
+
+            <!-- 2a. Volgende wedstrijd -->
+            <article class="mw-card mw-card--next">
+                <div class="mw-card__competition">
+                    <?php if ( $competition_logo_url ) : ?>
+                        <img src="<?php echo esc_url( $competition_logo_url ); ?>" alt="" class="mw-card__competition-logo">
+                    <?php endif; ?>
+                    <span class="mw-card__competition-name"><?php echo esc_html( $next_match['competitie'] ?? __( 'Competitie', 'eboh-v2' ) ); ?></span>
+                </div>
+                <?php if ( $next_match ) : ?>
+                    <div class="mw-card__match">
+                        <div class="mw-card__team mw-card__team--home">
+                            <div class="mw-card__crest" aria-hidden="true"><?php echo esc_html( mb_substr( $next_match['thuisteam'], 0, 1 ) ); ?></div>
+                            <div class="mw-card__team-name"><?php echo esc_html( $next_match['thuisteam'] ); ?></div>
+                        </div>
+                        <div class="mw-card__center">
+                            <div class="mw-card__date"><?php echo esc_html( $next_match['datum_kort'] ); ?></div>
+                            <div class="mw-card__time"><?php echo esc_html( $next_match['tijd'] ); ?></div>
+                            <?php if ( ! empty( $next_match['locatie'] ) ) : ?>
+                                <div class="mw-card__venue"><?php echo esc_html( $next_match['locatie'] ); ?></div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="mw-card__team mw-card__team--away">
+                            <div class="mw-card__crest" aria-hidden="true"><?php echo esc_html( mb_substr( $next_match['uitteam'], 0, 1 ) ); ?></div>
+                            <div class="mw-card__team-name"><?php echo esc_html( $next_match['uitteam'] ); ?></div>
+                        </div>
+                    </div>
+                    <div class="mw-card__footer">
+                        <a class="mw-card__cta" href="<?php echo esc_url( home_url( '/programma' ) ); ?>"><?php esc_html_e( 'Programma', 'eboh-v2' ); ?></a>
+                    </div>
+                <?php else : ?>
+                    <div class="mw-card__empty"><?php esc_html_e( 'Geen wedstrijd gepland', 'eboh-v2' ); ?></div>
+                <?php endif; ?>
+            </article>
+
+            <!-- 2b. Laatste uitslag -->
+            <article class="mw-card mw-card--result">
+                <div class="mw-card__competition">
+                    <?php if ( $competition_logo_url ) : ?>
+                        <img src="<?php echo esc_url( $competition_logo_url ); ?>" alt="" class="mw-card__competition-logo">
+                    <?php endif; ?>
+                    <span class="mw-card__competition-name"><?php echo esc_html( $last_result['competitie'] ?? __( 'Uitslag', 'eboh-v2' ) ); ?></span>
+                </div>
+                <?php if ( $last_result ) : ?>
+                    <div class="mw-card__match">
+                        <div class="mw-card__team mw-card__team--home">
+                            <div class="mw-card__crest" aria-hidden="true"><?php echo esc_html( mb_substr( $last_result['thuisteam'], 0, 1 ) ); ?></div>
+                            <div class="mw-card__team-name"><?php echo esc_html( $last_result['thuisteam'] ); ?></div>
+                        </div>
+                        <div class="mw-card__center mw-card__center--score">
+                            <div class="mw-card__score">
+                                <span><?php echo esc_html( $last_result['score_thuis'] ?? '-' ); ?></span>
+                                <span class="mw-card__score-dash">–</span>
+                                <span><?php echo esc_html( $last_result['score_uit'] ?? '-' ); ?></span>
+                            </div>
+                            <div class="mw-card__final-label"><?php esc_html_e( 'EINDSTAND', 'eboh-v2' ); ?></div>
+                            <div class="mw-card__date mw-card__date--past"><?php echo esc_html( $last_result['datum_kort'] ); ?></div>
+                        </div>
+                        <div class="mw-card__team mw-card__team--away">
+                            <div class="mw-card__crest" aria-hidden="true"><?php echo esc_html( mb_substr( $last_result['uitteam'], 0, 1 ) ); ?></div>
+                            <div class="mw-card__team-name"><?php echo esc_html( $last_result['uitteam'] ); ?></div>
+                        </div>
+                    </div>
+                    <div class="mw-card__footer">
+                        <a class="mw-card__cta" href="<?php echo esc_url( home_url( '/programma' ) ); ?>"><?php esc_html_e( 'Uitslagen', 'eboh-v2' ); ?></a>
+                    </div>
+                <?php else : ?>
+                    <div class="mw-card__empty"><?php esc_html_e( 'Nog geen uitslagen', 'eboh-v2' ); ?></div>
+                <?php endif; ?>
+            </article>
+
+            <!-- 2c. Stand (5 rijen, EBOH gecentreerd) -->
+            <article class="mw-card mw-card--stand">
+                <div class="mw-card__competition">
+                    <?php if ( $competition_logo_url ) : ?>
+                        <img src="<?php echo esc_url( $competition_logo_url ); ?>" alt="" class="mw-card__competition-logo">
+                    <?php endif; ?>
+                    <span class="mw-card__competition-name"><?php esc_html_e( 'Stand', 'eboh-v2' ); ?></span>
+                </div>
+                <?php if ( ! empty( $stand_rows ) ) : ?>
+                    <table class="mw-stand">
+                        <thead>
+                            <tr>
+                                <th class="mw-stand__pos">#</th>
+                                <th class="mw-stand__team"><?php esc_html_e( 'Team', 'eboh-v2' ); ?></th>
+                                <th>GS</th>
+                                <th>W</th>
+                                <th>G</th>
+                                <th>V</th>
+                                <th>+/-</th>
+                                <th>Pnt</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ( $stand_rows as $row ) :
+                                $naam      = isset( $row['teamnaam'] ) ? $row['teamnaam'] : ( isset( $row['naam'] ) ? $row['naam'] : '' );
+                                $gespeeld  = isset( $row['gespeeldewedstrijden'] ) ? $row['gespeeldewedstrijden'] : ( isset( $row['aantalgespeeld'] ) ? $row['aantalgespeeld'] : '0' );
+                                $gewonnen  = isset( $row['gewonnen'] ) ? $row['gewonnen'] : ( isset( $row['aantalgewonnen'] ) ? $row['aantalgewonnen'] : 0 );
+                                $gelijk    = isset( $row['gelijk'] ) ? $row['gelijk'] : ( isset( $row['aantalgelijk'] ) ? $row['aantalgelijk'] : 0 );
+                                $verloren  = isset( $row['verloren'] ) ? $row['verloren'] : ( isset( $row['aantalverloren'] ) ? $row['aantalverloren'] : 0 );
+                                $dv        = isset( $row['doelpuntenvoor'] ) ? (int) $row['doelpuntenvoor'] : 0;
+                                $dt        = isset( $row['doelpuntentegen'] ) ? (int) $row['doelpuntentegen'] : 0;
+                                $gd        = $dv - $dt;
+                                $punten    = isset( $row['totaalpunten'] ) ? $row['totaalpunten'] : ( isset( $row['punten'] ) ? $row['punten'] : '0' );
+                                $positie   = isset( $row['positie'] ) ? $row['positie'] : '';
+                                $is_target = ! empty( $row['_is_target'] );
+                                ?>
+                                <tr<?php echo $is_target ? ' class="is-target"' : ''; ?>>
+                                    <td class="mw-stand__pos"><?php echo esc_html( $positie ); ?></td>
+                                    <td class="mw-stand__team"><?php echo esc_html( $naam ); ?></td>
+                                    <td><?php echo esc_html( $gespeeld ); ?></td>
+                                    <td><?php echo esc_html( $gewonnen ); ?></td>
+                                    <td><?php echo esc_html( $gelijk ); ?></td>
+                                    <td><?php echo esc_html( $verloren ); ?></td>
+                                    <td><?php echo esc_html( ( $gd >= 0 ? '+' : '' ) . $gd ); ?></td>
+                                    <td class="mw-stand__pts"><?php echo esc_html( $punten ); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <div class="mw-card__footer">
+                        <a class="mw-card__cta" href="<?php echo esc_url( home_url( '/programma' ) ); ?>"><?php esc_html_e( 'Volledige stand', 'eboh-v2' ); ?></a>
+                    </div>
+                <?php else : ?>
+                    <div class="mw-card__empty"><?php esc_html_e( 'Stand nog niet beschikbaar', 'eboh-v2' ); ?></div>
+                <?php endif; ?>
+            </article>
+
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     3. MAATSCHAPPELIJK (blijft tot alternatief bekend is)
      ============================================ -->
 <section class="community-section">
     <div class="community-section__container">
         <div class="community-section__intro">
-            <span class="community-section__eyebrow"><?php esc_html_e( 'Maatschappelijk', 'eboh' ); ?></span>
+            <span class="community-section__eyebrow"><?php esc_html_e( 'Maatschappelijk', 'eboh-v2' ); ?></span>
             <h2 class="community-section__title"><?php echo esc_html( $community_title ); ?></h2>
             <p class="community-section__text"><?php echo esc_html( $community_intro ); ?></p>
             <a class="community-section__link" href="<?php echo esc_url( $community_link ); ?>">
@@ -198,49 +227,37 @@ if ( function_exists( 'eboh_get_team_stats' ) ) {
         </div>
         <div class="community-section__pillars">
             <div class="community-pillar">
-                <h3 class="community-pillar__title"><?php esc_html_e( 'Jeugd & School', 'eboh' ); ?></h3>
-                <p class="community-pillar__text"><?php esc_html_e( 'Schoolvoetbal, naschoolse trainingen en clinics voor kinderen uit de buurt.', 'eboh' ); ?></p>
+                <h3 class="community-pillar__title"><?php esc_html_e( 'Jeugd & School', 'eboh-v2' ); ?></h3>
+                <p class="community-pillar__text"><?php esc_html_e( 'Schoolvoetbal, naschoolse trainingen en clinics voor kinderen uit de buurt.', 'eboh-v2' ); ?></p>
             </div>
             <div class="community-pillar">
-                <h3 class="community-pillar__title"><?php esc_html_e( 'Samen Sterk', 'eboh' ); ?></h3>
-                <p class="community-pillar__text"><?php esc_html_e( 'Activiteiten met lokale partners die iedereen in beweging brengen.', 'eboh' ); ?></p>
+                <h3 class="community-pillar__title"><?php esc_html_e( 'Samen Sterk', 'eboh-v2' ); ?></h3>
+                <p class="community-pillar__text"><?php esc_html_e( 'Activiteiten met lokale partners die iedereen in beweging brengen.', 'eboh-v2' ); ?></p>
             </div>
             <div class="community-pillar">
-                <h3 class="community-pillar__title"><?php esc_html_e( 'Gezond & Welzijn', 'eboh' ); ?></h3>
-                <p class="community-pillar__text"><?php esc_html_e( 'Initiatieven rond gezonde kantine, fair play en mentale weerbaarheid.', 'eboh' ); ?></p>
+                <h3 class="community-pillar__title"><?php esc_html_e( 'Gezond & Welzijn', 'eboh-v2' ); ?></h3>
+                <p class="community-pillar__text"><?php esc_html_e( 'Initiatieven rond gezonde kantine, fair play en mentale weerbaarheid.', 'eboh-v2' ); ?></p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- 'Wij zijn EBOH'-sectie verwijderd op verzoek. -->
-
-
-<!-- Seizoen-stats + Hoogtepunten-sectie verwijderd op verzoek. -->
-
-
 <!-- ============================================
-     CTA - "OOK LID WORDEN?" section
+     4. CTA "Lid worden" — geen diagonal, rechte rand
      ============================================ -->
 <section class="cta-section">
     <div class="cta-section__content">
         <h2 class="cta-section__title"><?php echo esc_html( $cta_title ); ?></h2>
         <p class="cta-section__subtitle"><?php echo esc_html( $cta_text ); ?></p>
         <div class="cta-section__button">
-            <button class="btn filled" onclick="window.location.href='<?php echo esc_url( $cta_button_link ); ?>';">
-                <?php echo esc_html( $cta_button_text ); ?>
-            </button>
+            <a class="btn filled" href="<?php echo esc_url( $cta_button_link ); ?>"><?php echo esc_html( $cta_button_text ); ?></a>
         </div>
         <p class="cta-section__subtext"><?php echo esc_html( $cta_subtext ); ?></p>
     </div>
 </section>
 
-<!-- Teams-sectie verwijderd op verzoek; top-nav voldoende voor team-navigatie. -->
-
-<!-- 'Het verhaal van EBOH' (volunteers) verwijderd op verzoek. -->
-
 <!-- ============================================
-     SPONSORS SECTION (dark & atmospheric)
+     5. SPONSORS
      ============================================ -->
 <section class="sponsors-section">
     <div class="sponsors-section__container">
@@ -250,21 +267,20 @@ if ( function_exists( 'eboh_get_team_stats' ) ) {
         </h2>
 
         <div class="sponsors-tier">
-            <p class="sponsors-tier__label"><?php esc_html_e( 'Hoofdsponsor', 'eboh' ); ?></p>
+            <p class="sponsors-tier__label"><?php esc_html_e( 'Hoofdsponsor', 'eboh-v2' ); ?></p>
             <div class="sponsors-row">
                 <div class="sponsor-logo">
-                    <div class="sponsor-placeholder"><?php esc_html_e( 'Sponsor 1', 'eboh' ); ?></div>
+                    <div class="sponsor-placeholder"><?php esc_html_e( 'Sponsor 1', 'eboh-v2' ); ?></div>
                 </div>
             </div>
         </div>
 
         <div class="sponsors-tier">
-            <p class="sponsors-tier__label"><?php esc_html_e( 'Partners', 'eboh' ); ?></p>
+            <p class="sponsors-tier__label"><?php esc_html_e( 'Partners', 'eboh-v2' ); ?></p>
             <div class="sponsors-row">
                 <div class="sponsors-marquee">
                     <?php
                     $sponsors = array( 'Partner A', 'Partner B', 'Partner C', 'Partner D', 'Partner E', 'Partner F' );
-                    // Show twice for seamless loop
                     foreach ( array_merge( $sponsors, $sponsors ) as $sponsor ) {
                         echo '<div class="sponsor-logo">';
                         echo '<div class="sponsor-placeholder">' . esc_html( $sponsor ) . '</div>';
@@ -274,19 +290,7 @@ if ( function_exists( 'eboh_get_team_stats' ) ) {
                 </div>
             </div>
         </div>
-
-        <div class="sponsors-section__cta">
-            <p class="sponsors-section__cta-text"><?php esc_html_e( 'Interesse in partnerschap? Laten we samen groeien!', 'eboh' ); ?></p>
-            <button class="btn" onclick="window.location.href='<?php echo esc_url( home_url( '/sponsoring' ) ); ?>';">
-                <?php esc_html_e( 'Word partner →', 'eboh' ); ?>
-            </button>
-        </div>
     </div>
 </section>
-
-<!-- ============================================
-     PARALLAX PHOTO BREAK
-     ============================================ -->
-<section class="parallax-break" style="background-image: url('<?php echo esc_url( $parallax_image ); ?>');"></section>
 
 <?php get_footer(); ?>

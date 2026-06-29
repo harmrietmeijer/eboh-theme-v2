@@ -1,15 +1,35 @@
 <?php
 /**
- * Footer Template
+ * Footer Template — EBOH v2
  *
- * EBOH v2 — compacte footer zonder 'Snelle links' (top-nav volstaat) en
- * zonder oude logo-stub. Twee kolommen: clubgegevens en socials. Daaronder
- * een smal bottom-bar met copyright en juridische links.
+ * Volgorde: nieuwsbrief-signup → contact + socials → copyright + juridisch.
+ * Compactere padding dan v1 op verzoek van de klant (29-06-2026).
  *
  * @package EBOH
  * @since 3.0.0
  */
 ?>
+
+<!-- ============================================
+     NIEUWSBRIEF-SIGNUP (MailerLite via eboh-mailerlite-plugin)
+     ============================================ -->
+<section class="newsletter-strip">
+    <div class="newsletter-strip__container">
+        <div class="newsletter-strip__copy">
+            <h2 class="newsletter-strip__title"><?php esc_html_e( 'Blijf op de hoogte', 'eboh-v2' ); ?></h2>
+            <p class="newsletter-strip__text"><?php esc_html_e( 'Schrijf je in voor de EBOH-nieuwsbrief en ontvang clubnieuws, wedstrijdupdates en aankondigingen.', 'eboh-v2' ); ?></p>
+        </div>
+        <div class="newsletter-strip__form">
+            <?php
+            // Plugin: eboh-mailerlite (Settings → EBOH MailerLite). Zonder plugin
+            // tonen we niets — voorkomt dat een dood formulier blijft staan.
+            if ( shortcode_exists( 'eboh_mailerlite_form' ) ) {
+                echo do_shortcode( '[eboh_mailerlite_form]' );
+            }
+            ?>
+        </div>
+    </div>
+</section>
 
 <!-- ============================================
      FOOTER
@@ -47,8 +67,6 @@
                 <h3 class="footer__title"><?php esc_html_e( 'Volg ons', 'eboh-v2' ); ?></h3>
                 <div class="footer__socials">
                     <?php
-                    // Defaults wijzen naar EBOH-accounts zoals die op de oude site stonden.
-                    // Customizer-waarden overschrijven de default zodra ingevuld in WP-admin.
                     $socials = array(
                         'facebook'  => array(
                             'url'   => get_theme_mod( 'eboh_social_facebook', 'https://www.facebook.com/vveboh/' ),
@@ -66,14 +84,12 @@
                             'icon'  => 'x',
                         ),
                     );
-                    foreach ( $socials as $key => $s ) {
-                        if ( empty( $s['url'] ) ) { continue; } // sla iconen zonder URL over
-                        echo '<a href="' . esc_url( $s['url'] ) . '" class="footer__social-link footer__social-link--' . esc_attr( $s['icon'] ) . '" target="_blank" rel="noopener noreferrer" title="' . esc_attr( $s['label'] ) . '" aria-label="' . esc_attr( $s['label'] ) . '">';
-                        // Inline SVG-iconen — geen externe icon-font nodig.
+                    foreach ( $socials as $s ) {
+                        if ( empty( $s['url'] ) ) { continue; }
+                        echo '<a href="' . esc_url( $s['url'] ) . '" class="footer__social-link footer__social-link--' . esc_attr( $s['icon'] ) . '" target="_blank" rel="noopener noreferrer" aria-label="' . esc_attr( $s['label'] ) . '">';
                         if ( function_exists( 'eboh_social_svg' ) ) {
                             echo eboh_social_svg( $s['icon'] );
                         } else {
-                            // Fallback letter wanneer de SVG-helper niet geladen is.
                             echo esc_html( strtoupper( substr( $s['icon'], 0, 1 ) ) );
                         }
                         echo '</a>';

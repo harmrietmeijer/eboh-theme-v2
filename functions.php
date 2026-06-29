@@ -179,6 +179,68 @@ function eboh_register_widget_areas() {
 add_action( 'customize_register', 'eboh_customize_register' );
 
 function eboh_customize_register( $wp_customize ) {
+	// Organisatie-panel: per orgaan een intro en een leden-textarea.
+	$wp_customize->add_panel( 'eboh_organisatie', array(
+		'title'    => esc_html__( 'EBOH Organisatie', 'eboh-v2' ),
+		'priority' => 30,
+		'description' => esc_html__( 'Per orgaan: korte intro en leden-lijst. Formaat per regel: Naam|Functie|attachment_id (attachment_id is optioneel).', 'eboh-v2' ),
+	) );
+	$organen = array(
+		'bestuur'                  => __( 'Bestuur', 'eboh-v2' ),
+		'tc-senioren'              => __( 'Technische Commissie Senioren', 'eboh-v2' ),
+		'tc-jeugd'                 => __( 'Technische Commissie Jeugd', 'eboh-v2' ),
+		'wedstrijdsecretariaat'    => __( 'Wedstrijdsecretariaat', 'eboh-v2' ),
+		'media-communicatie'       => __( 'Media en Communicatie', 'eboh-v2' ),
+		'sponsorcommissie'         => __( 'Sponsorcommissie', 'eboh-v2' ),
+		'club-van-100'             => __( 'Club van 100', 'eboh-v2' ),
+		'ledenadministratie'       => __( 'Ledenadministratie', 'eboh-v2' ),
+		'contributieadministratie' => __( 'Contributieadministratie', 'eboh-v2' ),
+		'kascommissie'             => __( 'Kascommissie', 'eboh-v2' ),
+		'activiteitencommissie'    => __( 'Activiteitencommissie', 'eboh-v2' ),
+		'vertrouwenspersonen'      => __( 'Vertrouwenspersonen', 'eboh-v2' ),
+	);
+	foreach ( $organen as $slug => $label ) {
+		$wp_customize->add_section( 'eboh_org_' . $slug, array(
+			'title' => $label,
+			'panel' => 'eboh_organisatie',
+		) );
+		$wp_customize->add_setting( 'eboh_org_' . $slug . '_intro', array(
+			'default'           => '',
+			'sanitize_callback' => 'wp_kses_post',
+		) );
+		$wp_customize->add_control( 'eboh_org_' . $slug . '_intro', array(
+			'section' => 'eboh_org_' . $slug,
+			'type'    => 'textarea',
+			'label'   => __( 'Intro-tekst', 'eboh-v2' ),
+		) );
+		$wp_customize->add_setting( 'eboh_org_' . $slug . '_members', array(
+			'default'           => '',
+			'sanitize_callback' => 'sanitize_textarea_field',
+		) );
+		$wp_customize->add_control( 'eboh_org_' . $slug . '_members', array(
+			'section'     => 'eboh_org_' . $slug,
+			'type'        => 'textarea',
+			'label'       => __( 'Leden', 'eboh-v2' ),
+			'description' => __( 'Eén regel per persoon: Naam|Functie|attachment_id', 'eboh-v2' ),
+		) );
+	}
+
+	// Competition-logo voor de Sportlink-widget op homepage (klant-wens).
+	$wp_customize->add_section( 'eboh_competition', array(
+		'title'    => esc_html__( 'EBOH Competitie', 'eboh-v2' ),
+		'priority' => 35,
+	) );
+	$wp_customize->add_setting( 'eboh_competition_logo', array(
+		'default'           => '',
+		'sanitize_callback' => 'absint',
+	) );
+	$wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'eboh_competition_logo', array(
+		'section'   => 'eboh_competition',
+		'label'     => __( 'Competitielogo', 'eboh-v2' ),
+		'mime_type' => 'image',
+		'description' => __( 'Verschijnt in de Sportlink-widget op de homepage en team-detailpagina.', 'eboh-v2' ),
+	) ) );
+
 	// Main homepage panel
 	$wp_customize->add_panel(
 		'eboh_homepage',
@@ -980,7 +1042,7 @@ function eboh_handle_membership_form() {
  */
 add_action( 'admin_init', 'eboh_ensure_default_pages' );
 function eboh_ensure_default_pages() {
-	$version = 'v2';
+	$version = 'v3';
 	if ( get_option( 'eboh_default_pages_version' ) === $version ) {
 		return;
 	}
@@ -1011,18 +1073,26 @@ function eboh_ensure_default_pages() {
 			'title'   => 'Cookiebeleid',
 			'content' => eboh_default_page_content_cookiebeleid(),
 		),
+		'organisatie'         => array(
+			'title'    => 'Organisatie',
+			'content'  => '<!-- wp:paragraph --><p>De organisatie achter vv EBOH bestaat uit een bestuur en diverse commissies. Kies hieronder een orgaan voor meer informatie.</p><!-- /wp:paragraph -->',
+			'template' => 'template-organisatie.php',
+		),
 	);
 
 	foreach ( $pages as $slug => $data ) {
 		$existing = get_page_by_path( $slug );
 		if ( ! $existing ) {
-			wp_insert_post( array(
+			$new_id = wp_insert_post( array(
 				'post_type'    => 'page',
 				'post_status'  => 'publish',
 				'post_title'   => $data['title'],
 				'post_name'    => $slug,
 				'post_content' => $data['content'],
 			) );
+			if ( $new_id && ! is_wp_error( $new_id ) && ! empty( $data['template'] ) ) {
+				update_post_meta( $new_id, '_wp_page_template', $data['template'] );
+			}
 			continue;
 		}
 		// Bestaat al — alleen overschrijven als de pagina nog letterlijk de
@@ -1034,6 +1104,14 @@ function eboh_ensure_default_pages() {
 				'ID'           => $existing->ID,
 				'post_content' => $data['content'],
 			) );
+		}
+		// Zorg dat ook bestaande pagina's de juiste template krijgen, mits er
+		// nog géén template is gekozen (anders houden we de handmatige keuze).
+		if ( ! empty( $data['template'] ) ) {
+			$current_tpl = get_post_meta( $existing->ID, '_wp_page_template', true );
+			if ( empty( $current_tpl ) || $current_tpl === 'default' ) {
+				update_post_meta( $existing->ID, '_wp_page_template', $data['template'] );
+			}
 		}
 	}
 
@@ -1180,6 +1258,25 @@ function eboh_ensure_highlight_category() {
 		'slug'        => 'hoogtepunt',
 		'description' => 'Posts in deze categorie verschijnen in de Hoogtepunten-sectie op de homepage.',
 	) );
+}
+
+/**
+ * Zorg dat de vier filter-categorieën op de nieuws-pagina bestaan.
+ * Slugs MOETEN gelijk zijn aan die in index.php $filter_tabs.
+ */
+add_action( 'init', 'eboh_ensure_news_categories' );
+function eboh_ensure_news_categories() {
+	$cats = array(
+		'de-club'         => __( 'De club', 'eboh-v2' ),
+		'eboh-1'          => __( 'EBOH 1', 'eboh-v2' ),
+		'jeugd'           => __( 'Jeugd', 'eboh-v2' ),
+		'maatschappelijk' => __( 'Maatschappelijk', 'eboh-v2' ),
+	);
+	foreach ( $cats as $slug => $label ) {
+		if ( ! term_exists( $slug, 'category' ) ) {
+			wp_insert_term( $label, 'category', array( 'slug' => $slug ) );
+		}
+	}
 }
 
 /**
