@@ -3,7 +3,7 @@ Theme Name: EBOH v2
 Theme URI: https://eboh.nl
 Author: EBOH Development Team
 Author URI: https://eboh.nl
-Description: Donker thema voor EBOH — zwarte achtergrond, witte tekst, rode accenten en Anton-display-font (gratis Dharma Gothic-alternatief).
+Description: Donker thema voor EBOH — zwarte achtergrond, witte tekst, rode accenten. Display: Oswald (Dharma Gothic-vervanger, meerdere weights). Body: Archivo.
 Version: 3.0.0
 Requires at least: 5.0
 Requires PHP: 7.4
@@ -13,7 +13,7 @@ Text Domain: eboh-v2
 Domain Path: /languages
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Archivo:wght@400;500;600;700;800&family=Barlow+Condensed:wght@500;600;700&display=swap');
 
 /* ============================================
    CSS CUSTOM PROPERTIES & RESET
@@ -43,11 +43,12 @@ Domain Path: /languages
     --transition: 0.3s ease;
     --accent-transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 
-    /* Display- en body-fonts (Anton komt als gratis alternatief het dichtst
-       bij Dharma Gothic Heavy; Barlow Condensed als semi-heavy variant). */
-    --font-display: 'Anton', 'Barlow Condensed', 'Impact', sans-serif;
-    --font-display-alt: 'Barlow Condensed', 'Anton', sans-serif;
-    --font-body: 'Inter', 'Work Sans', system-ui, -apple-system, sans-serif;
+    /* Display: Oswald (gratis Dharma Gothic-vervanger, weights 300-700 zodat
+       we lichter kunnen dan Anton's vaste 400). Body: Archivo (gratis variant
+       van de Adobe Archivo). */
+    --font-display: 'Oswald', 'Barlow Condensed', 'Impact', sans-serif;
+    --font-display-alt: 'Barlow Condensed', 'Oswald', sans-serif;
+    --font-body: 'Archivo', 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 * {
@@ -75,7 +76,7 @@ body {
    ============================================ */
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    font-weight: 400; /* Anton heeft maar 1 weight; karakter komt uit het font zelf */
+    font-weight: 500; /* Oswald medium — minder zwaar dan Anton */
     letter-spacing: 0.02em;
     color: var(--white);
 }
@@ -1600,22 +1601,7 @@ a:hover {
     overflow: hidden;
 }
 
-.footer::before {
-    content: 'EBOH';
-    position: absolute;
-    right: -100px;
-    top: 50%;
-    transform: translateY(-50%) rotate(-20deg);
-    font-family: var(--font-display);
-    font-size: clamp(15rem, 30vw, 40rem);
-    font-weight: 700;
-    color: var(--white);
-    opacity: 0.03;
-    z-index: 0;
-    line-height: 1;
-    pointer-events: none;
-    text-transform: uppercase;
-}
+/* .footer::before EBOH-watermark verwijderd op verzoek. */
 
 .footer__container {
     max-width: 1200px;
@@ -3251,3 +3237,115 @@ body.admin-bar .site-header { top: 32px; }
         display: flex !important;
     }
 }
+
+/* ================================================================
+   EBOH v2 — REVISIE PASS (klant-feedback)
+   ================================================================ */
+
+/* --- Logo top-left: witte stamp en padding weg, originele kleuren --- */
+.site-header__logo-img {
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+}
+
+/* --- Hard edges: geen rounded corners op kaarten en tags --- */
+.news-card,
+.news-card__tag,
+.news-card__media,
+.news-card__body,
+.team-card,
+.team-card__title-pill,
+.highlight-card,
+.btn,
+.btn.filled,
+.tabs__item,
+.next-match__card,
+.stat-block,
+.community-pillar,
+.volunteer-card,
+.info-card,
+.contact-card,
+.sponsor-card,
+.partner-card {
+    border-radius: 0 !important;
+}
+
+/* --- Nieuwe news-card layout: stacked, foto boven, tekst eronder --- */
+.news-card {
+    display: flex !important;
+    flex-direction: column;
+    background-color: var(--eboh-charcoal);
+    text-decoration: none;
+    color: var(--white);
+    overflow: hidden;
+    height: 100%; /* gelijke hoogte in grid */
+    transition: var(--transition);
+    /* override: niet langer background-image op kaart */
+    background-image: none !important;
+}
+.news-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+}
+.news-card__media {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--eboh-charcoal);
+}
+.news-card__body {
+    padding: 20px 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1; /* duwt content uit zodat alle kaarten zelfde hoogte krijgen */
+}
+.news-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.news-card__tag {
+    background-color: var(--eboh-red);
+    color: var(--white);
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    line-height: 1;
+}
+.news-card__date {
+    color: rgba(255, 255, 255, 0.6);
+    font-family: var(--font-body);
+    font-size: 13px;
+}
+.news-card__title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.15;
+    margin: 0;
+    color: var(--white);
+    text-transform: none;
+}
+.news-card__excerpt {
+    color: rgba(255, 255, 255, 0.8);
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.55;
+    margin: 0;
+}
+
+/* Grid: zorg dat alle nieuwskaarten dezelfde hoogte krijgen */
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 28px;
+    align-items: stretch;
+}
+.news-grid > * { display: flex; }

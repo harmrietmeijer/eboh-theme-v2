@@ -116,20 +116,7 @@ if ( function_exists( 'eboh_get_team_stats' ) ) {
     </div>
 </section>
 
-<!-- ============================================
-     HERO SECTION
-     ============================================ -->
-<section class="hero hero--flat" style="background-image: url('<?php echo esc_url( $hero_image ); ?>');">
-    <div class="hero__watermark">EBOH</div>
-    <div class="hero__content">
-        <p class="hero__subtitle"><?php echo esc_html( $hero_subtitle ); ?></p>
-        <h1 class="hero__title"><?php echo esc_html( $hero_title ); ?></h1>
-        <p class="hero__tagline"><?php echo esc_html( $hero_tagline ); ?></p>
-        <div class="hero__cta">
-            <a class="btn filled" href="<?php echo esc_url( $hero_cta_link ); ?>"><?php echo esc_html( $hero_cta_text ); ?></a>
-        </div>
-    </div>
-</section>
+<!-- Hero-sectie verwijderd op verzoek; pagina start met next-match + news. -->
 
 <!-- ============================================
      NEXT MATCH WIDGET (prominent, Brighton-style)
@@ -257,110 +244,11 @@ if ( function_exists( 'eboh_get_team_stats' ) ) {
     </div>
 </section>
 
-<!-- ============================================
-     WIJ ZIJN EBOH (asymmetric full-bleed)
-     ============================================ -->
-<section class="about-section" style="<?php echo ! empty( $about_image ) ? 'background-image: url(' . esc_url( $about_image ) . ');' : ''; ?>">
-    <div class="about-section__diagonal-top"></div>
-    <div class="about-section__left">
-        <h2 class="about-section__title">
-            <span class="about-section__title--red"><?php echo esc_html( $about_title ); ?></span>
-            <span class="about-section__title--white"><?php echo esc_html( $about_title_main ); ?></span>
-        </h2>
-        <p class="about-section__description">
-            <?php echo esc_html( $about_text ); ?>
-        </p>
-        <a href="<?php echo esc_url( $about_link ); ?>" class="about-section__link">
-            <?php echo esc_html( $about_link_text ); ?>
-        </a>
-    </div>
-    <div class="about-section__right"></div>
-    <div class="about-section__accent">E</div>
-</section>
+<!-- 'Wij zijn EBOH'-sectie verwijderd op verzoek. -->
 
-<!-- ============================================
-     SEASON HIGHLIGHTS SECTION
-     ============================================ -->
-<section class="season-section">
-    <div class="season-section__container">
-        <h2 class="season-section__title">
-            <span class="season-section__title-part1"><?php esc_html_e( 'Seizoen', 'eboh' ); ?></span>
-            <span class="season-section__title-part2"><?php echo esc_html( $season_label ); ?></span>
-        </h2>
-        <p class="season-section__subtitle"><?php esc_html_e( 'Een seizoen vol hoogtepunten', 'eboh' ); ?></p>
 
-        <div class="stats-row">
-            <div class="stat-block">
-                <div class="stat-number"><?php echo esc_html( $stats_wedstrijden ); ?></div>
-                <div class="stat-label"><?php esc_html_e( 'Wedstrijden', 'eboh' ); ?></div>
-            </div>
-            <div class="stat-block">
-                <div class="stat-number"><?php echo esc_html( $stats_goals ); ?></div>
-                <div class="stat-label"><?php esc_html_e( 'Goals', 'eboh' ); ?></div>
-            </div>
-            <div class="stat-block">
-                <div class="stat-number"><?php echo esc_html( $stats_overwinningen ); ?></div>
-                <div class="stat-label"><?php esc_html_e( 'Overwinningen', 'eboh' ); ?></div>
-            </div>
-            <div class="stat-block">
-                <div class="stat-number"><?php echo esc_html( $stats_positie ); ?></div>
-                <div class="stat-label"><?php esc_html_e( 'Klassement', 'eboh' ); ?></div>
-            </div>
-        </div>
+<!-- Seizoen-stats + Hoogtepunten-sectie verwijderd op verzoek. -->
 
-        <?php
-        // Toon eerst posts uit de 'Hoogtepunt'-categorie; vallen we anders terug op
-        // de 3 nieuwste posts zodat de sectie nooit leeg verschijnt zolang er nieuws is.
-        $highlights_query = new WP_Query( array(
-            'post_type'           => 'post',
-            'posts_per_page'      => 3,
-            'orderby'             => 'date',
-            'order'               => 'DESC',
-            'ignore_sticky_posts' => true,
-            'category_name'       => 'hoogtepunt',
-        ) );
-        if ( ! $highlights_query->have_posts() ) {
-            $highlights_query = new WP_Query( array(
-                'post_type'           => 'post',
-                'posts_per_page'      => 3,
-                'orderby'             => 'date',
-                'order'               => 'DESC',
-                'ignore_sticky_posts' => true,
-            ) );
-        }
-
-        $highlight_fallback_images = array(
-            get_template_directory_uri() . '/assets/images/highlight-programma.jpg',
-            get_template_directory_uri() . '/assets/images/section-training.jpg',
-            get_template_directory_uri() . '/assets/images/section-action.jpg',
-        );
-
-        if ( $highlights_query->have_posts() ) :
-            ?>
-            <h3 class="highlights-title"><?php esc_html_e( 'Hoogtepunten', 'eboh' ); ?></h3>
-            <div class="highlights-grid">
-                <?php $hl_index = 0; while ( $highlights_query->have_posts() ) : $highlights_query->the_post(); ?>
-                    <?php
-                    $thumb_url = get_the_post_thumbnail_url( get_the_ID(), 'large' );
-                    if ( ! $thumb_url ) {
-                        $thumb_url = $highlight_fallback_images[ $hl_index % count( $highlight_fallback_images ) ];
-                    }
-                    $hl_index++;
-                    ?>
-                    <a href="<?php the_permalink(); ?>" class="highlight-card" style="background-image: url('<?php echo esc_url( $thumb_url ); ?>');">
-                        <div class="highlight-card__content">
-                            <div class="highlight-card__date"><?php echo esc_html( get_the_date( 'j F Y' ) ); ?></div>
-                            <h4 class="highlight-card__title"><?php the_title(); ?></h4>
-                            <p class="highlight-card__description"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 18, '…' ) ); ?></p>
-                        </div>
-                    </a>
-                <?php endwhile; wp_reset_postdata(); ?>
-            </div>
-            <?php
-        endif;
-        ?>
-    </div>
-</section>
 
 <!-- ============================================
      CTA - "OOK LID WORDEN?" section

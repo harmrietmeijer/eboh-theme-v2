@@ -71,10 +71,11 @@ function eboh_enqueue_assets() {
 	$theme_uri = get_template_directory_uri();
 	$theme_ver = wp_get_theme()->get( 'Version' );
 
-	// Google Fonts
+	// Google Fonts — Oswald (display, lichter dan Anton, meerdere weights als
+	// Dharma-Gothic-vervanger) + Archivo (body) + Barlow Condensed fallback.
 	wp_enqueue_style(
 		'eboh-google-fonts',
-		'https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Work+Sans:wght@400;500;700&family=Crimson+Text:ital@0;1&display=swap',
+		'https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Archivo:wght@400;500;600;700;800&family=Barlow+Condensed:wght@500;600;700&display=swap',
 		array(),
 		null
 	);
