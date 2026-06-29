@@ -100,23 +100,7 @@ if ( function_exists( 'eboh_get_team_stats' ) ) {
 }
 ?>
 
-<!-- ============================================
-     NEXT MATCH ANNOUNCEMENT BAR
-     ============================================ -->
-<section class="match-bar">
-    <div class="match-content">
-        <div class="match-detail"><?php esc_html_e( 'VOLGENDE THUISWEDSTRIJD', 'eboh' ); ?></div>
-        <?php if ( $has_next_home_match ) : ?>
-            <div class="match-detail"><?php echo esc_html( $match_team1 ); ?> - <?php echo esc_html( $match_team2 ); ?></div>
-            <div class="match-detail"><?php echo esc_html( $match_date ); ?></div>
-            <div class="match-detail"><?php echo esc_html( $match_time ); ?></div>
-        <?php else : ?>
-            <div class="match-detail"><?php esc_html_e( 'Geen thuiswedstrijd gepland', 'eboh' ); ?></div>
-        <?php endif; ?>
-    </div>
-</section>
-
-<!-- Hero-sectie verwijderd op verzoek; pagina start met next-match + news. -->
+<!-- Match-bar + hero verwijderd op verzoek; pagina start direct met de nieuwsgrid. -->
 
 <!-- ============================================
      NEXT MATCH WIDGET (prominent, Brighton-style)
@@ -180,35 +164,20 @@ if ( function_exists( 'eboh_get_team_stats' ) ) {
         <h2 class="news-section__title"><?php esc_html_e( 'Laatste nieuws', 'eboh' ); ?></h2>
         <div class="news-grid">
             <?php
-            $news_args = array(
-                'posts_per_page' => 3,
+            $news_query = new WP_Query( array(
+                'posts_per_page' => 6,
                 'post_type'      => 'post',
                 'orderby'        => 'date',
                 'order'          => 'DESC',
-            );
-
-            $news_query = new WP_Query( $news_args );
+            ) );
 
             if ( $news_query->have_posts() ) {
                 while ( $news_query->have_posts() ) {
                     $news_query->the_post();
                     get_template_part( 'parts/news-card' );
                 }
-            } else {
-                // Demo fallback content
-                for ( $i = 1; $i <= 3; $i++ ) {
-                    echo '<a href="#" class="news-card fade-in-up" style="background-image: url(' . esc_url( get_template_directory_uri() . '/assets/images/news-wedstrijd.jpg' ) . ');">';
-                    echo '<div class="news-card__content">';
-                    echo '<span class="news-card__tag">' . ( $i === 1 ? 'Wedstrijd' : ( $i === 2 ? 'Jeugd' : 'Club' ) ) . '</span>';
-                    echo '<p class="news-card__date">' . esc_html( date( 'd M Y', strtotime( '-' . ( $i * 2 ) . ' days' ) ) ) . '</p>';
-                    echo '<h3 class="news-card__title">EBOH ' . esc_html( $i ) . ' - Artikel Titel</h3>';
-                    echo '<p class="news-card__excerpt">Dit is een voorbeeldstuk tekst voor het nieuwsbericht. Vervang dit met echte inhoud via het beheerders dashboard.</p>';
-                    echo '</div>';
-                    echo '</a>';
-                }
+                wp_reset_postdata();
             }
-
-            wp_reset_postdata();
             ?>
         </div>
     </div>
@@ -254,7 +223,6 @@ if ( function_exists( 'eboh_get_team_stats' ) ) {
      CTA - "OOK LID WORDEN?" section
      ============================================ -->
 <section class="cta-section">
-    <div class="cta-section__diagonal-top"></div>
     <div class="cta-section__content">
         <h2 class="cta-section__title"><?php echo esc_html( $cta_title ); ?></h2>
         <p class="cta-section__subtitle"><?php echo esc_html( $cta_text ); ?></p>
@@ -267,101 +235,9 @@ if ( function_exists( 'eboh_get_team_stats' ) ) {
     </div>
 </section>
 
-<!-- ============================================
-     TEAMS SECTION (bento grid)
-     ============================================ -->
-<section class="teams-section">
-    <div class="teams-section__container">
-        <div class="teams-section__header">
-            <h2 class="teams-section__title"><?php esc_html_e( 'Onze teams', 'eboh' ); ?></h2>
-            <a href="<?php echo esc_url( home_url( '/teams' ) ); ?>" class="teams-section__link"><?php esc_html_e( 'Bekijk alle teams →', 'eboh' ); ?></a>
-        </div>
+<!-- Teams-sectie verwijderd op verzoek; top-nav voldoende voor team-navigatie. -->
 
-        <div class="teams-grid">
-            <?php
-            $teams_args = array(
-                'posts_per_page' => 6,
-                'post_type'      => 'team',
-                'orderby'        => 'date',
-                'order'          => 'ASC',
-            );
-
-            $teams_query = new WP_Query( $teams_args );
-
-            if ( $teams_query->have_posts() ) {
-                $count = 0;
-                while ( $teams_query->have_posts() ) {
-                    $teams_query->the_post();
-                    $thumb = get_the_post_thumbnail_url( get_the_ID(), 'full' ) ?: get_template_directory_uri() . '/assets/images/team-1.jpg';
-                    echo '<a href="' . esc_url( get_permalink() ) . '" class="team-card" style="background-image: url(' . esc_url( $thumb ) . ');">';
-                    echo '<div class="team-card__content">';
-                    echo '<h3 class="team-card__name">' . esc_html( get_the_title() ) . '</h3>';
-                    echo '</div>';
-                    echo '</a>';
-                    $count++;
-                }
-            } else {
-                // Demo fallback
-                $team_names = array( 'EBOH 1', 'EBOH 2', 'EBOH 3', 'Jeugd' );
-                foreach ( $team_names as $i => $name ) {
-                    $img = get_template_directory_uri() . '/assets/images/team-' . ( $i + 1 ) . '.jpg';
-                    echo '<a href="#" class="team-card" style="background-image: url(' . esc_url( $img ) . ');">';
-                    echo '<div class="team-card__content">';
-                    echo '<h3 class="team-card__name">' . esc_html( $name ) . '</h3>';
-                    echo '</div>';
-                    echo '</a>';
-                }
-            }
-
-            wp_reset_postdata();
-            ?>
-        </div>
-    </div>
-</section>
-
-<!-- ============================================
-     VOLUNTEERS SECTION ("Het Verhaal van EBOH")
-     ============================================ -->
-<section class="volunteers-section">
-    <div class="volunteers-section__container">
-        <h2 class="volunteers-section__title"><?php esc_html_e( 'Het verhaal van EBOH', 'eboh' ); ?></h2>
-        <div class="volunteers-header">
-            <p><?php esc_html_e( 'Ontmoet de mensen achter onze club—de vrijwilligers, trainers en staffleden die EBOH maken tot wat het is.', 'eboh' ); ?></p>
-        </div>
-
-        <div class="volunteers-scroll">
-            <div class="volunteers-track">
-                <?php
-                // Demo volunteers
-                $volunteers = array(
-                    array( 'Jan Pietersen', 'Hoofdtrainer', '"Voetbal is meer dan een spel—het draait om integriteit, teamgeest en persoonlijke groei."', 'person-1.jpg' ),
-                    array( 'Maria van Dijk', 'Jeugdcoördinator', '"Onze jongeren zijn de toekomst van EBOH. Hun potentiaal is ongelimiteerd."', 'person-2.jpg' ),
-                    array( 'Peter Breugel', 'Clubvoorzitter', '"EBOH groeit dankzij de toewijding van al onze vrijwilligers en leden."', 'person-3.jpg' ),
-                    array( 'Koen Makkinga', 'Assistent-trainer', '"Elk speelertje verdient aandacht, ondersteuning en kansen om te groeien."', 'person-1.jpg' ),
-                    array( 'Sophie Hendrix', 'Facilitaire manager', '"Achter de schermen werken we hard om alles draaiende te houden."', 'person-2.jpg' ),
-                    array( 'Amsterdam Ruiz', 'Communicatie', '"Storytelling van EBOH is onze passie—het verbindt onze gemeenschap."', 'person-3.jpg' ),
-                );
-
-                foreach ( $volunteers as $vol ) {
-                    echo '<div class="volunteer-card">';
-                    echo '<div class="volunteer-card__image" style="background-image: url(' . esc_url( get_template_directory_uri() . '/assets/images/' . $vol[3] ) . ');"></div>';
-                    echo '<div class="volunteer-card__content">';
-                    echo '<h3 class="volunteer-card__name">' . esc_html( $vol[0] ) . '</h3>';
-                    echo '<p class="volunteer-card__role">' . esc_html( $vol[1] ) . '</p>';
-                    echo '<p class="volunteer-card__quote">' . esc_html( $vol[2] ) . '</p>';
-                    echo '</div>';
-                    echo '</div>';
-                }
-                ?>
-            </div>
-        </div>
-
-        <div class="volunteers-nav">
-            <button class="volunteers-nav__btn" title="<?php esc_attr_e( 'Vorige', 'eboh' ); ?>">←</button>
-            <button class="volunteers-nav__btn" title="<?php esc_attr_e( 'Volgende', 'eboh' ); ?>">→</button>
-        </div>
-    </div>
-</section>
+<!-- 'Het verhaal van EBOH' (volunteers) verwijderd op verzoek. -->
 
 <!-- ============================================
      SPONSORS SECTION (dark & atmospheric)

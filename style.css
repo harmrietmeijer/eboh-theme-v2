@@ -3349,3 +3349,45 @@ body.admin-bar .site-header { top: 32px; }
     align-items: stretch;
 }
 .news-grid > * { display: flex; }
+
+/* ================================================================
+   EBOH v2 — FEEDBACK PASS 29-06-2026
+   ================================================================ */
+
+/* --- Page-hero (subpages): pure zwart i.p.v. charcoal, titel groter --- */
+.page-hero {
+    background-color: var(--eboh-black) !important;
+}
+.page-hero__title {
+    font-size: clamp(48px, 7vw, 96px) !important;
+    line-height: 0.95 !important;
+    font-weight: 600 !important;
+}
+
+/* --- EBOH-tekst naast logo: 0 letter-spacing + tight gap --- */
+.site-header__logo,
+.site-header__logo-wrap {
+    gap: 6px !important;
+}
+.site-header__logo-text {
+    letter-spacing: 0 !important;
+    font-family: var(--font-display);
+    font-weight: 500;
+}
+
+/* --- News-card opacity: tekst niet vervagen (was 0.6/0.8) --- */
+.news-card__date { color: var(--white) !important; opacity: 1 !important; }
+.news-card__excerpt { color: var(--white) !important; opacity: 1 !important; }
+.news-card__title { color: var(--white) !important; opacity: 1 !important; }
+
+/* --- News-grid forceer altijd 3-koloms vanaf 768px (was auto-fill) --- */
+@media (min-width: 768px) {
+    .news-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+@media (max-width: 767px) {
+    .news-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
