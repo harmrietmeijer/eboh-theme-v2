@@ -3932,3 +3932,122 @@ body.admin-bar .site-header { top: 32px; }
     grid-row: span 1 !important;
     min-height: 0 !important;
 }
+
+/* ================================================================
+   EBOH v2 — SPORTLINK DARK-MODE OVERRIDES
+   inc/sportlink-api.php injecteert eigen light-theme styles via wp_head.
+   We forceren hier alle Sportlink-elementen naar het v2 dark-thema.
+   ================================================================ */
+
+/* Wrappers / containers */
+.sportlink-table-wrap,
+.sportlink-overzicht,
+.sportlink-overzicht__section,
+.sportlink-team-grid,
+.sportlink-team-group,
+.sportlink-notice {
+    background-color: transparent !important;
+    color: var(--white);
+}
+
+/* Titels boven blokken */
+.sportlink-overzicht__title,
+.sportlink-team-group__title {
+    color: var(--white) !important;
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+/* Tabellen (programma / uitslagen / stand) */
+.sportlink-table {
+    background-color: var(--eboh-charcoal) !important;
+    color: var(--white) !important;
+    border: 1px solid var(--eboh-line);
+    border-collapse: collapse;
+    width: 100%;
+}
+.sportlink-table thead tr,
+.sportlink-table thead th {
+    background-color: var(--eboh-night) !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+    border-bottom: 2px solid var(--eboh-red);
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 12px;
+}
+.sportlink-table tbody tr {
+    background-color: var(--eboh-charcoal) !important;
+    color: var(--white) !important;
+    border-bottom: 1px solid var(--eboh-line);
+}
+.sportlink-table tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+}
+.sportlink-table tbody td {
+    color: var(--white) !important;
+    border-color: var(--eboh-line) !important;
+}
+.sportlink-table__row--highlight,
+.sportlink-table__row--highlight td {
+    background-color: rgba(234, 25, 40, 0.12) !important;
+    color: var(--eboh-red) !important;
+    font-weight: 700;
+}
+.sportlink-table__row--status td {
+    background-color: rgba(255, 255, 255, 0.04) !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    font-style: italic;
+}
+.sportlink-table__score {
+    color: var(--white) !important;
+    font-weight: 700;
+}
+.sportlink-table__vs {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+.sportlink-table__extra {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+.sportlink-table__pts {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--white) !important;
+}
+
+/* Team-card grid (deze was wit-op-wit op /programma/) */
+.sportlink-team-card {
+    background-color: var(--eboh-charcoal) !important;
+    color: var(--white) !important;
+    border: 1px solid var(--eboh-line) !important;
+    border-radius: 0 !important;
+    padding: 18px 20px;
+    transition: var(--transition);
+}
+.sportlink-team-card:hover {
+    border-color: var(--eboh-red) !important;
+    transform: translateY(-2px);
+}
+.sportlink-team-card__name {
+    color: var(--white) !important;
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-weight: 500;
+}
+.sportlink-team-card__info {
+    color: rgba(255, 255, 255, 0.75) !important;
+    font-size: 13px;
+}
+
+/* Sportlink notice (foutmelding/Notice block) */
+.sportlink-notice {
+    background-color: rgba(234, 25, 40, 0.08) !important;
+    border: 1px solid var(--eboh-red);
+    color: var(--white) !important;
+    padding: 16px 20px;
+}
+.sportlink-notice p {
+    margin: 0;
+    color: var(--white) !important;
+}
