@@ -13,3 +13,6 @@ README.md
 SETUP.md
 *.zip
 *.log
+deploy.env.example
+docs
+dist
