@@ -4,7 +4,7 @@ Theme URI: https://eboh.nl
 Author: EBOH Development Team
 Author URI: https://eboh.nl
 Description: Donker thema voor EBOH — zwarte achtergrond, witte tekst, rode accenten. Display: Oswald (Dharma Gothic-vervanger, meerdere weights). Body: Archivo.
-Version: 3.0.2
+Version: 3.0.3
 Requires at least: 5.0
 Requires PHP: 7.4
 License: GPL v2 or later
@@ -2896,11 +2896,14 @@ main, .page-shell, .site-main, .single-content,
     color: var(--eboh-red);
     border-color: var(--white);
 }
-.cta-section__button .btn.filled:hover {
+.cta-section__button .btn.filled:hover,
+.cta-section__button .btn.filled:focus-visible {
     background-color: var(--eboh-black);
     color: var(--white);
     border-color: var(--eboh-black);
 }
+/* De witte schuif-laag van .btn zou hier bij hover wit-op-wit geven. */
+.cta-section__button .btn.filled::before { display: none; }
 
 /* --- Sponsors section --- */
 .sponsors-section { background-color: var(--eboh-night); }
