@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./wp-config.php)",
+      "Bash(cat .env*)",
+      "Bash(source .env*)",
+      "Bash(cat wp-config.php*)"
+    ],
+    "ask": [
+      "Bash(git push*)",
+      "Bash(gh pr merge*)",
+      "Bash(scp *)",
+      "Bash(rsync *@*)",
+      "Bash(ssh *)"
+    ],
+    "allow": [
+      "Bash(./scripts/verify.sh)",
+      "Bash(scripts/verify.sh)",
+      "Bash(./scripts/package.sh)",
+      "Bash(php -l *)",
+      "Bash(php tests/run.php)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/lint-php.py\""
+          }
+        ]
+      }
+    ]
+  }
+}
