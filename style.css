@@ -3681,6 +3681,9 @@ body.admin-bar .site-header { top: 32px; }
     letter-spacing: 0.04em;
     line-height: 1.5;
     margin-bottom: 28px;
+    /* Altijd ruimte voor twee regels (datum + locatie), ook als de locatie
+       ontbreekt, zodat de logo's in de kolommen op dezelfde hoogte staan. */
+    min-height: 3em;
 }
 .hw-col__venue { color: rgba(255, 255, 255, 0.75); }
 
