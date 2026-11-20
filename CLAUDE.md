@@ -18,14 +18,13 @@ Standalone WordPress-thema voor vv EBOH (Dordrecht). Donker thema (zwart/wit/roo
 
 ## Commando's
 
-Er is nog **geen** verify-commando, geen tests en geen CI (komt in fase 2/3). Wat nu kan:
-
 ```
-php -l <bestand.php>                                   # syntaxcheck (lokaal PHP 8.5)
-for f in $(find . -name '*.php' -not -path './.git/*'); do php -l "$f"; done
+scripts/verify.sh        # DE feedbackloop: draai na elke wijziging, stopt bij de eerste fout
 ```
 
-`composer` werkt lokaal niet (`Bad CPU type in executable`); `phpcs` is niet geïnstalleerd.
+Het script controleert: PHP-syntax van alle `.php`, JS-syntax (`node --check`), dat elke `require_once` in `functions.php` naar een bestaand bestand wijst, en dat de thema-header (`Version`, `Text Domain: eboh-v2`) en de basisassets kloppen. CI (`.github/workflows/verify.yml`) draait hetzelfde script op PHP 7.4 en 8.3. Er zijn nog geen inhoudelijke tests en nog geen statische analyse (komt in fase 3).
+
+**Machine-eigenaardigheid:** `/usr/local/bin/php` is een kapotte x86-binary (`Bad CPU type in executable`) die in `PATH` vóór de werkende `/opt/homebrew/bin/php` (8.5.12) staat. Dat is ook waarom `composer` lokaal niet start. `verify.sh` kiest zelf een werkende PHP; of zet `PHP_BIN=/opt/homebrew/bin/php`. Lokaal is PHP 7.4 (de ondergrens) niet te testen; dat gebeurt alleen in CI.
 
 ## Flows waar het om draait
 
@@ -67,7 +66,7 @@ Nog niet opgelost; er zijn ook nog geen tests die ze bewaken.
 1. Taak als issue, branch vanaf `main` met issuenummer erin. Nooit direct op `main`.
 2. Bij meer dan één bestand: eerst lezen, plan schrijven, akkoord afwachten.
 3. Kleine stappen, complete bestanden, geen fragmenten.
-4. Na elke wijziging: `php -l` op alles wat je aanraakte (tot er een echt verify-commando is).
+4. Na elke wijziging: `scripts/verify.sh`. Pas klaar als alles groen is.
 5. PR met vier kopjes: wat en waarom / welke flows geraakt / hoe getest / wat de mens handmatig moet controleren.
 6. Houd dit bestand bij als een conventie of de architectuur verandert.
 
