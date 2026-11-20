@@ -38,7 +38,7 @@ Direct na activatie:
 2. Kies **Berichtnaam** (`/%postname%/`).
 3. Klik **Wijzigingen opslaan**.
 
-> Dit is essentieel om de Custom Post Types (`team`, `sponsor`) goed door te laten linken.
+> Dit is essentieel om de Custom Post Types (`team`) goed door te laten linken.
 
 ---
 
@@ -130,15 +130,9 @@ Teams verschijnen automatisch op de Teams-pagina en kunnen ook met `[eboh_team_g
 
 ---
 
-## 9. Sponsors toevoegen
+## 9. Sponsors
 
-1. Ga naar **Sponsors → Nieuwe sponsor**.
-2. Titel = bedrijfsnaam.
-3. Upload sponsor logo als uitgelichte afbeelding (transparante PNG werkt het beste).
-4. In het custom field `_sponsor_url` zet je de website van de sponsor.
-5. Publiceer.
-
-Sponsors verschijnen via `[eboh_sponsor_grid]` of automatisch op de Sponsoring-pagina.
+Er is geen sponsor-beheer in het thema. `[eboh_sponsor_grid]` toont zes vaste placeholder-afbeeldingen (`assets/images/sponsor-placeholder.png`). Echte sponsorlogo's vragen een codewijziging.
 
 ---
 
@@ -166,7 +160,7 @@ Na installatie controleren:
 - [ ] Nieuws filter (AJAX) werkt zonder page reload
 - [ ] Teams pagina toont team-cards met juiste categorieën
 - [ ] Programma sjabloon toont
-- [ ] Sponsoring pagina toont sponsor logos
+- [ ] Sponsoring pagina toont de sponsor-placeholders
 - [ ] Contact pagina toont adres + kaart
 - [ ] Footer toont contactgegevens en social icons
 - [ ] Geen 404's in browser console (controleer Network tab)
@@ -220,5 +214,5 @@ Na installatie controleren:
 
 ## 15. Versie
 
-**1.0.0** — productieklaar (2026-04-07)
+Zie het versienummer in `style.css`.
 Standalone WordPress theme. Geen Enfold dependency.

@@ -1,0 +1,15 @@
+# Wat NIET in het uploadpakket naar de server hoort (gebruikt door scripts/package.sh)
+.git
+.github
+.gitignore
+.distignore
+.claude
+.DS_Store
+demo
+tests
+scripts
+CLAUDE.md
+README.md
+SETUP.md
+*.zip
+*.log

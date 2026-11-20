@@ -32,3 +32,4 @@ wp-content/backup-*
 
 # Local prod-sync downloads
 download/
+dist/

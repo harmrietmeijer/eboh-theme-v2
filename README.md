@@ -19,7 +19,7 @@ Geen parent theme of page builder vereist — alles draait native op WordPress c
 ## Wat dit thema doet
 
 - Volledig standalone — geen Enfold, geen Elementor, geen Divi.
-- Custom Post Types: **Teams** (met taxonomy `team_category`) en **Sponsors** (met meta `_sponsor_url`).
+- Custom Post Type: **Teams** (met taxonomy `team_category`). Er is geen sponsor-CPT; `[eboh_sponsor_grid]` toont nu vaste placeholders.
 - Aangepaste page templates voor Nieuws, Teams, Programma, Lid Worden, Sponsoring en Contact.
 - Mobile-first responsive met sticky header en mobile menu.
 - AJAX nieuws filter (geen page reload).
@@ -66,7 +66,7 @@ eboh-theme/
 ├── template-contact.php         # Contact + info
 ├── inc/
 │   ├── custom-post-types.php    # Team + Sponsor CPT registratie
-│   ├── customizer.php           # Customizer secties + controls
+│   ├── sportlink-api.php        # Sportlink-koppeling + shortcodes
 │   ├── shortcodes.php           # Custom shortcodes
 │   └── widgets.php              # Footer/sidebar widgets
 ├── parts/
@@ -91,21 +91,15 @@ eboh-theme/
 
 ---
 
-## Customizer secties
+## Customizer
 
-In **Weergave → Aanpassen** verschijnen onder andere:
-- **EBOH — Hero**: titel, subtitel, CTA tekst + link, achtergrondafbeelding
-- **EBOH — Over de club**: kop, intro, afbeelding
-- **EBOH — Call-to-action banner**: tekst en knop
-- **EBOH — Parallax sectie**: afbeelding en quote
-- **EBOH — Contactgegevens**: adres, postcode, plaats, telefoon, e-mail
-- **EBOH — Social media**: Facebook, Instagram, YouTube, X URLs
+Panelen en secties staan in `functions.php` (`eboh_customize_register`): Organisatie, Competitie en Homepage (Hero, Next Match, About, CTA, Parallax, Club Information). Niet alle velden die de templates lezen hebben een Customizer-control; zie CLAUDE.md, "Bekende afwijkingen" #7.
 
 ---
 
 ## Versie
 
-**1.0.0** — productieklaar (2026-04-07)
+Het versienummer staat in de header van `style.css` en wordt als cache-buster voor CSS/JS gebruikt.
 
 ## Licentie
 
@@ -117,3 +111,9 @@ GPL v2 of later.
 Sportcomplex Schenkeldijk 6
 3328 LE Dordrecht
 +31 (0)78 - 613 2834 — info@eboh.nl
+
+---
+
+## Ontwikkelen
+
+Zie `CLAUDE.md`. Controleren: `scripts/verify.sh`. Uploadpakket maken: `scripts/package.sh`.
