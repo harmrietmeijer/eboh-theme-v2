@@ -13,7 +13,9 @@
       "Bash(gh pr merge*)",
       "Bash(scp *)",
       "Bash(rsync *@*)",
-      "Bash(ssh *)"
+      "Bash(ssh *)",
+      "Bash(./scripts/deploy.sh*)",
+      "Bash(scripts/deploy.sh*)"
     ],
     "allow": [
       "Bash(./scripts/verify.sh)",

@@ -15,7 +15,7 @@ trap 'rm -rf "$stage"' EXIT
 rsync -a --exclude-from=.distignore ./ "$stage/eboh-theme-v2/"
 
 # Sanity: dit mag er nooit in zitten.
-for verboden in demo tests scripts .git .github CLAUDE.md; do
+for verboden in demo tests scripts docs .git .github CLAUDE.md deploy.env.example; do
 	[ ! -e "$stage/eboh-theme-v2/$verboden" ] || { echo "FOUT: $verboden zit in het pakket"; exit 1; }
 done
 for vereist in style.css functions.php screenshot.png assets/js/eboh-scripts.js; do
