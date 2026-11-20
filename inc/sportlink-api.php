@@ -1082,14 +1082,19 @@ function eboh_get_last_result( $team_name ) {
  *                        tenzij die te dicht bij top/bottom staat.
  * @return array  Lijst rijen of lege array.
  */
-function eboh_get_stand_around_team( $team_name, $window = 5 ) {
+function eboh_get_stand_around_team( $team_name, $window = 5, $poulecode = '' ) {
     $api = new EBOH_Sportlink_API();
     if ( ! $api->is_configured() ) { return array(); }
 
-    $teamcode = $api->resolve_team( $team_name );
-    if ( is_wp_error( $teamcode ) || empty( $teamcode ) ) { return array(); }
+    if ( $poulecode !== '' ) {
+        // Stand van een specifieke poule (bv. die van de laatste uitslag).
+        $stand = $api->get_poulestand( $poulecode );
+    } else {
+        $teamcode = $api->resolve_team( $team_name );
+        if ( is_wp_error( $teamcode ) || empty( $teamcode ) ) { return array(); }
 
-    $stand = $api->get_stand_for_team( $teamcode );
+        $stand = $api->get_stand_for_team( $teamcode );
+    }
     if ( is_wp_error( $stand ) || empty( $stand ) ) { return array(); }
 
     // Vind index van EBOH in de stand.
@@ -1165,7 +1170,72 @@ function eboh_sportlink_normalize_match( $match, $team_name = '', $is_result = f
         'score_uit'    => $score_uit,
         'is_result'    => $is_result,
         'is_eboh_home' => ( $team_name !== '' && strcasecmp( $thuis, $team_name ) === 0 ),
+        // Voor de donkere homepage-widget: 'ZA 21 NOV - 14:45 UUR'.
+        'datum_tijd'   => eboh_v2_format_datum_tijd( $ts, isset( $match['aanvangstijd'] ) ? $match['aanvangstijd'] : '' ),
+        'poulecode'    => isset( $match['poulecode'] ) ? (string) $match['poulecode'] : '',
     );
+}
+
+/**
+ * 'ZA 21 NOV - 14:45 UUR' uit een timestamp en aanvangstijd. Zonder timestamp
+ * is het resultaat leeg; zonder tijd alleen de datum.
+ */
+function eboh_v2_format_datum_tijd( $ts, $tijd = '' ) {
+    if ( ! $ts ) { return ''; }
+    $days_kort   = array( 'ZO', 'MA', 'DI', 'WO', 'DO', 'VR', 'ZA' );
+    $months_kort = array( '', 'JAN', 'FEB', 'MRT', 'APR', 'MEI', 'JUN', 'JUL', 'AUG', 'SEP', 'OKT', 'NOV', 'DEC' );
+    $out = $days_kort[ (int) date( 'w', $ts ) ] . ' ' . date( 'j', $ts ) . ' ' . $months_kort[ (int) date( 'n', $ts ) ];
+    $tijd = trim( (string) $tijd );
+    if ( $tijd !== '' ) {
+        $out .= ' - ' . $tijd . ' UUR';
+    }
+    return $out;
+}
+
+/**
+ * Drieletterige afkorting van een team, zoals in de stand: 'Spirit 1' -> 'SPI',
+ * 'vv DESK 1' -> 'DES', 'EBOH JO17-2' -> 'EBO'. Voorvoegsels als vv/fc/sv worden
+ * overgeslagen. Geeft nooit meer dan 3 tekens terug.
+ */
+function eboh_v2_team_abbr( $team_name ) {
+    $club = eboh_v2_extract_clubnaam( $team_name );
+    $club = preg_replace( '/^(?:(?:v\.?v\.?|s\.?v\.?|f\.?c\.?|r\.?k\.?[a-z]*\.?|s\.?c\.?|v\.?c\.?|j\.?s\.?v\.?|vv|sv|fc|rkvv|rksv|sc|vc)\s+)+/i', '', trim( $club ) );
+    $letters = preg_replace( '/[^A-Za-z0-9]/', '', $club );
+    if ( $letters === '' ) {
+        $letters = preg_replace( '/[^A-Za-z0-9]/', '', (string) $team_name );
+    }
+    return strtoupper( substr( $letters, 0, 3 ) );
+}
+
+/**
+ * Bestandsnaam (zonder extensie) van het competitie-icoon: bekerwedstrijden
+ * krijgen het beker-icoon, al het andere het KNVB-competitie-icoon.
+ */
+function eboh_v2_competition_icon_basename( $name ) {
+    return ( stripos( (string) $name, 'beker' ) !== false ) ? 'knvb-beker' : 'knvb-competitie';
+}
+
+/**
+ * URL van het competitie-icoon uit assets/images/ (svg, png of webp), of ''
+ * als het bestand er niet staat. Het thema werkt dus ook zonder de iconen.
+ */
+function eboh_v2_competition_icon_url( $name ) {
+    $base = eboh_v2_competition_icon_basename( $name );
+    foreach ( array( 'svg', 'png', 'webp' ) as $ext ) {
+        if ( file_exists( get_template_directory() . '/assets/images/' . $base . '.' . $ext ) ) {
+            return get_template_directory_uri() . '/assets/images/' . $base . '.' . $ext;
+        }
+    }
+    return '';
+}
+
+/**
+ * Competitienaam leesbaar maken voor de kopregel: de Sportlink-code aan het
+ * begin ('0212 ') valt weg. '0212 Mannen Zaterdag Standaard (A-CAT)' ->
+ * 'Mannen Zaterdag Standaard (A-CAT)'.
+ */
+function eboh_v2_competition_label( $name ) {
+    return trim( preg_replace( '/^\d{2,}\s+/', '', trim( (string) $name ) ) );
 }
 
 /**
