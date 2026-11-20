@@ -22,7 +22,7 @@ Standalone WordPress-thema voor vv EBOH (Dordrecht). Donker thema (zwart/wit/roo
 scripts/verify.sh        # DE feedbackloop: draai na elke wijziging, stopt bij de eerste fout
 ```
 
-Het script controleert: PHP-syntax van alle `.php`, JS-syntax (`node --check`), dat elke `require_once` in `functions.php` naar een bestaand bestand wijst, en dat de thema-header (`Version`, `Text Domain: eboh-v2`) en de basisassets kloppen. CI (`.github/workflows/verify.yml`) draait hetzelfde script op PHP 7.4 en 8.3. Er zijn nog geen inhoudelijke tests en nog geen statische analyse (komt in fase 3).
+Het script controleert: PHP-syntax van alle `.php`, JS-syntax (`node --check`), dat elke `require_once` in `functions.php` naar een bestaand bestand wijst, en dat de thema-header (`Version`, `Text Domain: eboh-v2`) en de basisassets kloppen. CI (`.github/workflows/verify.yml`) draait hetzelfde script op PHP 7.4 en 8.3. Daarna draait `tests/run.php`: een kleine eigen assert-runner (geen PHPUnit, geen dependencies) die het thema laadt via `tests/bootstrap.php` met stubs in plaats van WordPress. Getest wordt alleen wat zonder WordPress, database of netwerk kan: `eboh_team_sort_key`, `eboh_sportlink_normalize_match`, `eboh_sportlink_format_date`, `eboh_v2_extract_clubnaam`, de compat-shortcodes en de Customizer-registratie. Alles met `$wpdb`, echte hooks of templates is niet gedekt. Nieuwe test = nieuw bestand `tests/test-*.php`. Er is nog geen statische analyse.
 
 **Machine-eigenaardigheid:** `/usr/local/bin/php` is een kapotte x86-binary (`Bad CPU type in executable`) die in `PATH` vóór de werkende `/opt/homebrew/bin/php` (8.5.12) staat. Dat is ook waarom `composer` lokaal niet start. `verify.sh` kiest zelf een werkende PHP; of zet `PHP_BIN=/opt/homebrew/bin/php`. Lokaal is PHP 7.4 (de ondergrens) niet te testen; dat gebeurt alleen in CI.
 
@@ -53,9 +53,10 @@ Het script controleert: PHP-syntax van alle `.php`, JS-syntax (`node --check`), 
 | 3 | `$_POST['first_name']`, `['last_name']`, `['email']` worden in onderwerp/headers zonder `wp_unslash` gebruikt | `functions.php`, `eboh_handle_membership_form()` |
 | 4 | `README.md` noemt `inc/customizer.php`; dat bestand bestaat niet (Customizer zit in `functions.php`) | docs |
 | 5 | `DEPLOYMENT.md` / `THEME-STRUCTURE.txt` beschrijven "EBOH Enfold Child" 1.0.0 en vereisen Enfold en Contact Form 7; beide zijn niet meer waar | docs |
+| 7 | Elf `get_theme_mod()`-sleutels hebben geen Customizer-setting (community-blok, `eboh_cta_subtext`, social-links, sponsor-titels, `eboh_membership_email`): in de praktijk wint altijd de hardcoded fallback in `front-page.php`/`footer.php`. | lijst in `tests/test-customizer.php` |
 | 6 | Placeholder `i4LQjMjLoJ` in het Sportlink-veld lijkt op een echt client-ID — controleren | `inc/sportlink-api.php` |
 
-Nog niet opgelost; er zijn ook nog geen tests die ze bewaken.
+Nog niet opgelost. Alleen #7 wordt bewaakt: `tests/test-customizer.php` faalt zodra er een twaalfde sleutel bijkomt, of zodra er een setting bij komt zonder dat je hem uit de lijst haalt.
 
 ## Deploy
 
