@@ -14,12 +14,13 @@ Standalone WordPress-thema voor vv EBOH (Dordrecht). Donker thema (zwart/wit/roo
 | `template-*.php`, `front-page.php`, `single-team.php` | Pagina-templates |
 | `parts/news-card.php` | Herbruikbare nieuwskaart |
 | `assets/` | `css/eboh-responsive.css`, `js/eboh-scripts.js`, afbeeldingen |
-| `demo/` | Statische HTML-mockups uit de ontwerpfase. Geen onderdeel van het thema. **Niet meeuploaden naar de server.** |
+| `demo/` | Statische HTML-mockups uit de ontwerpfase. Geen onderdeel van het thema. **Niet meeuploaden naar de server**: `.distignore` sluit het uit en `package.sh` controleert dat. |
 
 ## Commando's
 
 ```
 scripts/verify.sh        # DE feedbackloop: draai na elke wijziging, stopt bij de eerste fout
+scripts/package.sh       # draait verify, bouwt dist/eboh-theme-v2-<versie>.zip volgens .distignore
 ```
 
 Het script controleert: PHP-syntax van alle `.php`, JS-syntax (`node --check`), dat elke `require_once` in `functions.php` naar een bestaand bestand wijst, en dat de thema-header (`Version`, `Text Domain: eboh-v2`) en de basisassets kloppen. CI (`.github/workflows/verify.yml`) draait hetzelfde script op PHP 7.4 en 8.3. Daarna draait `tests/run.php`: een kleine eigen assert-runner (geen PHPUnit, geen dependencies) die het thema laadt via `tests/bootstrap.php` met stubs in plaats van WordPress. Getest wordt alleen wat zonder WordPress, database of netwerk kan: `eboh_team_sort_key`, `eboh_sportlink_normalize_match`, `eboh_sportlink_format_date`, `eboh_v2_extract_clubnaam`, de compat-shortcodes en de Customizer-registratie. Alles met `$wpdb`, echte hooks of templates is niet gedekt. Nieuwe test = nieuw bestand `tests/test-*.php`. Er is nog geen statische analyse.
@@ -38,6 +39,8 @@ Het script controleert: PHP-syntax van alle `.php`, JS-syntax (`node --check`), 
 
 ## Wat je niet uit de code afleest
 
+- **Docs:** `DEPLOYMENT.md` en `THEME-STRUCTURE.txt` (v1/Enfold) zijn verwijderd; README en SETUP zijn gecorrigeerd. Staat er in de git-history nog iets van Enfold, dan is dat oud.
+- **Ongebruikt maar niet verwijderd:** functies `eboh_get_club_info`, `eboh_get_social_links`, `eboh_get_next_home_match`, `eboh_get_team_stats` hebben geen aanroeper in de code; en 29 afbeeldingen in `assets/images/` worden nergens bij naam genoemd (kunnen dynamisch geladen worden). Eerst controleren op de live site voordat je ze weghaalt.
 - **Twee Sportlink-generaties naast elkaar.** `[eboh_knvb_*]`-shortcodes zijn compat-aliassen die doorverwijzen naar `[eboh_programma]` enz. Bestaande pagina's gebruiken ze nog; verwijder ze niet zonder de content te controleren. Oude `eboh_knvb_*`-transients worden bij cache wissen ook opgeruimd.
 - **Twee text domains.** Zowel `'eboh'` (~249×) als `'eboh-v2'` (~110×) komt voor, en de thema-header zegt `eboh-v2`. Gebruik bij nieuwe code `eboh-v2`; hernoem bestaande niet zonder vertaalcontrole.
 - **Het versienummer** staat in `style.css` (`Version: 3.0.0`) en wordt door `wp_get_theme()` als cache-buster voor CSS/JS gebruikt. Bump bij elke CSS/JS-wijziging, anders zien bezoekers oude bestanden.
@@ -49,10 +52,8 @@ Het script controleert: PHP-syntax van alle `.php`, JS-syntax (`node --check`), 
 | # | Wat | Waar |
 |---|---|---|
 | 1 | Sportlink-instellingen zijn bewerkbaar voor iedereen met `edit_posts` (auteurs/redacteuren), niet alleen beheerders | `inc/sportlink-api.php`, `eboh_sportlink_admin_menu()` en `register_settings()` |
-| 2 | Sponsors: `[eboh_sponsor_grid]` toont **zes hardcoded placeholder-afbeeldingen**; er is geen sponsor-CPT, ondanks wat README beweert | `inc/shortcodes.php` |
+| 2 | Sponsors: `[eboh_sponsor_grid]` toont **zes hardcoded placeholder-afbeeldingen**; er is geen sponsor-CPT | `inc/shortcodes.php` |
 | 3 | `$_POST['first_name']`, `['last_name']`, `['email']` worden in onderwerp/headers zonder `wp_unslash` gebruikt | `functions.php`, `eboh_handle_membership_form()` |
-| 4 | `README.md` noemt `inc/customizer.php`; dat bestand bestaat niet (Customizer zit in `functions.php`) | docs |
-| 5 | `DEPLOYMENT.md` / `THEME-STRUCTURE.txt` beschrijven "EBOH Enfold Child" 1.0.0 en vereisen Enfold en Contact Form 7; beide zijn niet meer waar | docs |
 | 7 | Elf `get_theme_mod()`-sleutels hebben geen Customizer-setting (community-blok, `eboh_cta_subtext`, social-links, sponsor-titels, `eboh_membership_email`): in de praktijk wint altijd de hardcoded fallback in `front-page.php`/`footer.php`. | lijst in `tests/test-customizer.php` |
 | 6 | Placeholder `i4LQjMjLoJ` in het Sportlink-veld lijkt op een echt client-ID — controleren | `inc/sportlink-api.php` |
 
@@ -60,7 +61,7 @@ Nog niet opgelost. Alleen #7 wordt bewaakt: `tests/test-customizer.php` faalt zo
 
 ## Deploy
 
-**Onbekend / nog niet vastgelegd.** In de repo staat geen deployscript. Vul dit aan zodra de eigenaar bevestigt hoe het naar productie gaat (zip via WP-admin, SFTP, SSH) en welke PHP-versie daar draait. Controleer na elke deploy dat de site de nieuwe `Version` laadt (bekijk de `?ver=` van `style.css` in de paginabron), niet alleen dat de upload slaagde.
+**Pakket maken:** `scripts/package.sh` (zonder `demo/`, tests en docs). **Hoe het naar productie gaat is onbekend / nog niet vastgelegd**; er is geen deployscript. Vul dit aan zodra de eigenaar bevestigt hoe het naar productie gaat (zip via WP-admin, SFTP, SSH) en welke PHP-versie daar draait. Controleer na elke deploy dat de site de nieuwe `Version` laadt (bekijk de `?ver=` van `style.css` in de paginabron), niet alleen dat de upload slaagde.
 
 ## Werkwijze
 
