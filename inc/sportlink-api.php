@@ -1157,6 +1157,15 @@ function eboh_sportlink_normalize_match( $match, $team_name = '', $is_result = f
     $score_uit   = isset( $match['doelpuntenuit'] )  ? $match['doelpuntenuit']  : null;
     if ( $score_thuis === null ) { $score_thuis = isset( $match['scorethuis'] ) ? $match['scorethuis'] : null; }
     if ( $score_uit   === null ) { $score_uit   = isset( $match['scoreuit'] )  ? $match['scoreuit']  : null; }
+    // Dezelfde bronnen als de programma-pagina (eboh_uitslagen_shortcode).
+    if ( $score_thuis === null ) { $score_thuis = isset( $match['doelpuntenthuisteam'] ) ? $match['doelpuntenthuisteam'] : null; }
+    if ( $score_uit   === null ) { $score_uit   = isset( $match['doelpuntenuitteam'] )   ? $match['doelpuntenuitteam']   : null; }
+    // Of één veld 'uitslag' als "3 - 1" (ook met en-dash).
+    if ( ( $score_thuis === null || $score_uit === null ) && ! empty( $match['uitslag'] )
+        && preg_match( '/^\s*(\d+)\s*[-\x{2013}\x{2014}:]\s*(\d+)\s*$/u', (string) $match['uitslag'], $mm ) ) {
+        $score_thuis = $mm[1];
+        $score_uit   = $mm[2];
+    }
 
     return array(
         'thuisteam'    => $thuis,

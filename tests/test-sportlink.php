@@ -28,6 +28,23 @@ eboh_assert_same( true, $m['is_eboh_home'], 'normalize: thuiswedstrijd herkend, 
 $m = eboh_sportlink_normalize_match( array( 'thuisteam' => 'CKC 1', 'uitteam' => 'EBOH 1', 'scorethuis' => '2', 'scoreuit' => '1' ), 'EBOH 1' );
 eboh_assert_same( '2', $m['score_thuis'], 'normalize: valt terug op veld scorethuis' );
 eboh_assert_same( false, $m['is_eboh_home'], 'normalize: uitwedstrijd is geen thuiswedstrijd' );
+
+// De programma-pagina leest 'uitslag' of 'doelpuntenthuisteam'/'doelpuntenuitteam';
+// de widget moet dezelfde bronnen begrijpen (anders blijft de score leeg).
+$m = eboh_sportlink_normalize_match( array( 'thuisteam' => 'SVW 1', 'uitteam' => 'EBOH 1', 'uitslag' => '3 - 1' ), 'EBOH 1', true );
+eboh_assert_same( '3', (string) $m['score_thuis'], 'normalize: score uit veld uitslag ("3 - 1"), thuis' );
+eboh_assert_same( '1', (string) $m['score_uit'], 'normalize: score uit veld uitslag ("3 - 1"), uit' );
+
+$m = eboh_sportlink_normalize_match( array( 'thuisteam' => 'SVW 1', 'uitteam' => 'EBOH 1', 'uitslag' => '0 – 2' ), 'EBOH 1', true );
+eboh_assert_same( '0', (string) $m['score_thuis'], 'normalize: uitslag met gedachtestreepje, thuis 0 blijft 0' );
+eboh_assert_same( '2', (string) $m['score_uit'], 'normalize: uitslag met gedachtestreepje, uit' );
+
+$m = eboh_sportlink_normalize_match( array( 'thuisteam' => 'SVW 1', 'uitteam' => 'EBOH 1', 'doelpuntenthuisteam' => '4', 'doelpuntenuitteam' => '0' ), 'EBOH 1', true );
+eboh_assert_same( '4', (string) $m['score_thuis'], 'normalize: veld doelpuntenthuisteam' );
+eboh_assert_same( '0', (string) $m['score_uit'], 'normalize: veld doelpuntenuitteam' );
+
+$m = eboh_sportlink_normalize_match( array( 'thuisteam' => 'SVW 1', 'uitteam' => 'EBOH 1' ), 'EBOH 1', true );
+eboh_assert_same( '', (string) $m['score_thuis'], 'normalize: zonder score blijft de score leeg' );
 eboh_assert_same( '', $m['datum_kort'], 'normalize: zonder timestamp is de datum leeg' );
 
 // --- eboh_sportlink_format_date -----------------------------------------------
