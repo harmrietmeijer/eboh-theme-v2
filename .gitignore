@@ -33,3 +33,4 @@ wp-content/backup-*
 # Local prod-sync downloads
 download/
 dist/
+.claude/settings.local.json

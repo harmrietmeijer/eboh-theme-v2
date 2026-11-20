@@ -63,6 +63,17 @@ Nog niet opgelost. Alleen #7 wordt bewaakt: `tests/test-customizer.php` faalt zo
 
 **Pakket maken:** `scripts/package.sh` (zonder `demo/`, tests en docs). **Hoe het naar productie gaat is onbekend / nog niet vastgelegd**; er is geen deployscript. Vul dit aan zodra de eigenaar bevestigt hoe het naar productie gaat (zip via WP-admin, SFTP, SSH) en welke PHP-versie daar draait. Controleer na elke deploy dat de site de nieuwe `Version` laadt (bekijk de `?ver=` van `style.css` in de paginabron), niet alleen dat de upload slaagde.
 
+## Vangrails (`.claude/settings.json`)
+
+| Wat | Gedrag |
+|---|---|
+| `.env*`, `wp-config.php` lezen | geweigerd |
+| `git push`, `gh pr merge`, `ssh`, `scp`, `rsync user@host` | vraagt elke keer |
+| `scripts/verify.sh`, `scripts/package.sh`, `php -l`, `php tests/run.php`, read-only git | toegestaan |
+| Hook na elke Edit/Write | `.claude/hooks/lint-php.py`: `php -l` op `.php`, `node --check` op `.js`. Zegt hardop als er geen werkende PHP/node is, in plaats van stil te falen. |
+
+Besluiten staan in `docs/decisions/` (nu: 001, eigen testrunner).
+
 ## Werkwijze
 
 1. Taak als issue, branch vanaf `main` met issuenummer erin. Nooit direct op `main`.
@@ -70,6 +81,7 @@ Nog niet opgelost. Alleen #7 wordt bewaakt: `tests/test-customizer.php` faalt zo
 3. Kleine stappen, complete bestanden, geen fragmenten.
 4. Na elke wijziging: `scripts/verify.sh`. Pas klaar als alles groen is.
 5. PR met vier kopjes: wat en waarom / welke flows geraakt / hoe getest / wat de mens handmatig moet controleren.
-6. Houd dit bestand bij als een conventie of de architectuur verandert.
+6. Definition of done: verify groen, tests voor nieuwe of gewijzigde logica, CLAUDE.md of `docs/decisions/` bijgewerkt bij een nieuwe conventie, en na een deploy gecontroleerd dat de site de nieuwe `?ver=` laadt.
+7. `Fixes #N` sluit alleen bij een merge naar de default branch (`main`).
 
 **Nooit:** `.env` of `wp-config.php` lezen, credentials of API-sleutels in code of docs zetten, productie-DB of live Sportlink-API aanspreken vanuit tests, `demo/` naar productie sturen.
