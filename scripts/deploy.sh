@@ -32,7 +32,16 @@ if [ "$FTP_PROTO" != "file" ]; then
 		[ -n "${!v:-}" ] || { echo "FOUT: $v ontbreekt in $ENV_FILE"; exit 1; }
 	done
 fi
-case "$FTP_PROTO" in ftps|sftp|file) ;; *) echo "FOUT: FTP_PROTO moet ftps, sftp of file zijn"; exit 1 ;; esac
+case "$FTP_PROTO" in ftps|sftp|file) ;;
+	ftp)
+		if [ "${FTP_ALLOW_PLAINTEXT:-}" != "yes" ]; then
+			echo "FOUT: FTP_PROTO=ftp stuurt je wachtwoord en bestanden ONVERSLEUTELD over het netwerk."
+			echo "      Gebruik ftps of sftp, of zet bewust FTP_ALLOW_PLAINTEXT=yes in $ENV_FILE."
+			exit 1
+		fi
+		echo "WAARSCHUWING: gewone FTP, niet versleuteld. Zet dit liever om naar ftps/sftp." ;;
+	*) echo "FOUT: FTP_PROTO moet ftps, sftp, ftp of file zijn"; exit 1 ;;
+esac
 command -v lftp > /dev/null || { echo "FOUT: lftp ontbreekt (brew install lftp)"; exit 1; }
 
 # --- Vangrails op de repo ----------------------------------------------------
@@ -66,6 +75,9 @@ lftp_run() {
 				echo "set ftp:ssl-force true"
 				echo "set ftp:ssl-protect-data true"
 				echo "set ssl:verify-certificate yes"
+				echo "open -u \"$(q "$FTP_USER")\",\"$(q "$FTP_PASS")\" ${FTP_PORT:+-p $FTP_PORT} ftp://$FTP_HOST" ;;
+			ftp)
+				echo "set ftp:ssl-allow no"
 				echo "open -u \"$(q "$FTP_USER")\",\"$(q "$FTP_PASS")\" ${FTP_PORT:+-p $FTP_PORT} ftp://$FTP_HOST" ;;
 			sftp)
 				echo "set sftp:auto-confirm no"

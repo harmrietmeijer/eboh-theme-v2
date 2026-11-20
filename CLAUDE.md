@@ -71,6 +71,7 @@ Nog niet opgelost. Alleen #7 wordt bewaakt: `tests/test-customizer.php` faalt zo
 | Alleen vanaf `main` | Schone werkmap, gelijk met `origin/main`. Anders weigert het script (`DEPLOY_ANY_BRANCH=1` om te forceren, alleen op uitdrukkelijk verzoek). |
 | Vreemde bestanden op de server | Droogloop en `--go` tonen wat er op de server staat maar niet in het pakket zit (bv. een oude `demo/`). Ze worden niet verwijderd; opruimen doet de eigenaar. |
 | Controle na upload | Met `SITE_URL` in `.env`: de site moet `style.css?ver=<Version>` laden, en `demo/`, `tests/`, `CLAUDE.md` en `.env` mogen niet met HTTP 200 bereikbaar zijn. Bij afwijking: exit 1, niet als gelukt beschouwen (denk aan een cache-plugin of CDN). Zonder `SITE_URL` meldt het script dat er niet gecontroleerd is. |
+| Gewone FTP | `FTP_PROTO=ftp` stuurt het wachtwoord onversleuteld en wordt alleen toegelaten met `FTP_ALLOW_PLAINTEXT=yes` in `.env`. Noodoplossing; migreer naar ftps/sftp zodra de hoster een kloppend certificaat of SFTP-account geeft. |
 | Certificaten | `ssl:verify-certificate yes`. Faalt FTPS op het certificaat, los dat bij de host op; zet verificatie niet uit. |
 
 Claude draait `--go` alleen na uitdrukkelijk akkoord van de eigenaar in die sessie; het commando staat op `ask` in `.claude/settings.json`. Hoe de PHP-versie op de server is ingesteld is nog onbekend.
