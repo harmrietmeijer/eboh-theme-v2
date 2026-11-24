@@ -72,6 +72,9 @@ Nog niet opgelost. Alleen #7 wordt bewaakt: `tests/test-customizer.php` faalt zo
 | Alleen vanaf `main` | Schone werkmap, gelijk met `origin/main`. Anders weigert het script (`DEPLOY_ANY_BRANCH=1` om te forceren, alleen op uitdrukkelijk verzoek). |
 | Vreemde bestanden op de server | Droogloop en `--go` tonen wat er op de server staat maar niet in het pakket zit (bv. een oude `demo/`). Ze worden niet verwijderd; opruimen doet de eigenaar. |
 | Controle na upload | Met `SITE_URL` in `.env`: de site moet `style.css?ver=<Version>` laden, en `demo/`, `tests/`, `CLAUDE.md` en `.env` mogen niet met HTTP 200 bereikbaar zijn. Bij afwijking: exit 1, niet als gelukt beschouwen (denk aan een cache-plugin of CDN). Zonder `SITE_URL` meldt het script dat er niet gecontroleerd is. |
+| Serverpad en login | De FTP-gebruiker `…@new.eboh.nl` zit gekooid in de map van new.eboh.nl: `/` bevat `public_html/`, `logs/`, `stats/`. Daarom is `FTP_PATH=/public_html/wp-content/themes/eboh-theme-v2` (niet `/domains/...`). Op de server staan ook `eboh-theme/` (ander thema) en `twentytwentyfive/`; raak die niet aan. |
+| Eén verbinding tegelijk | Een mislukte login herhalen kan het IP laten blokkeren (is al eens gebeurd). `lftp` doet maximaal 1 herpoging. Zoek een pad met `scripts/deploy.sh --ls [pad]` (één verbinding, geen pakket) in plaats van te proberen/raden. Bij een fout: stoppen en melden, niet opnieuw proberen. |
+| Geen credentials in uitvoer | De lftp-uitvoer wordt gefilterd (`://***@`). `.env*` staat in `.distignore` en `package.sh` weigert een pakket met een `.env`-bestand erin. |
 | Gewone FTP | `FTP_PROTO=ftp` stuurt het wachtwoord onversleuteld en wordt alleen toegelaten met `FTP_ALLOW_PLAINTEXT=yes` in `.env`. Noodoplossing; migreer naar ftps/sftp zodra de hoster een kloppend certificaat of SFTP-account geeft. |
 | Certificaten | `ssl:verify-certificate yes`. Faalt FTPS op het certificaat, los dat bij de host op; zet verificatie niet uit. |
 

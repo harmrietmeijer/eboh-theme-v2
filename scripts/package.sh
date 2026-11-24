@@ -14,8 +14,9 @@ stage="$(mktemp -d)"
 trap 'rm -rf "$stage"' EXIT
 rsync -a --exclude-from=.distignore ./ "$stage/eboh-theme-v2/"
 
-# Sanity: dit mag er nooit in zitten.
-for verboden in demo tests scripts docs .git .github CLAUDE.md deploy.env.example; do
+# Sanity: dit mag er nooit in zitten (.env = credentials, nooit uploaden).
+if find "$stage/eboh-theme-v2" -name '.env*' | grep -q .; then echo "FOUT: een .env-bestand zit in het pakket"; exit 1; fi
+for verboden in demo tests scripts docs .git .github CLAUDE.md deploy.env.example .env; do
 	[ ! -e "$stage/eboh-theme-v2/$verboden" ] || { echo "FOUT: $verboden zit in het pakket"; exit 1; }
 done
 for vereist in style.css functions.php screenshot.png assets/js/eboh-scripts.js; do
