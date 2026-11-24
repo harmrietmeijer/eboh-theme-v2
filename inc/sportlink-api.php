@@ -464,7 +464,7 @@ function eboh_programma_shortcode( $atts ) {
 					$tijd  = isset( $match['aanvangstijd'] ) ? $match['aanvangstijd'] : '';
 					$thuis = isset( $match['thuisteam'] ) ? $match['thuisteam'] : '';
 					$uit   = isset( $match['uitteam'] ) ? $match['uitteam'] : '';
-					$comp  = isset( $match['competitienaam'] ) ? $match['competitienaam'] : '';
+					$comp  = eboh_v2_match_competition( $match );
 
 					// Check for cancellation
 					$afgelast = false;
@@ -942,7 +942,7 @@ function eboh_get_next_home_match() {
 		'datum'        => $dag_naam . ' ' . $dag_num . ' ' . $maand_naam,
 		'datum_kort'   => strtoupper( $dag_naam ) . ' ' . $dag_num . ' ' . $maand_kort,
 		'tijd'         => $tijd ? $tijd . ' UUR' : '',
-		'competitie'   => isset( $match['competitienaam'] ) ? $match['competitienaam'] : '',
+		'competitie'   => eboh_v2_match_competition( $match ),
 		'locatie'      => 'Sportpark De Bovenhoeck',
 	);
 }
@@ -1138,6 +1138,19 @@ function eboh_get_stand_around_team( $team_name, $window = 5, $poulecode = '' ) 
 }
 
 /**
+ * Naam van de competitie bij een wedstrijd. Sportlink noemt dit veld niet
+ * overal hetzelfde (uitslagen: competitienaam; programma: competitie/klasse).
+ */
+function eboh_v2_match_competition( $match ) {
+	foreach ( array( 'competitienaam', 'competitie', 'klasse', 'klassepoule' ) as $key ) {
+		if ( isset( $match[ $key ] ) && '' !== trim( (string) $match[ $key ] ) ) {
+			return trim( (string) $match[ $key ] );
+		}
+	}
+	return '';
+}
+
+/**
  * Helper: maak van een raw Sportlink-match een uniform array met velden voor
  * de homepage-widget.
  */
@@ -1173,7 +1186,7 @@ function eboh_sportlink_normalize_match( $match, $team_name = '', $is_result = f
         'datum'        => $dag_naam . ' ' . $dag_num . ' ' . $maand_naam,
         'datum_kort'   => $ts ? strtoupper( $dag_naam ) . ' ' . $dag_num . ' ' . strtoupper( substr( $maand_naam, 0, 3 ) ) : '',
         'tijd'         => isset( $match['aanvangstijd'] ) ? $match['aanvangstijd'] : '',
-        'competitie'   => isset( $match['competitienaam'] ) ? $match['competitienaam'] : '',
+        'competitie'   => eboh_v2_match_competition( $match ),
         'locatie'      => isset( $match['accommodatie'] ) ? $match['accommodatie'] : '',
         'score_thuis'  => $score_thuis,
         'score_uit'    => $score_uit,

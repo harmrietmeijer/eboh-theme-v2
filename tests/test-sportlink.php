@@ -63,3 +63,10 @@ foreach ( array( 'programma', 'uitslagen', 'stand', 'teams', 'overzicht' ) as $n
 	eboh_assert_true( isset( $GLOBALS['eboh_test_shortcodes'][ 'eboh_knvb_' . $naam ] ), "shortcode eboh_knvb_$naam bestaat nog (bestaande pagina's gebruiken hem)" );
 	eboh_assert_true( isset( $GLOBALS['eboh_test_shortcodes'][ 'eboh_' . $naam ] ), "shortcode eboh_$naam bestaat" );
 }
+
+// Competitienaam: het programma-endpoint levert een ander veld dan uitslagen.
+eboh_assert_same( 'Reserve 4e klasse', eboh_v2_match_competition( array( 'competitienaam' => 'Reserve 4e klasse' ) ), 'competitie: veld competitienaam' );
+eboh_assert_same( '3e klasse A', eboh_v2_match_competition( array( 'competitie' => '3e klasse A' ) ), 'competitie: valt terug op veld competitie' );
+eboh_assert_same( '2e klasse F', eboh_v2_match_competition( array( 'klasse' => '2e klasse F' ) ), 'competitie: valt terug op veld klasse' );
+eboh_assert_same( '4e klasse C', eboh_v2_match_competition( array( 'klassepoule' => ' 4e klasse C ' ) ), 'competitie: klassepoule, getrimd' );
+eboh_assert_same( '', eboh_v2_match_competition( array() ), 'competitie: leeg zonder velden' );
