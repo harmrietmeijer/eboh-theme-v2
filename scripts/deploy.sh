@@ -3,6 +3,7 @@
 #
 #   scripts/deploy.sh            # DROOGLOOP: toont wat er geüpload zou worden
 #   scripts/deploy.sh --go       # uploadt echt
+#   scripts/deploy.sh --ls [pad] # toont één map op de server (1 verbinding)
 #
 # Credentials komen uit .env (zie deploy.env.example); dat bestand staat in
 # .gitignore en wordt alleen door dit script gelezen. Het wachtwoord wordt niet
@@ -44,31 +45,13 @@ case "$FTP_PROTO" in ftps|sftp|file) ;;
 esac
 command -v lftp > /dev/null || { echo "FOUT: lftp ontbreekt (brew install lftp)"; exit 1; }
 
-# --- Vangrails op de repo ----------------------------------------------------
-if [ "${DEPLOY_ANY_BRANCH:-0}" != "1" ]; then
-	branch="$(git rev-parse --abbrev-ref HEAD)"
-	[ "$branch" = "main" ] || { echo "FOUT: je staat op '$branch'. Deploy alleen vanaf main (of zet DEPLOY_ANY_BRANCH=1)."; exit 1; }
-	[ -z "$(git status --porcelain)" ] || { echo "FOUT: er zijn niet-gecommitte wijzigingen."; exit 1; }
-	git fetch -q origin main
-	[ "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)" ] || { echo "FOUT: main loopt niet gelijk met origin/main (pull of push eerst)."; exit 1; }
-fi
-
-# --- Pakket bouwen (draait verify.sh) ----------------------------------------
-./scripts/package.sh
-version="$(sed -nE 's/^Version: *([0-9.]+).*/\1/p' style.css | head -1)"
-zip="dist/eboh-theme-v2-$version.zip"
-stage="$(mktemp -d)"
-trap 'rm -rf "$stage"' EXIT
-unzip -q "$zip" -d "$stage"
-src="$stage/eboh-theme-v2"
-
 # --- lftp-opdrachten (via stdin, dus niet zichtbaar in `ps`) -----------------
 q() { printf '%s' "$1" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g'; }
 
 lftp_run() {
 	{
 		echo "set cmd:fail-exit yes"
-		echo "set net:max-retries 2"
+		echo "set net:max-retries 1"
 		echo "set net:timeout 20"
 		case "$FTP_PROTO" in
 			ftps)
@@ -86,8 +69,35 @@ lftp_run() {
 				echo "open file://$FTP_PATH" ;;
 		esac
 		cat
-	}  | lftp
+	}  | lftp 2> >(sed -E 's#(://)[^/@ ]*:[^/@ ]*@#\1***@#g' >&2) | sed -E 's#(://)[^/@ ]*:[^/@ ]*@#\1***@#g'
 }
+
+# --- Alleen kijken: `scripts/deploy.sh --ls [pad]` toont één map op de server.
+# Eén verbinding, geen pakket, niets wijzigen. Handig om FTP_PATH te vinden
+# zonder herhaaldelijk te proberen (te veel mislukte pogingen kan de IP blokkeren).
+if [ "${1:-}" = "--ls" ]; then
+	echo "== Inhoud van '${2:-/}' op $FTP_HOST ($FTP_PROTO)"
+	printf 'cd "%s"\ncls -1\n' "$(q "${2:-/}")" | lftp_run || { echo "FOUT: kon de map niet tonen."; exit 1; }
+	exit 0
+fi
+
+# --- Vangrails op de repo ----------------------------------------------------
+if [ "${DEPLOY_ANY_BRANCH:-0}" != "1" ]; then
+	branch="$(git rev-parse --abbrev-ref HEAD)"
+	[ "$branch" = "main" ] || { echo "FOUT: je staat op '$branch'. Deploy alleen vanaf main (of zet DEPLOY_ANY_BRANCH=1)."; exit 1; }
+	[ -z "$(git status --porcelain)" ] || { echo "FOUT: er zijn niet-gecommitte wijzigingen."; exit 1; }
+	git fetch -q origin main
+	[ "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)" ] || { echo "FOUT: main loopt niet gelijk met origin/main (pull of push eerst)."; exit 1; }
+fi
+
+# --- Pakket bouwen (draait verify.sh) ----------------------------------------
+./scripts/package.sh
+version="$(sed -nE 's/^Version: *([0-9.]+).*/\1/p' style.css | head -1)"
+zip="dist/eboh-theme-v2-$version.zip"
+stage="$(mktemp -d)"
+trap 'rm -rf "$stage"' EXIT
+unzip -q "$zip" -d "$stage"
+src="$stage/eboh-theme-v2"
 
 remote_dir="$FTP_PATH"
 [ "$FTP_PROTO" = "file" ] && remote_dir="."
